@@ -1,0 +1,569 @@
+@import url('https://fonts.googleapis.com/css2?family=Monoton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+#root {
+    width: 100%;
+    background-color: #f9f9f9;
+    text-align: center;
+    --primary-color: #3498db;
+    --secondary-color: rgba(255, 255, 255, 0.3);
+    --text-color: rgb(255, 255, 255);
+    --background-color: #f0f0f0;
+
+    --glass-color: rgba(255, 255, 255, 0.26);
+    --glass-templed: rgba(17, 17, 17, 0.07) ;
+}
+html, body , p , ul, ol, li, dl, dt, dd ,h1, h2, h3, h4, h5, h6, p, blockquote, pre ,a{
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif ;
+}
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+
+}
+
+.App-header {
+    position: fixed;
+    display: flex;
+    height: 60px;
+    width: 100%;
+    background-color: var(--glass-templed);
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-evenly;
+    width: 31.25rem;
+}
+.nav a{
+    cursor: pointer;
+}
+.nav a:hover{
+    color: #1b1b1b;
+}
+
+
+.account{
+    width: 25px;
+    height: 25px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+}
+
+#MainPage, .loginMain {
+    width: 100%;
+    height: 100%;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+
+    flex-direction: column;
+    background-color: rgb(134, 117, 243);
+
+}
+
+.Title {
+    margin-top: 16rem;
+    width: 90%;
+    font-size: 6rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0rem;
+
+    transform: translateY(-100px);
+    opacity: 1;
+
+}
+.Title p {
+    margin: 0;
+}
+
+.Vitamines{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.searchInput{
+    width: 11.063rem;
+    height: 3.313rem;
+    text-align: center;
+    display: flex;
+
+}
+.input{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    border-radius: 20px;
+    border: none;
+    padding: 1rem;
+    color: #ffffff;
+    background-color: var(--glass-templed);
+    outline: none;
+    font-size: 1rem;
+
+}
+.input::placeholder {
+    color: white;
+
+
+
+}
+.input:focus{
+    outline: none;
+}
+
+
+.vitaminesGallery {
+    width: 70%;
+    display: flex;
+    gap: 2rem 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+.card {
+    opacity: 1;
+    display: inline-flex;
+    flex-direction: column;
+    height: 10rem;
+    min-width: 10rem;
+    max-width: 10rem;
+    padding: 1rem;
+    backdrop-filter: blur(15px);
+    border-radius: 50%;
+    background-color: rgba(237, 235, 235, 0.07);
+    border: 1px solid var(--secondary-color);
+    transition: .5s;
+    color: var(--text-color);
+    overflow: hidden;
+}
+
+.vitamineName {
+    font-size: 1.5rem;
+    text-align: center;
+    position: relative;
+    transform: translateY(150%);
+    transition: .2s;
+}
+
+.invisible {
+    opacity: 0;
+    transition: .5s;
+}
+
+.card:hover {
+    cursor: pointer;
+
+    background-color: rgba(99, 99, 99, 0.27);
+}
+
+.card:hover .invisible {
+    opacity: 1;
+}
+
+.card:hover .vitamineName {
+    transform: translateY(0%);
+}
+
+#detailsPage {
+    height: 100dvh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.vitamineContainer {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    justify-content: space-evenly;
+}
+.vitamineCardContainer1{
+    width: 55%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    justify-content: space-around;
+
+}
+
+.vitamineCardContainer2{
+    width: 55%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items :center;
+    justify-content: space-around;
+
+
+
+}
+.vitamineTitleBacground {
+    display: flex;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 10rem;
+    font-family: 'Monoton', cursive;
+    font-size: clamp(12rem, 50vw, 40rem);
+    color: rgba(25, 93, 99, 0.34);
+    justify-content: end;
+    pointer-events: none;
+    z-index: 0;
+    transform: rotate(-15deg);
+    animation: move 2s ease-out forwards;
+}
+
+@keyframes move {
+    from {
+        left: -100%;
+        transform: rotate(0deg);
+    }
+    to {
+        left: 0%;
+        transform: rotate(-15deg);
+    }
+}
+
+.vitamineTitle {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 6rem;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.vitamineTitle p{
+    margin: 0;
+    margin-top: 5rem;
+}
+.vitamineCard{
+    width: 51.125rem;
+    height: 14.813rem;
+    border-radius: 20px;
+
+    background-color: var(--glass-color);
+}
+
+.vitamineAlimentGContainer{
+    width: 100%;
+    height: 300px;
+
+    display: flex;
+    justify-content: space-evenly;
+
+    align-items: end;
+}
+.vitamineInfosContainer{
+    width: 100%;
+    height: auto;
+
+    gap: 1rem;
+
+    display: flex;
+    justify-content: space-evenly;
+
+}
+.vitamineQuantity{
+    width: 17.313rem;
+    height: 16.313rem;
+    background-color: var(--glass-color);
+    border-radius: 20px;
+}
+
+.vitamineAliment{
+    width: 28.875rem;
+    height: 16.313rem;
+    background-color: var(--glass-color);
+    border-radius: 20px;
+}
+.vitamineDescription{
+    color: var(--text-color);
+    font-size: 1.2rem;
+    text-align: start;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    top: 20px;
+    overflow: auto;
+
+
+
+
+}
+.vitamineDescription p{
+top: 20px;
+    padding: 1rem;
+}
+
+.effects{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    width: 25rem;
+    height: 17rem;
+    background-color: var(--glass-color);
+    border-radius: 20px;
+    text-align: justify;
+    justify-content: start;
+     overflow: auto;
+
+
+
+}
+.vitamineDescription::-webkit-scrollbar , .fonctions::-webkit-scrollbar, .effects::-webkit-scrollbar {
+    background: transparent;
+    width: 6px;
+}
+
+.vitamineDescription::-webkit-scrollbar-track ,.fonctions::-webkit-scrollbar-track, .effects::-webkit-scrollbar-track {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+}
+
+.vitamineDescription::-webkit-scrollbar-thumb , .fonctions::-webkit-scrollbar-thumb ,.effects::-webkit-scrollbar-thumb {
+    background: transparent; /* invisible par défaut */
+    border-radius: 20px;
+
+}
+
+.vitamineDescription:hover::-webkit-scrollbar-thumb, .fonctions:hover::-webkit-scrollbar-thumb  ,.effects:hover::-webkit-scrollbar-thumb {
+    background:var(--glass-color);
+    border-radius: 20px;
+}
+
+.effects p {
+    line-height: 1.5;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.effects b {
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.calculateur{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 18rem;
+    height: 19rem;
+    background-color: var(--glass-color);
+    border-radius: 20px;
+}
+
+.fonctions{
+    font-size: 1.2rem;
+    overflow: auto;
+
+}
+
+
+.vitamineAliment{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.aliments-gallery{
+    display: flex;
+    align-items: center;
+    height: 7rem;
+    width: 90%;
+
+
+    overflow-X: hidden;
+}
+.bubble{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--glass-color);
+    width: 3.75rem;
+    margin: .5rem;
+    height: 3.75rem;
+    border-radius: 50%;
+}
+.AlimentImages{
+    width: 2.5rem;
+    height:2.5rem;
+
+}
+.loginMain {
+    justify-content: center;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    margin: auto;
+}
+
+.loginTitle {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+
+    margin-bottom: 1rem;
+}
+
+
+#send {
+    width: 70%;
+    padding: 0.7rem;
+    margin-top: 2rem;
+    background-color: rgba(255, 255, 255, 0.6);
+    color: var(--text-color);
+    font-weight: bold;
+    border: none;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#send:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    }
+
+.vitamineColorInput{
+    height: 15rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.color-picker {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    cursor: pointer;
+    z-index: 99;
+}
+
+.preview {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    border: 2px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.preview:hover {
+    transform: scale(1.05);
+    border-color: #555;
+}
+
+.hidden-color {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.vitamineDescriptionInput {
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    border-radius: 20px;
+    border: none;
+    padding: 1rem;
+    color: #ffffff;
+    background-color: var(--glass-color);
+    outline: none;
+    font-size: 1rem;
+}
+
+.buttons{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    width: fit-content;
+    padding:10px 12px;
+    border-radius: 20px;
+
+    background-color: var(--glass-templed);
+    border: none;
+}
+
+.buttonsSupprimer{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    width: fit-content;
+    padding:10px 12px;
+    border-radius: 20px;
+
+    background-color: rgba(255, 0, 0, 0.91);
+    border: none;
+}
+.buttons:hover {
+    cursor: pointer;
+}
+
+.textInput {
+    margin: 1rem 0rem;
+    width: 50%;
+    max-width: 200px;
+    background-color: var(--glass-color); /* assure-toi que c'est bien défini */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* bordure subtile */
+    padding: 5px 16px;
+    border-radius: 9999px; /* pour effet très arrondi */
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #fff;
+
+
+    outline: none;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.textInput:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+
+}
+
+.textInput::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+.textInput option {
+    background-color: rgba(255, 255, 255, 0.62); /* évite le fond noir total */
+    color: #191919;
+    font-weight: bold;
+}
+
+
