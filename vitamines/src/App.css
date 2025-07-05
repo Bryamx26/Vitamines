@@ -9,8 +9,8 @@
     --text-color: rgb(255, 255, 255);
     --background-color: #f0f0f0;
 
-    --glass-color: rgba(255, 255, 255, 0.26);
-    --glass-templed: rgba(17, 17, 17, 0.07) ;
+    --glass-color: rgba(30, 30, 30, 0.26);
+    --glass-templed: rgba(175, 173, 173, 0.13);
 }
 html, body , p , ul, ol, li, dl, dt, dd ,h1, h2, h3, h4, h5, h6, p, blockquote, pre ,a{
     color: var(--text-color);
@@ -31,9 +31,10 @@ body {
     background-color: var(--glass-templed);
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: 5;
     font-size: 1rem;
     font-weight: bold;
+
 }
 
 .nav {
@@ -45,7 +46,7 @@ body {
     cursor: pointer;
 }
 .nav a:hover{
-    color: #1b1b1b;
+    color: rgba(204, 196, 196, 0.75);
 }
 
 
@@ -67,7 +68,7 @@ body {
     align-items: center;
 
     flex-direction: column;
-    background-color: rgb(134, 117, 243);
+    background-color: rgb(0, 0, 0);
 
 }
 
@@ -99,6 +100,7 @@ body {
     height: 3.313rem;
     text-align: center;
     display: flex;
+    z-index: 4;
 
 }
 .input{
@@ -111,6 +113,7 @@ body {
     background-color: var(--glass-templed);
     outline: none;
     font-size: 1rem;
+    z-index: 5;
 
 }
 .input::placeholder {
@@ -215,30 +218,40 @@ body {
 }
 .vitamineTitleBacground {
     display: flex;
-    width: 100%;
+
     position: fixed;
-    left: 0;
-    top: 10rem;
-    font-family: 'Monoton', cursive;
-    font-size: clamp(12rem, 50vw, 40rem);
-    color: rgba(25, 93, 99, 0.34);
-    justify-content: end;
-    pointer-events: none;
+    left: -1000px;
+    top: -1000px;
+
+    width: 2000px;
+    height: 2000px;
     z-index: 0;
-    transform: rotate(-15deg);
-    animation: move 2s ease-out forwards;
+
+    background: radial-gradient(
+            rgba(0, 255, 0, 0.18) 0%,
+            rgba(7, 0, 255, 0.27) 30%,
+            rgba(2, 2, 1, 0.02) 70%
+    );
+}
+.vitamineTitleBacground2 {
+    display: flex;
+
+    position: fixed;
+    right: -1000px;
+    bottom: -1000px;
+
+    width: 2000px;
+    height: 2000px;
+    z-index: 0;
+
+    background: radial-gradient(
+            rgba(221, 0, 255, 0.63) 0%,
+            rgba(5, 12, 241, 0.41) 30%,
+            rgba(2, 2, 1, 0.02) 70%
+    );
+
 }
 
-@keyframes move {
-    from {
-        left: -100%;
-        transform: rotate(0deg);
-    }
-    to {
-        left: 0%;
-        transform: rotate(-15deg);
-    }
-}
 
 .vitamineTitle {
     width: 100%;
@@ -304,6 +317,7 @@ body {
     align-items: start;
     top: 20px;
     overflow: auto;
+    z-index: 5;
 
 
 
@@ -326,6 +340,7 @@ top: 20px;
     text-align: justify;
     justify-content: start;
      overflow: auto;
+    z-index: 5;
 
 
 
@@ -365,7 +380,7 @@ top: 20px;
 }
 
 .calculateur{
-
+    z-index: 5;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -378,6 +393,7 @@ top: 20px;
 .fonctions{
     font-size: 1.2rem;
     overflow: auto;
+    z-index: 5;
 
 }
 
@@ -407,6 +423,7 @@ top: 20px;
     margin: .5rem;
     height: 3.75rem;
     border-radius: 50%;
+    z-index: 5;
 }
 .AlimentImages{
     width: 2.5rem;
@@ -442,22 +459,6 @@ top: 20px;
 }
 
 
-#send {
-    width: 70%;
-    padding: 0.7rem;
-    margin-top: 2rem;
-    background-color: rgba(255, 255, 255, 0.6);
-    color: var(--text-color);
-    font-weight: bold;
-    border: none;
-    border-radius: 0.6rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-#send:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    }
 
 .vitamineColorInput{
     height: 15rem;
@@ -509,7 +510,7 @@ top: 20px;
     font-size: 1rem;
 }
 
-.buttons{
+.buttons , #send{
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
     width: fit-content;
@@ -546,6 +547,7 @@ top: 20px;
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     color: #fff;
+    z-index: 5;
 
 
     outline: none;
@@ -564,6 +566,10 @@ top: 20px;
     background-color: rgba(255, 255, 255, 0.62); /* évite le fond noir total */
     color: #191919;
     font-weight: bold;
+    z-index: 5;
+}
+.NomInput {
+    z-index: 5;
 }
 
 

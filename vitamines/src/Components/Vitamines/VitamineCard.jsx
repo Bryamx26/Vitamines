@@ -18,7 +18,7 @@ function VitamineCard({vitamine , cliquable}) {
             <div className="card-body">
 
                 <p id={"description"} className="invisible">
-                    {vitamine.description}
+                    {vitamine.nom_scientifique}
                 </p>
             </div>
         </div>

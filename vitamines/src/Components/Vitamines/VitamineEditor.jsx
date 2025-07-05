@@ -1,10 +1,12 @@
 
 // VitamineEditor.jsx
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../Layouts/Header.jsx";
+import {ThemeContext} from "../Context/ThemeContext.jsx";
 
 export default function VitamineEditor() {
+    const {isDark} = useContext(ThemeContext);
   const { id } = useParams();
   const navigate = useNavigate();
   const [vitamine, setVitamine] = useState({ nom: "", description: "", couleur: "#5e80c8" });
@@ -19,7 +21,7 @@ export default function VitamineEditor() {
         const vitRes = await fetch(`http://localhost:3000/vitamines/id/${id}`);
     if (!vitRes.ok) throw new Error("Erreur récupération vitamine");
 const vitData = await vitRes.json();
-setVitamine({ nom: vitData.nom, description: vitData.description, couleur: vitData.couleur });
+setVitamine({ nom: vitData.nom, description: vitData.description, couleur: vitData.couleur , nom_scientifique: vitData.nom_scientifique });
 
 // Effets
 const effRes = await fetch(`http://localhost:3000/vitamines/${id}/effets`);
@@ -86,7 +88,37 @@ const handleDelete = async () => {
 return (
     <>
         <Header />
-        <form onSubmit={handleSubmit} style={{ backgroundColor: vitamine.couleur }} className="vitamineForm">
+        <form onSubmit={handleSubmit} style={{backgroundColor:isDark? "black": vitamine.couleur} }  className="vitamineForm">
+
+            {isDark ? (
+                <>
+                    <div className="vitamineTitleBacground2"
+                         style={{
+                             background: isDark
+                                 ? `radial-gradient(
+                                    ${vitamine.couleur} 0%,
+                                     rgba(5, 12, 241, 0.41) 30%,
+                                     rgba(2, 2, 1, 0.02) 70%
+                                        )`
+                                 : null,
+                         }}></div>
+                    <div
+                        className="vitamineTitleBacground"
+                        style={{
+                            background: isDark
+                                ? `radial-gradient(
+                                    ${vitamine.couleur} 0%,
+                                     rgba(5, 12, 241, 0.41) 30%,
+                                     rgba(2, 2, 1, 0.02) 70%
+                                        )`
+                                : null,
+                        }}
+                    ></div>
+
+                </>
+
+            ):null}
+
             <div className="vitamineTitle">
                 <p>Éditer Vitamine </p>
             </div>
@@ -192,7 +224,12 @@ return (
                         </div>
 
                         <div className="calculateur">
+                            <div className="NomInput">
+                                <input name="nom_scientifique" value={vitamine.nom_scientifique} onChange={handleVitamineChange} required placeholder="Nom_scientifique"  className="textInput"/>
+                            </div>
+
                             <div>
+
                                 <button className="buttons"  type="submit">Enregistrer</button>
                                 <button className="buttons"  type="button" onClick={handleDelete}>Supprimer</button>
                             </div>

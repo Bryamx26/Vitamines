@@ -7,8 +7,10 @@ import Header from "../Layouts/Header.jsx";
 import AlimentsGallery from "../Aliments/AlimentsGallery.jsx";
 import { UserContext } from "/src/Components/Context/UserContext.jsx"
 import {useNavigate} from "react-router-dom";
+import {ThemeContext} from "../Context/ThemeContext.jsx";
 
 function VitaminesDetails() {
+    const {isDark} = useContext(ThemeContext);
     const { id } = useParams();
     const [vitamine, setVitamine] = useState(null);
     const [fonctions, setFonctions] = useState([]);
@@ -78,7 +80,35 @@ function VitaminesDetails() {
     return (
         <>
             <Header />
-            <div id="detailsPage" style={{ backgroundColor: couleur }} >
+            <div id="detailsPage" style={{backgroundColor:isDark? "black": vitamine.couleur } }  >
+                {isDark ? (
+                    <>
+                        <div className="vitamineTitleBacground2"
+                             style={{
+                                 background: isDark
+                                     ? `radial-gradient(
+                                    ${vitamine.couleur} 0%,
+                                     rgba(5, 12, 241, 0.41) 30%,
+                                     rgba(2, 2, 1, 0.02) 70%
+                                        )`
+                                     : null,
+                             }}></div>
+                        <div
+                            className="vitamineTitleBacground"
+                            style={{
+                                background: isDark
+                                    ? `radial-gradient(
+                                    ${vitamine.couleur} 0%,
+                                     rgba(5, 12, 241, 0.41) 30%,
+                                     rgba(2, 2, 1, 0.02) 70%
+                                        )`
+                                    : null,
+                            }}
+                        ></div>
+
+                    </>
+
+                ):null}
 
 
                 <div className="vitamineTitle">

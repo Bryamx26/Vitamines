@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import Header from "../Layouts/Header.jsx";
+import {ThemeContext} from "../Context/ThemeContext.jsx";
 import AlimentsGallery from "../Aliments/AlimentsGallery.jsx";
 
 function VitamineCreator() {
+    const {isDark} = useContext(ThemeContext);
     const [vitamine, setVitamine] = useState({
         nom: "",
         description: "",
+        nom_scientifique: "",
         couleur: "#5e80c8",
     });
 
@@ -69,7 +72,7 @@ function VitamineCreator() {
 
             if (response.ok) {
                 alert("Vitamine créée avec succès !");
-                setVitamine({ nom: "", description: "", couleur: "#b62c2c" });
+                setVitamine({ nom: "", description: "", couleur: "#d35e5e", nom_scientifique: "" });
                 setEffets([{ type: "avantage", description: "" }]);
                 setFonctions([{ nom: "", description: "" }]);
             } else {
@@ -86,7 +89,35 @@ function VitamineCreator() {
     return (
         <>
             <Header/>
-            <form id="detailsPage" style={{backgroundColor: vitamine.couleur} } onSubmit={handleSubmit} className="vitamineForm">
+            <form id="detailsPage" style={{backgroundColor:isDark? "black": vitamine.couleur} } onSubmit={handleSubmit} className="vitamineForm">
+                {isDark ? (
+                    <>
+                        <div className="vitamineTitleBacground2"
+                             style={{
+                                 background: isDark
+                                     ? `radial-gradient(
+                                    ${vitamine.couleur} 0%,
+                                     rgba(5, 12, 241, 0.41) 30%,
+                                     rgba(2, 2, 1, 0.02) 70%
+                                        )`
+                                     : null,
+                             }}></div>
+                        <div
+                            className="vitamineTitleBacground"
+                            style={{
+                                background: isDark
+                                    ? `radial-gradient(
+                                    ${vitamine.couleur} 0%,
+                                     rgba(5, 12, 241, 0.41) 30%,
+                                     rgba(2, 2, 1, 0.02) 70%
+                                        )`
+                                    : null,
+                            }}
+                        ></div>
+
+                    </>
+
+                ):null}
 
 
 
@@ -240,11 +271,25 @@ function VitamineCreator() {
                             </div>
 
                             <div className="calculateur">
+                                <div className="NomInput">
+
+                                    <input
+                                        type="text"
+                                        className="textInput"
+                                        name="nom_scientifique"
+                                        autoComplete="off"
+                                        placeholder="Nom scientifique"
+                                        value={vitamine.nom_scientifique}
+                                        onChange={handleVitamineChange}
+                                        required
+                                    />
+                                </div>
                                 <div>
                                     <button  type="submit" className={"buttons"}>
                                         Créer la vitamine
                                     </button>
                                 </div>
+
 
                             </div>
                         </div>

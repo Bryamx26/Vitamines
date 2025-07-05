@@ -5,13 +5,18 @@ import {useNavigate} from "react-router-dom";
 
 import { UserContext } from "/src/Components/Context/UserContext.jsx"
 
+import {ThemeContext} from "../Context/ThemeContext.jsx";
+
 function Login() {
+    const {isDark} = useContext(ThemeContext);
     const {login} = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
+
+
         e.preventDefault();
 
         try {
@@ -37,7 +42,17 @@ function Login() {
     return (
         <>
             <Header />
-            <div className="loginMain">
+            <div className="loginMain" style = {{ backgroundColor: isDark ? "black": "#8865E6"}}>
+
+                {isDark ? (
+                    <>
+                        <div className="vitamineTitleBacground"></div>
+                        <div className="vitamineTitleBacground2"></div>
+
+                    </>
+
+                ):null}
+
                 <form className="loginForm" onSubmit={handleSubmit}>
                     <h2 className="loginTitle">Login</h2>
 

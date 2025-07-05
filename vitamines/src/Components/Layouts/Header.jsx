@@ -1,5 +1,6 @@
 
 import NavBar from "./NavBar.jsx";
+import DarkButtonToggle from "../Inputs/DarkButtonToggle.jsx";
 
 function Header() {
 
@@ -12,6 +13,7 @@ function Header() {
         <header className="App-header">
 
             <NavBar/>
+            <DarkButtonToggle/>
 
         </header>
 

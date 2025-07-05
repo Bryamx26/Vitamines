@@ -87,16 +87,21 @@ app.post('/vitamines', async (req, res) => {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
-    const { nom, description, couleur, effets, fonctions } = req.body;
-    if (!nom || !description || !couleur) {
-      return res.status(400).json({ message: 'nom, description et couleur requis' });
+
+    // ✅ Ajout de nom_scientifique
+    const { nom, description, couleur, nom_scientifique, effets, fonctions } = req.body;
+
+    if (!nom || !description || !couleur || !nom_scientifique) {
+      return res.status(400).json({ message: 'nom, description, couleur et nom_scientifique requis' });
     }
-    // Insert vitamine
+
+    // ✅ INSERT avec nom_scientifique
     const [vitRes] = await connection.query(
-      'INSERT INTO vitamines (nom, description, couleur) VALUES (?, ?, ?)',
-      [nom, description, couleur]
+      'INSERT INTO vitamines (nom, description, couleur, nom_scientifique) VALUES (?, ?, ?, ?)',
+      [nom, description, couleur, nom_scientifique]
     );
     const vid = vitRes.insertId;
+
     // Effets
     if (Array.isArray(effets) && effets.length) {
       const effData = effets.map(e => [vid, e.type, e.description]);
@@ -105,6 +110,7 @@ app.post('/vitamines', async (req, res) => {
         [effData]
       );
     }
+
     // Fonctions
     if (Array.isArray(fonctions) && fonctions.length) {
       const funcIds = [];
@@ -128,6 +134,7 @@ app.post('/vitamines', async (req, res) => {
         [linkData]
       );
     }
+
     await connection.commit();
     res.status(201).json({ message: 'Créé', id: vid });
   } catch (err) {
@@ -138,26 +145,34 @@ app.post('/vitamines', async (req, res) => {
     connection.release();
   }
 });
-
 // UPDATE vitamine (et relations)
+
 app.put('/vitamines/:id', async (req, res) => {
   const { id } = req.params;
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
-    const { nom, description, couleur, effets, fonctions } = req.body;
+
+    // ✅ Ajout de nom_scientifique dans le body
+    const { nom, description, couleur, nom_scientifique, effets, fonctions } = req.body;
+
+    // ✅ Mise à jour de la vitamine avec nom_scientifique
     await connection.query(
-      'UPDATE vitamines SET nom = ?, description = ?, couleur = ? WHERE id = ?',
-      [nom, description, couleur, id]
+      'UPDATE vitamines SET nom = ?, description = ?, couleur = ?, nom_scientifique = ? WHERE id = ?',
+      [nom, description, couleur, nom_scientifique, id]
     );
-    // cleanup old
+
+    // Suppression des anciens effets et liaisons fonction
     await connection.query('DELETE FROM effets WHERE vitamine_id = ?', [id]);
     await connection.query('DELETE FROM vitamine_fonction WHERE vitamine_id = ?', [id]);
-    // réinsert effets et fonctions (comme en creation)
+
+    // Réinsertion des effets
     if (Array.isArray(effets) && effets.length) {
       const effData = effets.map(e => [id, e.type, e.description]);
       await connection.query('INSERT INTO effets (vitamine_id, type, description) VALUES ?', [effData]);
     }
+
+    // Réinsertion des fonctions
     if (Array.isArray(fonctions) && fonctions.length) {
       const funcIds = [];
       for (const f of fonctions) {
@@ -176,6 +191,7 @@ app.put('/vitamines/:id', async (req, res) => {
       const link = funcIds.map(fid => [id, fid]);
       await connection.query('INSERT INTO vitamine_fonction (vitamine_id, fonction_id) VALUES ?', [link]);
     }
+
     await connection.commit();
     res.json({ message: 'Modifié' });
   } catch (err) {
@@ -186,6 +202,7 @@ app.put('/vitamines/:id', async (req, res) => {
     connection.release();
   }
 });
+
 
 // DELETE vitamine
 app.delete('/vitamines/:id', async (req, res) => {
