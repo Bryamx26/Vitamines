@@ -80,7 +80,7 @@ function VitaminesDetails() {
     return (
         <>
             <Header />
-            <div id="detailsPage" style={{backgroundColor:isDark? "black": vitamine.couleur } }  >
+            <div id="detailsPage" style={{backgroundColor:isDark? "black": vitamine.couleur , transition: "all 0.6s ease-in-out" } }  >
                 {isDark ? (
                     <>
                         <div className="vitamineTitleBacground2"
