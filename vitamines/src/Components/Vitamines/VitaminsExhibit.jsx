@@ -6,8 +6,10 @@ import SearchInput from "../Inputs/SearchInput.jsx";
 import { useContext } from "react";
 import { UserContext } from "/src/Components/context/UserContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {useAPI} from "../context/APIContext.jsx";
 
 const VitaminsExhibit = () => {
+    const API_URL = useAPI();
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
     const [vitamines, setVitamines] = useState([]);
@@ -15,11 +17,12 @@ const VitaminsExhibit = () => {
     const [loading, setLoading] = useState(null);
     const [search, setSearch] = useState('');
 
+
     useEffect(() => {
         const fetchVitamines = async () => {
             try {
                 setLoading(true);
-                const response = await fetch('http://192.168.1.11:3000/vitamines');
+                const response = await fetch(`http://${API_URL}/vitamines`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);

@@ -1,9 +1,11 @@
 import React, {useContext, useState} from "react";
 import Header from "../Layouts/Header.jsx";
 import {ThemeContext} from "../context/ThemeContext.jsx";
+import{useAPI} from "../context/APIContext.jsx";
 import AlimentsGallery from "../Aliments/AlimentsGallery.jsx";
 
 function VitamineCreator() {
+    const API_URL = useAPI()
     const {isDark} = useContext(ThemeContext);
     const [vitamine, setVitamine] = useState({
         nom: "",
@@ -62,7 +64,7 @@ function VitamineCreator() {
         };
 
         try {
-            const response = await fetch("http://localhost:3000/vitamines", {
+            const response = await fetch(`http://${API_URL}/vitamines`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
