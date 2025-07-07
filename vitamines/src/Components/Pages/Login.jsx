@@ -42,7 +42,7 @@ function Login() {
     return (
         <>
             <Header />
-            <div className="loginMain" style = {{ backgroundColor: isDark ? "black": "#8865E6"}}>
+            <div className="loginMain" style = {{ backgroundColor: isDark ? "black": "#8865E6" , transition: "all 0.5s ease-in" }}>
 
                 {isDark ? (
                     <>

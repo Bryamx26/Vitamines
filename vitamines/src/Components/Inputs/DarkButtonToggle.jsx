@@ -16,7 +16,7 @@ function DarkButtonToggle() {
                 <img
                     style={{
                         position: "relative",
-                        left: "20px", // Position finale pour le mode sombre
+                        left: "25px", // Position finale pour le mode sombre
                         transition: "all 0.2s ease-in-out"
                     }}
                     className="toggle"
@@ -27,7 +27,7 @@ function DarkButtonToggle() {
                 <img
                     style={{
                         position: "relative",
-                        left: "0%", // Position initiale pour le mode clair
+                        left: "0px", // Position initiale pour le mode clair
                         transition: "all 0.2s ease-in-out"
                     }}
                     className="toggle"

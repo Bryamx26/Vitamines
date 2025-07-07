@@ -5,7 +5,7 @@ import { UserContext } from "/src/Components/Context/UserContext.jsx"
 
 
 
-function NavBar(){
+function NavBar({menu}) {
 
 
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ function NavBar(){
 
 
         <>
-            <nav className={"nav"}>
+            <nav  className={(menu ? "menu-open" : "menu-close") +" "+"nav"}>
                 <a className={"button"}  onClick={()=>(navigate(`/`))}> Home</a>
                 {user? <a className={"button"}  onClick={function(){
                         logout()
