@@ -11,6 +11,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - db-data:/var/lib/mysql   # nom du volume cohérent avec la section volumes
+      - ./init:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
 
