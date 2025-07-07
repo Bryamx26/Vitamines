@@ -23,9 +23,6 @@ function App() {
             <Route path="/Login" element={<Login/>} />
             <Route path="/VitamineCreator/" element={<VitamineCreator  />} />
             <Route path="/VitamineEditor/:id" element={<VitamineEditor/>} />
-
-
-
             <Route path="*" element={<Error/>} />
         </Routes>
 

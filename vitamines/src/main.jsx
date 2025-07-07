@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')).render(
                  <App />
               </BrowserRouter>
          </ThemeProvider>
-      </UserProvider>,
-      </APIProvider>,
-  </StrictMode>,
+      </UserProvider>
+      </APIProvider>
+  </StrictMode>
 )
