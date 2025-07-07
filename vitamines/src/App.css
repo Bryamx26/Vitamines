@@ -762,7 +762,7 @@ top: 20px;
 
 @media (max-width: 500px) {
     .effects{
-        align-items: center;
+        align-items: center;justify-content: start;
     }
     .vitamineTitle{
         font-size: 3rem;
