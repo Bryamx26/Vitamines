@@ -124,6 +124,7 @@ function VitaminesDetails() {
                 <div className="vitamineContainer">
                     <div className="vitamineCardContainer1">
                         <div className="vitamineCard vitamineDescription">
+                            <h3>Description</h3>
                            <p>{vitamine.description}</p>
                         </div>
                         <div className="vitamineAlimentGContainer">

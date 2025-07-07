@@ -334,6 +334,7 @@ body {
     text-align: start;
     font-weight: bold;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: start;
     top: 20px;
@@ -790,7 +791,7 @@ top: 20px;
     }
     .vitamineInfosContainer{
         flex-direction: column-reverse;
-        margin-bottom: 1rem;
+
     }
 
 
@@ -807,6 +808,9 @@ top: 20px;
     }
     .fonctions{
         font-size: 1rem;
+    }
+    .vitamineCardContainer2{
+        margin-bottom: 5rem;
     }
 
 }
