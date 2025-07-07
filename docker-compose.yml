@@ -10,7 +10,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - db-data-data:/var/lib/mysql   # nom du volume cohérent avec la section volumes
+      - db-data:/var/lib/mysql   # nom du volume cohérent avec la section volumes
     ports:
       - "3306:3306"
 
