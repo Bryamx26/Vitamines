@@ -19,7 +19,7 @@ const VitaminsExhibit = () => {
         const fetchVitamines = async () => {
             try {
                 setLoading(true);
-                const response = await fetch('http://api:3000/vitamines');
+                const response = await fetch('http://192.168.1.11:3000/vitamines');
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
