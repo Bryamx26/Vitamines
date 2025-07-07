@@ -594,7 +594,8 @@ top: 20px;
     z-index: 5;
 }
 .NomInput {
-    z-index: 3;
+    z-index: 5;
+    position: relative;
 }
 
 .buttonDarkMode{
