@@ -145,9 +145,10 @@ function VitaminesDetails() {
                             ))}
                         </div>
                         <div className="vitamineInfosContainer">
+
                             <div className="effects">
-                                        <h3>Effects</h3>
-                                        <b>Avantages</b>
+
+                                        <b>Consomation normale</b>
                                         {effects
                                             .filter(effect => effect.type_effet === "avantage")
                                             .map((effect, index) => (
