@@ -147,7 +147,7 @@ function VitaminesDetails() {
                         <div className="vitamineInfosContainer">
 
                             <div className="effects">
-
+                                <h3>Effects</h3>
                                         <b>Consomation normale</b>
                                         {effects
                                             .filter(effect => effect.type_effet === "avantage")
