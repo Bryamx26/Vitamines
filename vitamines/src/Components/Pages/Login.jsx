@@ -3,9 +3,9 @@ import Header from "../Layouts/Header.jsx";
 import {useNavigate} from "react-router-dom";
 
 
-import { UserContext } from "/src/Components/Context/UserContext.jsx"
+import { UserContext } from "/src/Components/context/UserContext.jsx"
 
-import {ThemeContext} from "../Context/ThemeContext.jsx";
+import {ThemeContext} from "../context/ThemeContext.jsx";
 
 function Login() {
     const {isDark} = useContext(ThemeContext);

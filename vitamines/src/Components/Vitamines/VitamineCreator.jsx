@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 import Header from "../Layouts/Header.jsx";
-import {ThemeContext} from "../Context/ThemeContext.jsx";
+import {ThemeContext} from "../context/ThemeContext.jsx";
 import AlimentsGallery from "../Aliments/AlimentsGallery.jsx";
 
 function VitamineCreator() {

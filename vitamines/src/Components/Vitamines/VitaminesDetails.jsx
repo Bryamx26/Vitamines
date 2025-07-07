@@ -5,9 +5,9 @@ import VitamineCard from "./VitamineCard.jsx"; // <- utilisé ?
 import Loading from "../Pages/Loading.jsx";
 import Header from "../Layouts/Header.jsx";
 import AlimentsGallery from "../Aliments/AlimentsGallery.jsx";
-import { UserContext } from "/src/Components/Context/UserContext.jsx"
+import { UserContext } from "/src/Components/context/UserContext.jsx"
 import {useNavigate} from "react-router-dom";
-import {ThemeContext} from "../Context/ThemeContext.jsx";
+import {ThemeContext} from "../context/ThemeContext.jsx";
 
 function VitaminesDetails() {
     const {isDark} = useContext(ThemeContext);

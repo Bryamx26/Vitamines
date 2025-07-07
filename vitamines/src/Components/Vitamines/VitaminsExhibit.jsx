@@ -4,7 +4,7 @@ import Loading from "../Pages/Loading.jsx";
 import VitamineCard from "./VitamineCard.jsx";
 import SearchInput from "../Inputs/SearchInput.jsx";
 import { useContext } from "react";
-import { UserContext } from "/src/Components/Context/UserContext.jsx";
+import { UserContext } from "/src/Components/context/UserContext.jsx";
 import {useNavigate} from "react-router-dom";
 
 const VitaminsExhibit = () => {

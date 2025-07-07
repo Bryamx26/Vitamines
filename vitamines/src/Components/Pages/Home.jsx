@@ -1,6 +1,6 @@
 import Header from "../Layouts/Header.jsx";
 import VitaminsExhibit from "../Vitamines/VitaminsExhibit.jsx";
-import {ThemeContext} from "../Context/ThemeContext.jsx";
+import {ThemeContext} from "../context/ThemeContext.jsx";
 import {useContext} from "react";
 
 

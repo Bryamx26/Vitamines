@@ -3,7 +3,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../Layouts/Header.jsx";
-import {ThemeContext} from "../Context/ThemeContext.jsx";
+import {ThemeContext} from "../context/ThemeContext.jsx";
 
 export default function VitamineEditor() {
     const {isDark} = useContext(ThemeContext);
