@@ -76,7 +76,7 @@ function VitaminesDetails() {
 
     const nom = vitamine.nom.replace("Vitamine ", "");
 
-    const couleur = vitamine.couleur;
+
 
 
     return (
