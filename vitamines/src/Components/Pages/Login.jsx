@@ -1,13 +1,14 @@
 import {useContext, useState} from "react";
 import Header from "../Layouts/Header.jsx";
 import {useNavigate} from "react-router-dom";
-
+import {useAPI} from "../context/APIContext.jsx";
 
 import { UserContext } from "/src/Components/context/UserContext.jsx"
 
 import {ThemeContext} from "../context/ThemeContext.jsx";
 
 function Login() {
+    const API_URL = useAPI();
     const {isDark} = useContext(ThemeContext);
     const {login} = useContext(UserContext);
     const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ function Login() {
 
         try {
             const response = await fetch(
-                `http://localhost:3000/vitamines/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                `${API_URL}/vitamines/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
             );
 
             const data = await response.json();
