@@ -64,7 +64,7 @@ function VitamineCreator() {
         };
 
         try {
-            const response = await fetch(`http://${API_URL}/vitamines`, {
+            const response = await fetch(`${API_URL}/vitamines`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

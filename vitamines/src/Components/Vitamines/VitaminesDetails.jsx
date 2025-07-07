@@ -8,8 +8,10 @@ import AlimentsGallery from "../Aliments/AlimentsGallery.jsx";
 import { UserContext } from "/src/Components/context/UserContext.jsx"
 import {useNavigate} from "react-router-dom";
 import {ThemeContext} from "../context/ThemeContext.jsx";
+import {useAPI} from "../context/APIContext.jsx";
 
 function VitaminesDetails() {
+    const API_URL = useAPI();
     const {isDark} = useContext(ThemeContext);
     const { id } = useParams();
     const [vitamine, setVitamine] = useState(null);
@@ -23,7 +25,7 @@ function VitaminesDetails() {
     useEffect(() => {
         const fetchVitamines = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/vitamines/id/${id}`);
+                const response = await fetch(`${API_URL}/vitamines/id/${id}`);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const data = await response.json();
                 setVitamine(data);
@@ -39,7 +41,7 @@ function VitaminesDetails() {
         if (!vitamine?.nom) return;
         const fetchEffects = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/vitamines/${vitamine.id}/effets/`);
+                const response = await fetch(`${API_URL}/vitamines/${vitamine.id}/effets/`);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const data = await response.json();
                 setEffects(data);
@@ -55,7 +57,7 @@ function VitaminesDetails() {
     useEffect(() => {
         const fetchFonctions = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/vitamines/${id}/fonctions`);
+                const response = await fetch(`${API_URL}/vitamines/${id}/fonctions`);
                 if (!response.ok) throw new Error("Erreur lors du chargement des fonctions");
                 const data = await response.json();
                 setFonctions(data);

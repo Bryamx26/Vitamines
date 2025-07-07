@@ -4,8 +4,10 @@ import React, {useContext, useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../Layouts/Header.jsx";
 import {ThemeContext} from "../context/ThemeContext.jsx";
+import {useAPI} from "../context/APIContext.jsx";
 
 export default function VitamineEditor() {
+    const API_URL = useAPI();
     const {isDark} = useContext(ThemeContext);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -18,18 +20,18 @@ export default function VitamineEditor() {
     async function fetchData() {
       try {
         // Vitamine
-        const vitRes = await fetch(`http://localhost:3000/vitamines/id/${id}`);
+        const vitRes = await fetch(`${API_URL}/vitamines/id/${id}`);
     if (!vitRes.ok) throw new Error("Erreur récupération vitamine");
 const vitData = await vitRes.json();
 setVitamine({ nom: vitData.nom, description: vitData.description, couleur: vitData.couleur , nom_scientifique: vitData.nom_scientifique });
 
 // Effets
-const effRes = await fetch(`http://localhost:3000/vitamines/${id}/effets`);
+const effRes = await fetch(`${API_URL}/vitamines/${id}/effets`);
 const effData = await effRes.json();
 setEffets(effData.map(e => ({ id: e.id, type: e.type_effet, description: e.description })));
 
 // Fonctions
-const fnRes = await fetch(`http://localhost:3000/vitamines/${id}/fonctions`);
+const fnRes = await fetch(`${API_URL}/vitamines/${id}/fonctions`);
 const fnData = await fnRes.json();
 setFonctions(fnData.map(f => ({ id: f.id, nom: f.nom, description: f.description })));
 } catch (err) {
@@ -59,7 +61,7 @@ const removeFonction = i => setFonctions(fonctions.filter((_, idx) => idx !== i)
 const handleSubmit = async e => {
     e.preventDefault();
     try {
-        const res = await fetch(`http://localhost:3000/vitamines/${id}`, {
+        const res = await fetch(`${API_URL}/vitamines/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ...vitamine, effets, fonctions })
@@ -76,7 +78,7 @@ const handleSubmit = async e => {
 const handleDelete = async () => {
     if (!window.confirm("Confirmer suppression ?")) return;
     try {
-        const res = await fetch(`http://localhost:3000/vitamines/${id}`, { method: "DELETE" });
+        const res = await fetch(`${API_URL}/vitamines/${id}`, { method: "DELETE" });
         if (!res.ok) throw new Error();
         alert("Supprimée");
         navigate("/");

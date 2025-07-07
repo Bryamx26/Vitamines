@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import {useAPI} from "../context/APIContext.jsx"
 
 function AlimentsGallery({ nom }) {
+    const API_URL = useAPI();
     const [aliment, setAliment] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/vitamines/${encodeURIComponent(nom)}/aliments`)
+        fetch(`${API_URL}/vitamines/${encodeURIComponent(nom)}/aliments`)
             .then(res => {
                 if (!res.ok) throw new Error("Erreur serveur");
                 return res.json();

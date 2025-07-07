@@ -68,7 +68,7 @@ const VitaminsExhibit = () => {
                         <p id={"description"} className="invisible">
                            Crée ta vitamine
                         </p>
-                    </div>:""}
+                    </div>: null}
 
                 {filteredVitamines.map((vitamine) => (
                     <VitamineCard
