@@ -10,7 +10,7 @@ function BurgerMenuButton({isOpen, setIsOpen }) {
     return (
         <img
             className="burgerMenu"
-            src={isOpen ? "/images/close.png"  : "/public/images/burgerMenu.png"}
+            src={isOpen ? "/images/close.png"  : "/images/burgerMenu.png"}
             alt="bouton menu burger"
             onClick={handleToggle}
         />
