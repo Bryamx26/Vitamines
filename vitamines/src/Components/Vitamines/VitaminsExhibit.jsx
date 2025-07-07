@@ -22,7 +22,7 @@ const VitaminsExhibit = () => {
         const fetchVitamines = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`http://${API_URL}/vitamines`);
+                const response = await fetch(`${API_URL}/vitamines`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
