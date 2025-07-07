@@ -691,14 +691,14 @@ top: 20px;
         gap: 4rem;
     }
     .vitamineCardContainer1 {
-        height: 50rem;
+        height: 40rem;
         width: 100%;
 
     }
     .vitamineCardContainer2{
         height: 50rem;
         width: 100%;
-        margin-bottom: 1rem;
+
         display: flex;
         align-items: center;
 
@@ -756,10 +756,14 @@ top: 20px;
     }
 
 
+
 }
 
 
 @media (max-width: 500px) {
+    .effects{
+        align-items: center;
+    }
     .vitamineTitle{
         font-size: 3rem;
     }
@@ -774,6 +778,10 @@ top: 20px;
         align-items: center;
     }
     .effects , .vitamineAliment{
+        width: 80%;
+        justify-content: center;
+    }
+    .vitamineCard{
         width: 90%;
     }
 
