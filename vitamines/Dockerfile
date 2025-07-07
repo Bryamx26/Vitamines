@@ -1,5 +1,5 @@
 # Étape 1 : build de l'app
-FROM node:20 as builder
+FROM node:20 AS builder
 
 WORKDIR /app
 COPY . .
