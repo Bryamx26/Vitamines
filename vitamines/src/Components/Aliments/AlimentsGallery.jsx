@@ -26,7 +26,7 @@ function AlimentsGallery({ nom }) {
             {aliment.map((item, index) => (
                 <div className="bubble" key={index}>
 
-                    <img className="AlimentImages"  src={`/public/images/alimentsImages/${item.aliment}.png`}
+                    <img className="AlimentImages"  src={`/images/alimentsImages/${item.aliment}.png`}
                            alt={item.aliment}  />
                 </div>
             ))}
