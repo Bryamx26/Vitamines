@@ -9,8 +9,9 @@ function LoadVitamines() {
 
 
 
+                <Header />
+                <p style={{color :'#000000'}}>Chargement...</p>
 
-                <p>Chargement...</p>
 
 
         </>
