@@ -813,6 +813,43 @@ top: 20px;
         margin-bottom: 5rem;
     }
 
+    .vitamineTitleBacground {
+        display: flex;
+
+        position: fixed;
+        left: -50px;
+        top: 500px;
+
+        width: 1000px;
+        height: 1000px;
+        z-index: 0;
+        border-radius: 50%;
+        background: radial-gradient(
+                rgba(26, 255, 7, 0.94) 0%,
+                rgba(0, 89, 255, 0.55) 30%,
+                rgba(2, 2, 1, 0) 70%
+        );
+    }
+    .vitamineTitleBacground2 {
+        display: flex;
+
+        position: fixed;
+        right: 20px;
+        bottom: 480px;
+
+        width: 1000px;
+        height: 1000px;
+        z-index: 0;
+        border-radius: 50%;
+
+        background: radial-gradient(
+                rgba(221, 0, 255, 0.87) 0%,
+                rgba(0, 89, 255, 0.55) 30%,
+                rgba(2, 2, 1, 0) 70%
+        );
+
+    }
+
 }
 
 
