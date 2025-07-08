@@ -336,7 +336,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: start;
+    align-items: center;
     top: 20px;
     overflow: auto;
     z-index: 5;
