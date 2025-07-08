@@ -16,8 +16,25 @@ export function ThemeProvider({ children }) {
         localStorage.setItem("theme", isDark ? "dark" : "light");
     }, [isDark]);
 
+
+    const [closeMenu, setCloseMenu] = useState('/images/close.png');
+    const [burgerMenu,setBurgerMenu] = useState('/images/burgerMenu.png');
+
+    useEffect(() => {
+        if (isDark){
+            setCloseMenu('/images/closeLight.svg');
+            setBurgerMenu('/images/burgerMenuLight.svg');
+
+        }else {
+            setCloseMenu('/images/closeDark.svg');
+            setBurgerMenu('/images/burgerMenuDark.svg');
+        }
+    },[isDark]);
+
+
+
     return (
-        <ThemeContext.Provider value={{ isDark, setIsDark }}>
+        <ThemeContext.Provider value={{ isDark, setIsDark, closeMenu, burgerMenu }}>
             {children}
         </ThemeContext.Provider>
     );
