@@ -159,9 +159,9 @@ body {
     min-width: 10rem;
     max-width: 10rem;
     padding: 1rem;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(0px);
     border-radius: 50%;
-    background-color: rgba(237, 235, 235, 0.07);
+background-color: var(--glass-templed);
     border: 1px solid var(--secondary-color);
     transition: .5s;
     color: var(--text-color);
@@ -183,12 +183,16 @@ body {
 
 .card:hover {
     cursor: pointer;
+    background: radial-gradient( rgba(255, 255, 255, 0.01) 60%, rgba(255, 255, 255, 0.25));
+    backdrop-filter: blur(200px);
+    border: 1px solid rgba(255, 255, 255, 0);
 
-    background-color: rgba(99, 99, 99, 0.27);
+
 }
 
 .card:hover .invisible {
     opacity: 1;
+
 }
 
 .card:hover .vitamineName {

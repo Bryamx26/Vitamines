@@ -74,7 +74,7 @@ function VitamineCreator() {
 
             if (response.ok) {
                 alert("Vitamine créée avec succès !");
-                setVitamine({ nom: "", description: "", couleur: "#d35e5e", nom_scientifique: "" });
+                setVitamine({ nom: "", description: "", couleur: "", nom_scientifique: "" });
                 setEffets([{ type: "avantage", description: "" }]);
                 setFonctions([{ nom: "", description: "" }]);
             } else {

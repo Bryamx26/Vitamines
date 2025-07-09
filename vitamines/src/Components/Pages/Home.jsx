@@ -4,9 +4,9 @@ import {ThemeContext} from "../context/ThemeContext.jsx";
 import {useContext} from "react";
 
 
+
 function Home(){
     const {isDark} = useContext(ThemeContext);
-
 
     return (
         <>
@@ -14,8 +14,8 @@ function Home(){
             <main id="MainPage"  style = {{ backgroundColor: isDark ? "black": "#8865E6" , transition: "all 0.5s ease-in" }}>
                 {isDark ? (
                     <>
-                        <div className="vitamineTitleBacground"></div>
-                        <div className="vitamineTitleBacground2"></div>
+                        <div className="vitamineTitleBacground" ></div>
+                        <div className="vitamineTitleBacground2" ></div>
 
                     </>
 
