@@ -817,11 +817,11 @@ top: 20px;
         display: flex;
 
         position: fixed;
-        left: -50px;
-        top: 500px;
+        left: 10%;
+        top: 60%;
 
-        width: 1000px;
-        height: 1000px;
+        width: 700px;
+        height: 700px;
         z-index: 0;
         border-radius: 50%;
         background: radial-gradient(
@@ -834,11 +834,11 @@ top: 20px;
         display: flex;
 
         position: fixed;
-        right: 20px;
-        bottom: 480px;
+        right: 10%;
+        bottom: 60%;
 
-        width: 1000px;
-        height: 1000px;
+        width: 700px;
+        height: 700px;
         z-index: 0;
         border-radius: 50%;
 
