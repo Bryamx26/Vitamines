@@ -13,7 +13,7 @@ const getAPIUrl = () => {
         return "http://192.168.1.11:3000";
     } else {
         // Accès public (production)
-        return "http://109.130.147.120:3000"; // Remplace ici par ton IP publique
+        return "http://91.179.177.18:3000"; // Remplace ici par ton IP publique
     }
 };
 
