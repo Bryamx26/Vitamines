@@ -4,10 +4,14 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
 const bcrypt = require('bcrypt');
+const swaggerUi = require('swagger-ui-express');
+const  swaggerSpec = require('./swagger.js');
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec) );
 
 let cache = {};
 let cacheTime = {};
@@ -43,6 +47,35 @@ function invalidateVitamineCache(id, nom) {
 // test
 // --- VITAMINES CRUD ---
 
+
+/**
+ * @swagger
+ * /vitamines:
+ *   get:
+ *     summary: Récupérer toutes les vitamines
+ *     tags:
+ *       - Vitamines
+ *     responses:
+ *       200:
+ *         description: Liste des vitamines
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   nom:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   couleur:
+ *                     type: string
+ *                   nom_scientifique:
+ *                     type: string
+ */
 app.get('/vitamines', async (req, res) => {
   try {
     const data = await getFromCacheOrFetch('vitamines_all', 3600000, async () => {
@@ -55,6 +88,8 @@ app.get('/vitamines', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
+
 
 app.get('/vitamines/id/:id', async (req, res) => {
   const { id } = req.params;
@@ -72,6 +107,26 @@ app.get('/vitamines/id/:id', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /vitamines/nom/{nom}:
+ *   get:
+ *     summary: Récupérer une vitamine par son nom
+ *     tags:
+ *       - Vitamines
+ *     parameters:
+ *       - in: path
+ *         name: nom
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Vitamine trouvée
+ *       404:
+ *         description: Vitamine non trouvée
+ */
+
 app.get('/vitamines/nom/:nom', async (req, res) => {
   const { nom } = req.params;
   try {
@@ -87,6 +142,25 @@ app.get('/vitamines/nom/:nom', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
+/**
+ * @swagger
+ * /vitamines/{id}/effets:
+ *   get:
+ *     summary: Récupérer les effets d'une vitamine
+ *     tags:
+ *       - Vitamines
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Liste des effets
+ */
+
 
 app.get('/vitamines/:id/effets', async (req, res) => {
   const { id } = req.params;
@@ -104,6 +178,24 @@ app.get('/vitamines/:id/effets', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+/**
+ * @swagger
+ * /vitamines/{id}/fonctions:
+ *   get:
+ *     summary: Récupérer les fonctions d'une vitamine
+ *     tags:
+ *       - Vitamines
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Liste des fonctions
+ */
+
 
 app.get('/vitamines/:id/fonctions', async (req, res) => {
   const { id } = req.params;
@@ -121,6 +213,27 @@ app.get('/vitamines/:id/fonctions', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
+/**
+ * @swagger
+ * /vitamines/{nom}/aliments:
+ *   get:
+ *     summary: Récupérer les aliments contenant une vitamine
+ *     tags:
+ *       - Vitamines
+ *     parameters:
+ *       - in: path
+ *         name: nom
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Liste des aliments
+ *       404:
+ *         description: Aucun aliment trouvé
+ */
+
 
 app.get('/vitamines/:nom/aliments', async (req, res) => {
   const { nom } = req.params;
@@ -140,6 +253,59 @@ app.get('/vitamines/:nom/aliments', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
+/**
+ * @swagger
+ * /vitamines:
+ *   post:
+ *     summary: Créer une nouvelle vitamine
+ *     tags:
+ *       - Vitamines
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nom
+ *               - description
+ *               - couleur
+ *               - nom_scientifique
+ *             properties:
+ *               nom:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               couleur:
+ *                 type: string
+ *               nom_scientifique:
+ *                 type: string
+ *               effets:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     type:
+ *                       type: string
+ *                     description:
+ *                       type: string
+ *               fonctions:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     nom:
+ *                       type: string
+ *                     description:
+ *                       type: string
+ *     responses:
+ *       201:
+ *         description: Vitamine créée
+ *       400:
+ *         description: Champs requis manquants
+ */
+
 
 app.post('/vitamines', async (req, res) => {
   const connection = await pool.getConnection();
@@ -189,6 +355,65 @@ app.post('/vitamines', async (req, res) => {
   }
 });
 
+
+/**
+ * @swagger
+ * /vitamines/{id}:
+ *   put:
+ *     summary: Mettre à jour une vitamine
+ *     tags:
+ *       - Vitamines
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nom
+ *               - description
+ *               - couleur
+ *               - nom_scientifique
+ *             properties:
+ *               nom:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               couleur:
+ *                 type: string
+ *               nom_scientifique:
+ *                 type: string
+ *               effets:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     type:
+ *                       type: string
+ *                     description:
+ *                       type: string
+ *               fonctions:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     nom:
+ *                       type: string
+ *                     description:
+ *                       type: string
+ *     responses:
+ *       200:
+ *         description: Vitamine mise à jour
+ *       500:
+ *         description: Erreur mise à jour
+ */
+
 app.put('/vitamines/:id', async (req, res) => {
   const { id } = req.params;
   const connection = await pool.getConnection();
@@ -236,6 +461,26 @@ app.put('/vitamines/:id', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /vitamines/{id}:
+ *   delete:
+ *     summary: Supprimer une vitamine
+ *     tags:
+ *       - Vitamines
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Vitamine supprimée
+ *       404:
+ *         description: Vitamine non trouvée
+ */
+
 app.delete('/vitamines/:id', async (req, res) => {
   const { id } = req.params;
   const connection = await pool.getConnection();
@@ -259,6 +504,34 @@ app.delete('/vitamines/:id', async (req, res) => {
     connection.release();
   }
 });
+
+/**
+ * @swagger
+ * /vitamines/users:
+ *   get:
+ *     summary: Authentifier un utilisateur
+ *     tags:
+ *       - Utilisateurs
+ *     parameters:
+ *       - in: query
+ *         name: email
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: password
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Utilisateur authentifié
+ *       400:
+ *         description: Requête invalide
+ *       401:
+ *         description: Authentification échouée
+ */
+
 
 app.get('/vitamines/users', async (req, res) => {
   const { email, password } = req.query;
