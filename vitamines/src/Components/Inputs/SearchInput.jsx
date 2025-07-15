@@ -2,7 +2,7 @@ function SearchInput({ value, onChange }) {
     return (
         <div className="searchInput">
             <input
-                className="input"
+                className="inputSearch"
                 type="text"
                 value={value}
                 onChange={onChange}

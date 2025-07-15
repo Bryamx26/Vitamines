@@ -29,6 +29,7 @@ function Login() {
 
             if (response.ok) {
                 login(data)
+                console.log(data.nom)
 
                 navigate("/");
             } else {
@@ -82,6 +83,14 @@ function Login() {
                     />
 
                     <input type="submit" id="send" value="Login" />
+
+                    <p style={{ marginTop: "11px" }}>
+                        Pas encore de compte ?{" "}
+                        <a href="/register" style={{ color: isDark ? "#ccc" : "#fff" , fontSize: "0.8rem" }}>
+                            Créez-en un ici
+                        </a>
+                    </p>
+
                 </form>
             </div>
         </>

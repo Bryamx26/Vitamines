@@ -57,12 +57,13 @@ const VitaminsExhibit = () => {
             <SearchInput value={search} onChange={handleSearchChange} />
             <div className="vitaminesGallery">
 
-                {user?
+                {user && user.email === "airtoncesar098@gmail.com" ?
                     <div className="card" onClick={function (){
                         navigate("/VitamineCreator")
 
 
                     }}>
+
                        <b className={"vitamineName"}>+</b>
 
                         <p id={"description"} className="invisible">

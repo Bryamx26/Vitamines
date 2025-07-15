@@ -120,10 +120,11 @@ body {
 }
 .input{
     font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-    border-radius: 20px;
+    font-weight: normal;
+    border-radius: 15px;
+    width: 80%;
     border: none;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     color: #ffffff;
     background-color: var(--glass-templed);
     outline: none;
@@ -131,13 +132,23 @@ body {
     z-index: 5;
 
 }
-.input::placeholder {
+.inputSearch{
+    padding: 1rem 1rem;
+    border: none;
+    background-color: var(--glass-templed);
+    border-radius: 15px;
+    font-size: 1rem;
+    z-index: 5; color: #fff;
+    font-weight: bold;
+
+}
+.input::placeholder , .inputSearch::placeholder{
     color: white;
 
 
 
 }
-.input:focus{
+.input:focus , .inputSearch:focus {
     outline: none;
 }
 
@@ -549,6 +560,7 @@ top: 20px;
 
     background-color: var(--glass-templed);
     border: none;
+    cursor: pointer;
 }
 
 .buttonsSupprimer{
@@ -571,7 +583,7 @@ top: 20px;
     max-width: 200px;
     background-color: var(--glass-color); /* assure-toi que c'est bien défini */
     border: 2px solid rgba(255, 255, 255, 0.2); /* bordure subtile */
-    padding: 5px 16px;
+    padding: 5px 10px;
     border-radius: 9999px; /* pour effet très arrondi */
     font-weight: bold;
     font-family: 'Poppins', sans-serif;

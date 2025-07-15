@@ -115,7 +115,7 @@ function VitaminesDetails() {
 
                 <div className="vitamineTitle">
                     <p>{vitamine.nom}</p>
-                    {user ?<button className="buttons" onClick={Editer}>éditer</button> : null}
+                    {user && user.email === "airtoncesar098@gmail.com" ?<button className="buttons" onClick={Editer}>éditer</button> : null}
 
 
                 </div>
