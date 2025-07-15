@@ -66,7 +66,7 @@ function Register() {
                 <form className="loginForm" onSubmit={handleSubmit}>
                     <h2 className="loginTitle">Register</h2>
 
-                    <label htmlFor="nom">Username</label>
+                    <p><label htmlFor="nom">Username</label></p>
                     <input
                         className="input"
                         autoComplete="off"
@@ -78,7 +78,7 @@ function Register() {
                         onChange={(e) => setNom(e.target.value)}
                     />
 
-                    <label htmlFor="email">Email</label>
+                    <p><label htmlFor="email">Email</label></p>
                     <input
                         className="input"
                         autoComplete="off"
@@ -90,7 +90,7 @@ function Register() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
-                    <label htmlFor="password">Password</label>
+                    <p><label htmlFor="password">Password</label></p>
                     <input
                         className="input"
                         autoComplete="off"
