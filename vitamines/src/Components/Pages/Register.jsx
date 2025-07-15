@@ -9,7 +9,7 @@ function Register() {
     const API_URL = useAPI();
     const { isDark } = useContext(ThemeContext);
     const { login } = useContext(UserContext);
-    const [username, setUsername] = useState("");
+    const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ function Register() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, email, password }),
+                body: JSON.stringify({ nom, email, password }),
             });
 
             const data = await response.json();
@@ -50,17 +50,17 @@ function Register() {
                     transition: "all 0.5s ease-in",
                 }}
             >
-                {isDark ? (
+                {isDark && (
                     <>
                         <div className="vitamineTitleBacground"></div>
                         <div className="vitamineTitleBacground2"></div>
                     </>
-                ) : null}
+                )}
 
                 <form className="loginForm" onSubmit={handleSubmit}>
                     <h2 className="loginTitle">Register</h2>
 
-                    <p>Username</p>
+                    <label htmlFor="username">Username</label>
                     <input
                         className="input"
                         autoComplete="off"
@@ -68,11 +68,11 @@ function Register() {
                         name="username"
                         id="username"
                         required
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={nom}
+                        onChange={(e) => setNom(e.target.value)}
                     />
 
-                    <p>Email</p>
+                    <label htmlFor="email">Email</label>
                     <input
                         className="input"
                         autoComplete="off"
@@ -84,7 +84,7 @@ function Register() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
-                    <p>Password</p>
+                    <label htmlFor="password">Password</label>
                     <input
                         className="input"
                         autoComplete="off"
@@ -99,11 +99,10 @@ function Register() {
                     <input type="submit" id="send" value="Register" />
                     <p style={{ marginTop: "1rem" }}>
                         Déjà un compte ?{" "}
-                        <a href="/login" style={{ color: isDark ? "#ccc" : "#fff" , fontSize: "0.8rem" }}>
+                        <a href="/login" style={{ color: isDark ? "#ccc" : "#fff", fontSize: "0.8rem" }}>
                             Connectez-vous ici
                         </a>
                     </p>
-
                 </form>
             </div>
         </>

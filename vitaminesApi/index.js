@@ -647,31 +647,24 @@ app.get('/vitamines/users', async (req, res) => {
 app.post('/vitamines/users', async (req, res) => {
   try {
     const { username, email, password } = req.body;
-
     if (!username || !email || !password) {
       return res.status(400).json({ error: 'Nom, email et mot de passe requis' });
     }
-
     const [existing] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
     if (existing.length > 0) {
       return res.status(409).json({ error: 'Un compte avec cet email existe déjà' });
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const [result] = await pool.query(
-        'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
-        [username, email, hashedPassword]
+        'INSERT INTO users (nom, email, password) VALUES (?, ?, ?)',
+        [nom, email, hashedPassword]
     );
-
     res.status(201).json({ id: result.insertId, username, email });
-
   } catch (err) {
-    console.error('Erreur serveur POST /vitamines/users :', err);
+    console.error(err);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
-
 
 const PORT = process.env.PORT || 3000;
 
