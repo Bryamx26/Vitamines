@@ -581,11 +581,11 @@ app.get('/vitamines/users', async (req, res) => {
  *           schema:
  *             type: object
  *             required:
- *               - username
+ *               - nom
  *               - email
  *               - password
  *             properties:
- *               username:
+ *               nom:
  *                 type: string
  *                 example: johndoe
  *               email:
@@ -645,24 +645,50 @@ app.get('/vitamines/users', async (req, res) => {
  *                   example: Erreur serveur
  */
 app.post('/vitamines/users', async (req, res) => {
+  const connection = await pool.getConnection();
   try {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
-      return res.status(400).json({ error: 'Nom, email et mot de passe requis' });
+    await connection.beginTransaction();
+
+    const { nom, email, password } = req.body;
+
+    // Validation des champs requis
+    if (!nom || !email || !password) {
+      return res.status(400).json({ message: 'Nom, email et mot de passe requis' });
     }
-    const [existing] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+
+    // Vérification d'unicité de l'email
+    const [existing] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
     if (existing.length > 0) {
-      return res.status(409).json({ error: 'Un compte avec cet email existe déjà' });
+      return res.status(409).json({ message: 'Un compte avec cet email existe déjà' });
     }
+
+    // Hachage du mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
-    const [result] = await pool.query(
+
+    // Insertion de l'utilisateur
+    const [userRes] = await connection.query(
         'INSERT INTO users (nom, email, password) VALUES (?, ?, ?)',
         [nom, email, hashedPassword]
     );
-    res.status(201).json({ id: result.insertId, username, email });
+
+    const userId = userRes.insertId;
+
+    await connection.commit();
+
+    // Réponse de succès (sans renvoyer le mot de passe)
+    res.status(201).json({
+      message: 'Utilisateur créé avec succès',
+      id: userId,
+      nom,
+      email
+    });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Erreur serveur' });
+    await connection.rollback();
+    console.error('Erreur création utilisateur:', err);
+    res.status(500).json({ message: 'Erreur création utilisateur' });
+  } finally {
+    connection.release();
   }
 });
 

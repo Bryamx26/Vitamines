@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import Header from "../Layouts/Header.jsx";
 import { useNavigate } from "react-router-dom";
 import { useAPI } from "../context/APIContext.jsx";
-import { UserContext } from "/src/Components/context/UserContext.jsx";
+import { UserContext } from "../context/UserContext.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 
 function Register() {
@@ -12,10 +12,14 @@ function Register() {
     const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        setError(null);
 
         try {
             const response = await fetch(`${API_URL}/vitamines/users`, {
@@ -32,11 +36,13 @@ function Register() {
                 login(data);
                 navigate("/");
             } else {
-                alert(data.error || "Erreur lors de l'inscription.");
+                setError(data.error || "Erreur lors de l'inscription.");
             }
-        } catch (error) {
-            console.error("Erreur réseau :", error);
-            alert("Erreur réseau.");
+        } catch (err) {
+            console.error("Erreur réseau :", err);
+            setError("Erreur réseau. Vérifie ta connexion.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -60,13 +66,13 @@ function Register() {
                 <form className="loginForm" onSubmit={handleSubmit}>
                     <h2 className="loginTitle">Register</h2>
 
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor="nom">Username</label>
                     <input
                         className="input"
                         autoComplete="off"
                         type="text"
-                        name="username"
-                        id="username"
+                        name="nom"
+                        id="nom"
                         required
                         value={nom}
                         onChange={(e) => setNom(e.target.value)}
@@ -96,10 +102,25 @@ function Register() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
-                    <input type="submit" id="send" value="Register" />
+                    {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
+
+                    <input
+                        type="submit"
+                        id="send"
+                        value={isLoading ? "Chargement..." : "Register"}
+                        disabled={isLoading}
+                        style={{
+                            opacity: isLoading ? 0.6 : 1,
+                            cursor: isLoading ? "not-allowed" : "pointer",
+                        }}
+                    />
+
                     <p style={{ marginTop: "1rem" }}>
                         Déjà un compte ?{" "}
-                        <a href="/login" style={{ color: isDark ? "#ccc" : "#fff", fontSize: "0.8rem" }}>
+                        <a
+                            href="/login"
+                            style={{ color: isDark ? "#ccc" : "#fff", fontSize: "0.8rem" }}
+                        >
                             Connectez-vous ici
                         </a>
                     </p>
