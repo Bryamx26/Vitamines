@@ -58,7 +58,7 @@ function Login() {
                 <form className="loginForm" onSubmit={handleSubmit}>
                     <h2 className="loginTitle">Login</h2>
 
-                    <p>Mail</p>
+                    <p>Email</p>
                     <input
                         className="input"
                         autoComplete="off"

@@ -125,7 +125,7 @@ function VitaminesDetails() {
                     <div className="vitamineCardContainer1">
                         <div className="vitamineCard vitamineDescription">
                             <h3>Description</h3>
-                           <p>{vitamine.description}</p>
+                           <p style={{ whiteSpace: "pre-wrap" }}>{vitamine.description}</p>
                         </div>
                         <div className="vitamineAlimentGContainer">
 
@@ -139,7 +139,7 @@ function VitaminesDetails() {
                     <div className="vitamineCardContainer2">
 
                         <div className="vitamineCard fonctions">
-                            <h3>fonctions de la vitamene {nom}</h3>
+                            <h3>fonctions de la vitamine {nom}</h3>
                             {fonctions.map((font, i) => (
 
                                 <p key={i}> <b>{font.nom}</b> {font.description}</p>

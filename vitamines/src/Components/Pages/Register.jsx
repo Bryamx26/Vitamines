@@ -52,7 +52,7 @@ function Register() {
             <div
                 className="loginMain"
                 style={{
-                    backgroundColor: isDark ? "black" : "#8865E6",
+                    backgroundColor: isDark ? "black" : "#3d8c65",
                     transition: "all 0.5s ease-in",
                 }}
             >

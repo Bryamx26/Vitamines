@@ -133,7 +133,8 @@ return (
                     <div className="vitamineCard vitamineDescription">
                         <div >
                             <p>Description</p>
-                            <textarea name="description" value={vitamine.description} onChange={handleVitamineChange} required   className={"vitamineDescriptionInput"}/>
+                            <textarea name="description" value={vitamine.description} onChange={handleVitamineChange} required style={{ whiteSpace: "pre-wrap" }}
+                                      className={"vitamineDescriptionInput"}/>
                         </div>
 
 

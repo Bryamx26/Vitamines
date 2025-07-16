@@ -350,7 +350,7 @@ background-color: var(--glass-templed);
     font-weight: bold;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     top: 20px;
     overflow: auto;
@@ -361,8 +361,8 @@ background-color: var(--glass-templed);
 
 }
 .vitamineDescription p{
-top: 20px;
-    padding: 1rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
 }
 
 .effects{
@@ -433,6 +433,11 @@ top: 20px;
     overflow: auto;
     z-index: 5;
 
+}
+.fonctions p{
+    padding-left: 6rem;
+    padding-right: 6rem;
+    text-align: justify;
 }
 
 
@@ -544,6 +549,9 @@ top: 20px;
     font-weight: bold;
     border-radius: 20px;
     border: none;
+
+    white-space: pre-wrap; /* ou "pre" ou "pre-line" */
+
     padding: 1rem;
     color: #ffffff;
     background-color: var(--glass-color);
@@ -561,6 +569,10 @@ top: 20px;
     background-color: var(--glass-templed);
     border: none;
     cursor: pointer;
+}
+#send{
+    margin-top: 2rem;
+    padding: 0.5rem 3rem;
 }
 
 .buttonsSupprimer{
@@ -699,6 +711,8 @@ top: 20px;
     }
     .vitamineDescription{
         width: 98%;
+        height: auto;
+        align-items: start;
 
         z-index: 4;
     }
@@ -796,6 +810,7 @@ top: 20px;
     .vitamineCardContainer2, .vitamineCardContainer1 {
         display: flex;
         justify-content: space-evenly;
+
         height: 50rem;
 
     }
