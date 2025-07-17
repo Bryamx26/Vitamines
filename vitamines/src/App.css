@@ -716,6 +716,11 @@ background-color: var(--glass-templed);
 
         z-index: 4;
     }
+    .vitamineDescription h3{
+        width: 100%;
+        text-align: center;
+
+    }
     .vitamineAlimentGContainer , .vitamineInfosContainer {
         width: 100%;
         display: flex;
@@ -735,6 +740,43 @@ background-color: var(--glass-templed);
         align-items: center;
 
     }
+
+    .vitamineTitleBacground {
+        display: flex;
+
+        position: fixed;
+        left: 50%;
+        top: 60%;
+
+        width: 900px;
+        height: 900px;
+        z-index: 0;
+        border-radius: 50%;
+        background: radial-gradient(
+                rgba(26, 255, 7, 0.94) 0%,
+                rgba(0, 89, 255, 0.55) 30%,
+                rgba(2, 2, 1, 0) 70%
+        );
+    }
+    .vitamineTitleBacground2 {
+        display: flex;
+
+        position: fixed;
+        right: 60%;
+        bottom: 60%;
+
+        width: 900px;
+        height: 900px;
+        z-index: 0;
+        border-radius: 50%;
+
+        background: radial-gradient(
+                rgba(221, 0, 255, 0.87) 0%,
+                rgba(0, 89, 255, 0.55) 30%,
+                rgba(2, 2, 1, 0) 70%
+        );}
+
+
 
 
 
@@ -756,6 +798,7 @@ background-color: var(--glass-templed);
         font-weight: bold;
         z-index: 5;
     }
+
 
     .nav {
         display: none;
@@ -789,17 +832,20 @@ background-color: var(--glass-templed);
 
 
 
+
+
 }
 
 
 @media (max-width: 500px) {
     .vitamineDescription{
         font-size: 1rem;
-        align-items: center;
-        justify-content: center;
+        align-items: start;
+        justify-content: start;
         text-align: center;
 
     }
+
     .effects{
         align-items: center;
         justify-content: start;
