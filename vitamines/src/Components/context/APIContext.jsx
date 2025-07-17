@@ -13,7 +13,7 @@ export function APIProvider({ children }) {
                 const response = await fetch("https://api.ipify.org?format=json");
                 const data = await response.json();
                 console.log("Adresse IP publique:", data.ip);
-                setPublicIp(data.ip);
+                setPublicIp(data.ip.stringify);
             } catch (err) {
                 console.error("Impossible de récupérer l’IP publique", err.message);
             }

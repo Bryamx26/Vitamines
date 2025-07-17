@@ -9,8 +9,8 @@
     --text-color: rgb(255, 255, 255);
     --background-color: #f0f0f0;
 
-    --glass-color: rgba(30, 30, 30, 0.26);
-    --glass-templed: rgba(175, 173, 173, 0.13);
+    --glass-color: rgba(218, 218, 218, 0.17);
+    --glass-templed: rgba(204, 204, 204, 0.21);
 }
 html, body , p , ul, ol, li, dl, dt, dd ,h1, h2, h3, h4, h5, h6, p, blockquote, pre ,a{
     color: var(--text-color);
