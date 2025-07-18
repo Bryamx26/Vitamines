@@ -78,6 +78,7 @@ function Register() {
                         onChange={(e) => setNom(e.target.value)}
                     />
 
+
                     <p><label htmlFor="email">Email</label></p>
                     <input
                         className="input"
