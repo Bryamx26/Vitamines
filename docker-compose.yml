@@ -33,6 +33,8 @@ services:
       - api
     networks:
       - nginx
+    expose:
+      - 5000
 
 volumes:
   db-data:
