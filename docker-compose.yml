@@ -18,26 +18,25 @@ services:
     container_name: vitamines-api
     depends_on:
       - mysql
-    ports:
-      - "3000:3000"
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_DATABASE=vitamines_db
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
+    networks:
+      - nginx
 
   frontend:
     build: ./vitamines
     container_name: vitamines-frontend
-    ports:
-      - "5173:80"
     depends_on:
       - api
-
+    networks:
+      - nginx
 
 volumes:
   db-data:
 
-
-
-
+networks:
+  nginx:
+    external: true
