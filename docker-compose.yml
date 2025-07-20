@@ -13,9 +13,7 @@ services:
       - db-data:/var/lib/mysql
       - ./.init:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
-    networks:
-      - nginx
+      - "3306:3306"   # exposé à l'hôte
 
   api:
     build: ./vitaminesApi
@@ -27,24 +25,16 @@ services:
       - MYSQL_DATABASE=vitamines_db
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
-    networks:
-      - nginx
-    expose:
-      - "3000" # Exemple, adapte au port de ton API
+    ports:
+      - "3001:3000"  # expose port 3000 du container en 3001 sur l'hôte
 
   frontend:
     build: ./vitamines
     container_name: vitamines-frontend
     depends_on:
       - api
-    networks:
-      - nginx
-    expose:
-      - "80"
+    ports:
+      - "3000:80"   # expose port 80 du container en 3000 sur l'hôte
 
 volumes:
   db-data:
-
-networks:
-  nginx:
-    external: true
