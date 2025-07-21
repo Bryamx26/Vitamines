@@ -58,7 +58,7 @@ function Contact() {
                             style={{
                                 color: isDark ? "#5684a8" : "#00a1ff",
                                 textDecoration: "underline",
-                                zindex: "1",
+                                zindex: "4",
                             }}
                         >
                             Mon LinkedIn
