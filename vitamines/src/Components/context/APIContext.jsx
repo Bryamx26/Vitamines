@@ -15,10 +15,10 @@ export function APIProvider({ children }) {
 
         if (host === "localhost" || host.startsWith("192.168.")) {
             // Accès local ou réseau local
-            return "http://192.168.1.11:3000";
+            return "http://192.168.1.11:3001";
         } else {
             // Accès public (production)
-            return `http://91.179.177.18:3000`;
+            return `http://91.179.177.18:3001`;
         }
     };
 
