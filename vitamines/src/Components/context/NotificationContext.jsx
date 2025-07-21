@@ -41,7 +41,7 @@ export const NotificationProvider = ({ children }) => {
                     className={animationClass}
                     style={{
                         position: 'fixed',
-                        top: '150px',
+                        top: '80px',
                         right: '20px',
                         padding: '16px 24px',
                         borderRadius: '8px',
