@@ -34,7 +34,7 @@ services:
     depends_on:
       - api
     ports:
-      - "5173:5173"   # expose port 80 du container en 3000 sur l'hôte
+      - "5173:80"   # expose port 80 du container en 3000 sur l'hôte
 
 volumes:
   db-data:
