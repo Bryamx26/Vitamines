@@ -2,7 +2,7 @@ import {useContext, useState} from "react";
 import Header from "../Layouts/Header.jsx";
 import {useNavigate} from "react-router-dom";
 import {useAPI} from "../context/APIContext.jsx";
-
+import { useNotification } from "../context/NotificationContext.jsx";
 import { UserContext } from "/src/Components/context/UserContext.jsx"
 
 import {ThemeContext} from "../context/ThemeContext.jsx";
@@ -14,6 +14,14 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { showNotification } = useNotification();
+    const handleSuccess = () => {
+        showNotification("Connexion réussie", "success");
+    };
+
+    const handleError = () => {
+        showNotification("Connexion échouée", "error");
+    };
 
     const handleSubmit = async (e) => {
 
@@ -30,10 +38,12 @@ function Login() {
             if (response.ok) {
                 login(data)
                 console.log(data.nom)
+                handleSuccess()
 
                 navigate("/");
             } else {
-                alert(data.error || "Erreur de connexion.");
+
+                handleError();
             }
         } catch (error) {
             console.error("Erreur de requête :", error);
@@ -56,9 +66,9 @@ function Login() {
                 ):null}
 
                 <form className="loginForm" onSubmit={handleSubmit}>
-                    <h2 className="loginTitle">Login</h2>
+                    <h2 className="loginTitle">Sign-in</h2>
 
-                    <p>Email</p>
+                    <label className={"text"} htmlFor={"email"} >Email </label>
                     <input
                         className="input"
                         autoComplete="off"
@@ -70,7 +80,7 @@ function Login() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
-                    <p>Password</p>
+                    <label className={"text"} htmlFor={"password"}> Password</label>
                     <input
                         className="input"
                         autoComplete="off"
@@ -82,7 +92,7 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
-                    <input type="submit" id="send" value="Login" />
+                    <input type="submit" id="send" value="Done" />
 
                     <p style={{ marginTop: "11px" }}>
                         Pas encore de compte ?{" "}

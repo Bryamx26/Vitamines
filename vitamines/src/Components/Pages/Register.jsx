@@ -5,6 +5,7 @@ import { useAPI } from "../context/APIContext.jsx";
 import { UserContext } from "../context/UserContext.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 
+import {useNotification} from "../context/NotificationContext.jsx";
 function Register() {
     const API_URL = useAPI();
     const { isDark } = useContext(ThemeContext);
@@ -12,9 +13,20 @@ function Register() {
     const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { showNotification } = useNotification();
+
+    const handleSuccess = () => {
+        showNotification("Enregistrement réussi", "success");
+    };
+
+    const handleError = () => {
+        showNotification("L'enregistrement a échuer", "error");
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,10 +45,12 @@ function Register() {
             const data = await response.json();
 
             if (response.ok) {
+                handleSuccess();
                 login(data);
                 navigate("/");
             } else {
                 setError(data.error || "Erreur lors de l'inscription.");
+                handleError();
             }
         } catch (err) {
             console.error("Erreur réseau :", err);
@@ -64,9 +78,9 @@ function Register() {
                 )}
 
                 <form className="loginForm" onSubmit={handleSubmit}>
-                    <h2 className="loginTitle">Register</h2>
+                    <h2 className="loginTitle">Sign-up</h2>
 
-                    <p><label htmlFor="nom">Username</label></p>
+                    <label className={"text"} htmlFor="nom">Username</label>
                     <input
                         className="input"
                         autoComplete="off"
@@ -79,7 +93,7 @@ function Register() {
                     />
 
 
-                    <p><label htmlFor="email">Email</label></p>
+                    <label className={"text"} htmlFor="email">Email</label>
                     <input
                         className="input"
                         autoComplete="off"
@@ -91,7 +105,7 @@ function Register() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
-                    <p><label htmlFor="password">Password</label></p>
+                    <label className={"text"} htmlFor="password">Password</label>
                     <input
                         className="input"
                         autoComplete="off"
@@ -102,19 +116,35 @@ function Register() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    <label className={"text"} htmlFor="password">Confirm password</label>
+                    <input
+                        className="input"
+                        autoComplete="off"
+                        type="password"
+                        name="password"
+                        id="password"
+                        required
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
 
                     {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
-
-                    <input
-                        type="submit"
-                        id="send"
-                        value={isLoading ? "Chargement..." : "Register"}
-                        disabled={isLoading}
-                        style={{
-                            opacity: isLoading ? 0.6 : 1,
-                            cursor: isLoading ? "not-allowed" : "pointer",
-                        }}
-                    />
+                    {
+                        password !== "" &&
+                        confirmPassword !== "" &&
+                        confirmPassword === password && (
+                            <input
+                                type="submit"
+                                id="send"
+                                value={isLoading ? "Chargement..." : "Sign-up"}
+                                disabled={isLoading}
+                                style={{
+                                    opacity: isLoading ? 0.6 : 1,
+                                    cursor: isLoading ? "not-allowed" : "pointer",
+                                }}
+                            />
+                        )
+                    }
 
                     <p style={{ marginTop: "1rem" }}>
                         Déjà un compte ?{" "}

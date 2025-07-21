@@ -6,9 +6,11 @@ import {BrowserRouter} from "react-router-dom";
 import {UserProvider} from "./Components/context/UserContext.jsx";
 import {ThemeContext, ThemeProvider} from "./Components/context/ThemeContext.jsx";
 import {APIProvider} from "./Components/context/APIContext.jsx";
+import {NotificationProvider} from "./Components/context/NotificationContext.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+      <NotificationProvider>
       <APIProvider>
       <UserProvider>
          <ThemeProvider>
@@ -18,5 +20,6 @@ createRoot(document.getElementById('root')).render(
          </ThemeProvider>
       </UserProvider>
       </APIProvider>
+      </NotificationProvider>
   </StrictMode>
 )
