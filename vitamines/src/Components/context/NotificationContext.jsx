@@ -30,7 +30,7 @@ export const NotificationProvider = ({ children }) => {
     const typeColors = {
         success: '#4CAF50',
         error: '#F44336',
-        info: '#2164f3',
+        info: '#afafaf',
     };
 
     return (

@@ -31,8 +31,8 @@ function NavBar({menu}) {
                     }
                     }> Logout</a>
                     :<a className={"button"} onClick={()=>(navigate(`/Login`))}> Login</a>}
-                <a className={"button"}  onClick={()=>(navigate(`/`))}> About</a>
-                <a className={"button"}  onClick={()=>(navigate(`/`))}> Contact</a>
+                <a className={"button"}  onClick={()=>(navigate(`/About`))}> About</a>
+                <a className={"button"}  onClick={()=>(navigate(`/Contact`))}> Contact</a>
 
 
             </nav>
