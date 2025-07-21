@@ -10,23 +10,17 @@ function Contact() {
             <Header />
             <main
                 id="MainPage"
-                style={{
-                    position: "relative", // Pour que les enfants absolute soient positionnés par rapport à main
-                    backgroundColor: isDark ? "black" : "#8865E6",
-                    transition: "all 0.5s ease-in",
-                    minHeight: "100vh",
-                    color: isDark ? "white" : "#f5f5f5",
-                }}
+
             >
                 {isDark && (
                     <>
                         <div
                             className="vitamineTitleBacground"
-                            style={{ position: "absolute", zIndex: 0 }}
+                            style={{ position: "fixed", zIndex: 0 }}
                         ></div>
                         <div
                             className="vitamineTitleBacground2"
-                            style={{ position: "absolute", zIndex: 0 }}
+                            style={{ position: "fixed", zIndex: 0 }}
                         ></div>
                     </>
                 )}
