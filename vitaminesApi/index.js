@@ -81,6 +81,8 @@ app.get('/vitamines', async (req, res) => {
     res.json(data);
   } catch (err) {
     console.error(err);
+    console.error("Erreur sur /vitamines :", err);
+
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
