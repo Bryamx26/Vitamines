@@ -11,7 +11,7 @@ function SearchInput({ value, onChange }) {
                     id="search-input"
 
                 />
-                <label className={"inputSearchLabelImage"}  htmlFor={"search-input"}><img src={"/public/images/search.svg"} alt="Search" style={{ width: "15px" , height: "15px" }} /></label>
+                <label className={"inputSearchLabelImage"}  htmlFor={"search-input"}><img src={"/images/search.svg"} alt="Search" style={{ width: "15px" , height: "15px" }} /></label>
 
             </label>
         </div>
