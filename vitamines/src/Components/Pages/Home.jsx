@@ -11,7 +11,7 @@ function Home(){
     return (
         <>
             <Header />
-            <main id="MainPage"  style = {{ backgroundColor: isDark ? "black": "#8865E6" , transition: "all 0.5s ease-in" }}>
+            <main id="MainPage"  style = {{ backgroundColor: isDark ? "black": "#8865e6" , transition: "all 0.5s ease-in" }}>
                 {isDark ? (
                     <>
                         <div className="vitamineTitleBacground" ></div>

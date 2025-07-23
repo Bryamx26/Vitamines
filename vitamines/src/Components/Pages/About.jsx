@@ -11,7 +11,7 @@ function About() {
             <main
                 id="MainPage"
                 style={{
-                    backgroundColor: isDark ? "black" : "#905edd",
+                    backgroundColor: isDark ? "black" : "#8865e6",
                     transition: "all 0.5s ease-in",
                     minHeight: "100vh",
 

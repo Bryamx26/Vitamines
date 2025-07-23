@@ -10,6 +10,7 @@ function Contact() {
             <Header />
             <main
                 id="MainPage"
+                style={{ backgroundColor: isDark ? "#000000" :"#8865e6" }}
 
             >
                 {isDark && (
@@ -75,13 +76,13 @@ function Contact() {
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
-                                color: isDark ? "#5684a8" : "#00a1ff",
+                                color: isDark ? "#1000fd" : "#00a1ff",
                                 textDecoration: "underline",
                                 position: "relative", // idem
                                 zIndex: 4,
                             }}
                         >
-                            Mon LinkedIn
+                            Bryam Rishing Silva
                         </a>
                     </section>
                 </div>
