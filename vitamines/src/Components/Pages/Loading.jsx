@@ -7,7 +7,7 @@ const Loading= () => {
     return (
 
         <div style={{
-                backgroundColor: isDark ? "#000000" : "#8865e6",
+                backgroundColor: isDark ? "#000000" : "rgba(136,101,230,0)",
             width: "100%",
             height: "100vh",
             }}>
