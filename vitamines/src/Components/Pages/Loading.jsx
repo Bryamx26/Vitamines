@@ -9,7 +9,7 @@ const Loading= () => {
         <div style={{
                 backgroundColor: isDark ? "#000000" : "#8865e6",
             width: "100%",
-            height: "100dvh",
+            height: "100vh",
             }}>
         <div style={styles.container }>
             {isDark && (
