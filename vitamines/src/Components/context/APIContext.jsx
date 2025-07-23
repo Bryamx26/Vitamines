@@ -1,24 +1,28 @@
-// src/context/APIContext.jsx
-import React, { createContext, useContext } from "react";
+import React, {createContext, useContext,} from "react";
 
 // Crée le contexte
 export const APIContext = createContext();
 
-// Détecte automatiquement l'URL de l'API en fonction du domaine
-const getAPIUrl = () => {
-    const host = window.location.hostname;
-
-    if (host === "localhost" || host.startsWith("192.168.")) {
-        // Accès local ou réseau local
-        return "http://192.168.1.11:3000";
-    } else {
-        // Accès public (production)
-        return "http://91.179.177.18:3000"; // Remplace ici par ton IP publique
-    }
-};
-
 // Fournisseur du contexte
 export function APIProvider({ children }) {
+
+
+
+
+    // Détecte automatiquement l'URL de l'API en fonction du domaine
+    const getAPIUrl = () => {
+        const host = window.location.hostname;
+
+        if (host === "localhost" || host.startsWith("192.168.")) {
+            // Accès local ou réseau local
+            return "http://192.168.1.11:3000";
+        } else {
+            // Accès public (production)
+            return `https://api.bryamsilva.online`;
+        }
+
+    };
+
     const apiUrl = getAPIUrl();
 
     return (

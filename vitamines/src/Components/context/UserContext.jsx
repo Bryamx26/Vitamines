@@ -10,16 +10,17 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
-            setUser(JSON.stringify(storedUser));
+            setUser(JSON.parse(storedUser)); // ✅ Corrigé ici
         }
     }, []);
 
-    // Mettre à jour aussi le localStorage si besoin
+    // Connexion : stocker user dans localStorage
     const login = (userData) => {
         localStorage.setItem("user", JSON.stringify(userData));
         setUser(userData);
     };
 
+    // Déconnexion : supprimer user du localStorage
     const logout = () => {
         localStorage.removeItem("user");
         setUser(null);

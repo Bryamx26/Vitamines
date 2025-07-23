@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   mysql:
     image: mysql:8.0
@@ -11,33 +13,28 @@ services:
       - db-data:/var/lib/mysql
       - ./.init:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
+      - "3306:3306"   # exposé à l'hôte
 
   api:
     build: ./vitaminesApi
     container_name: vitamines-api
     depends_on:
       - mysql
-    ports:
-      - "3000:3000"
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_DATABASE=vitamines_db
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
+    ports:
+      - "3000:3000"  # expose port 3000 du container en 3001 sur l'hôte
 
   frontend:
     build: ./vitamines
     container_name: vitamines-frontend
-    ports:
-      - "5173:80"
     depends_on:
       - api
-
+    ports:
+      - "5173:80"   # expose port 80 du container en 3000 sur l'hôte
 
 volumes:
   db-data:
-
-
-
-

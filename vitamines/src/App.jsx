@@ -11,6 +11,9 @@ import "./Components/Pages/Login.jsx"
 import Login from "./Components/Pages/Login.jsx";
 import VitamineCreator from "./Components/Vitamines/VitamineCreator.jsx";
 import VitamineEditor from "./Components/Vitamines/VitamineEditor.jsx";
+import Register from "./Components/Pages/Register.jsx";
+import About from "./Components/Pages/About.jsx";
+import Contact from "./Components/Pages/Contact.jsx";
 
 function App() {
 
@@ -23,6 +26,9 @@ function App() {
             <Route path="/Login" element={<Login/>} />
             <Route path="/VitamineCreator/" element={<VitamineCreator  />} />
             <Route path="/VitamineEditor/:id" element={<VitamineEditor/>} />
+            <Route path="/Register" element={<Register/>} />
+            <Route path="/About" element={<About/>} />
+            <Route path="/Contact" element={<Contact/>} />
             <Route path="*" element={<Error/>} />
         </Routes>
 

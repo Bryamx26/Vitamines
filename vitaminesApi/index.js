@@ -1,17 +1,17 @@
-// server.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
 const bcrypt = require('bcrypt');
 const swaggerUi = require('swagger-ui-express');
-const  swaggerSpec = require('./swagger.js');
+const swaggerSpec = require('./swagger.js');
 
 const app = express();
+app.set('trust proxy', 1);
 
 app.use(cors());
 app.use(express.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec) );
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 let cache = {};
 let cacheTime = {};
@@ -44,9 +44,6 @@ function invalidateVitamineCache(id, nom) {
     delete cacheTime[key];
   }
 }
-// test
-// --- VITAMINES CRUD ---
-
 
 /**
  * @swagger
@@ -85,12 +82,46 @@ app.get('/vitamines', async (req, res) => {
     res.json(data);
   } catch (err) {
     console.error(err);
+    console.error("Erreur sur /vitamines :", err);
+
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
 
-
-
+/**
+ * @swagger
+ * /vitamines/id/{id}:
+ *   get:
+ *     summary: Récupérer une vitamine par son ID
+ *     tags:
+ *       - Vitamines
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Vitamine trouvée
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 nom:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 couleur:
+ *                   type: string
+ *                 nom_scientifique:
+ *                   type: string
+ *       404:
+ *         description: Vitamine non trouvée
+ */
 app.get('/vitamines/id/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -126,7 +157,6 @@ app.get('/vitamines/id/:id', async (req, res) => {
  *       404:
  *         description: Vitamine non trouvée
  */
-
 app.get('/vitamines/nom/:nom', async (req, res) => {
   const { nom } = req.params;
   try {
@@ -160,8 +190,6 @@ app.get('/vitamines/nom/:nom', async (req, res) => {
  *       200:
  *         description: Liste des effets
  */
-
-
 app.get('/vitamines/:id/effets', async (req, res) => {
   const { id } = req.params;
   try {
@@ -178,6 +206,7 @@ app.get('/vitamines/:id/effets', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
 /**
  * @swagger
  * /vitamines/{id}/fonctions:
@@ -195,8 +224,6 @@ app.get('/vitamines/:id/effets', async (req, res) => {
  *       200:
  *         description: Liste des fonctions
  */
-
-
 app.get('/vitamines/:id/fonctions', async (req, res) => {
   const { id } = req.params;
   try {
@@ -233,8 +260,6 @@ app.get('/vitamines/:id/fonctions', async (req, res) => {
  *       404:
  *         description: Aucun aliment trouvé
  */
-
-
 app.get('/vitamines/:nom/aliments', async (req, res) => {
   const { nom } = req.params;
   try {
@@ -305,8 +330,6 @@ app.get('/vitamines/:nom/aliments', async (req, res) => {
  *       400:
  *         description: Champs requis manquants
  */
-
-
 app.post('/vitamines', async (req, res) => {
   const connection = await pool.getConnection();
   try {
@@ -354,7 +377,6 @@ app.post('/vitamines', async (req, res) => {
     connection.release();
   }
 });
-
 
 /**
  * @swagger
@@ -413,7 +435,6 @@ app.post('/vitamines', async (req, res) => {
  *       500:
  *         description: Erreur mise à jour
  */
-
 app.put('/vitamines/:id', async (req, res) => {
   const { id } = req.params;
   const connection = await pool.getConnection();
@@ -480,7 +501,6 @@ app.put('/vitamines/:id', async (req, res) => {
  *       404:
  *         description: Vitamine non trouvée
  */
-
 app.delete('/vitamines/:id', async (req, res) => {
   const { id } = req.params;
   const connection = await pool.getConnection();
@@ -531,8 +551,6 @@ app.delete('/vitamines/:id', async (req, res) => {
  *       401:
  *         description: Authentification échouée
  */
-
-
 app.get('/vitamines/users', async (req, res) => {
   const { email, password } = req.query;
   if (!email || !password) return res.status(400).json({ error: 'Email et mot de passe requis' });
@@ -551,10 +569,134 @@ app.get('/vitamines/users', async (req, res) => {
   }
 });
 
-app.use((err, req, res, next) => {
-  console.error('Erreur non gérée :', err);
-  res.status(500).json({ message: 'Erreur serveur' });
+/**
+ * @swagger
+ * /vitamines/users:
+ *   post:
+ *     tags:
+ *       - Utilisateurs
+ *     summary: Inscrire un nouvel utilisateur
+ *     description: Crée un nouvel utilisateur avec un nom, un email et un mot de passe.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nom
+ *               - email
+ *               - password
+ *             properties:
+ *               nom:
+ *                 type: string
+ *                 example: johndoe
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: johndoe@example.com
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 example: MonSuperMotDePasse123
+ *     responses:
+ *       201:
+ *         description: Utilisateur créé avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 1
+ *                 username:
+ *                   type: string
+ *                   example: johndoe
+ *                 email:
+ *                   type: string
+ *                   example: johndoe@example.com
+ *       400:
+ *         description: Requête invalide – champs manquants
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Nom, email et mot de passe requis
+ *       409:
+ *         description: Utilisateur déjà existant
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Un compte avec cet email existe déjà
+ *       500:
+ *         description: Erreur interne du serveur
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Erreur serveur
+ */
+app.post('/vitamines/users', async (req, res) => {
+  const connection = await pool.getConnection();
+  try {
+    await connection.beginTransaction();
+
+    const { nom, email, password } = req.body;
+
+    // Validation des champs requis
+    if (!nom || !email || !password) {
+      return res.status(400).json({ message: 'Nom, email et mot de passe requis' });
+    }
+
+    // Vérification d'unicité de l'email
+    const [existing] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
+    if (existing.length > 0) {
+      return res.status(409).json({ message: 'Un compte avec cet email existe déjà' });
+    }
+
+    // Hachage du mot de passe
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insertion de l'utilisateur
+    const [userRes] = await connection.query(
+        'INSERT INTO users (nom, email, password) VALUES (?, ?, ?)',
+        [nom, email, hashedPassword]
+    );
+
+    const userId = userRes.insertId;
+
+    await connection.commit();
+
+    // Réponse de succès (sans renvoyer le mot de passe)
+    res.status(201).json({
+      message: 'Utilisateur créé avec succès',
+      id: userId,
+      nom,
+      email
+    });
+
+  } catch (err) {
+    await connection.rollback();
+    console.error('Erreur création utilisateur:', err);
+    res.status(500).json({ message: 'Erreur création utilisateur' });
+  } finally {
+    connection.release();
+  }
 });
 
-const PORT = 3000;
-app.listen(PORT, '0.0.0.0', () => console.log(`Serveur API: http://0.0.0.0:${PORT}`));
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
