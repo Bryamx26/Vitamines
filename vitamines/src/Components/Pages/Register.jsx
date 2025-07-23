@@ -24,7 +24,7 @@ function Register() {
     };
 
     const handleError = () => {
-        showNotification("L'enregistrement a échuer", "error");
+        showNotification("L’enregistrement a échoué", "error");
     };
 
 
