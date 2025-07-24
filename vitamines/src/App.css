@@ -383,7 +383,7 @@ body {
     top: 20px;
     overflow: auto;
     z-index: 5;
-
+    height: 19rem;
     box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.63), inset -1px -1px 1px rgba(253, 253, 253, 0.51); /* ombre intérieure */
 
 
@@ -607,6 +607,7 @@ body {
     padding: 0.5rem 3rem;
 }
 
+
 .buttonsSupprimer{
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
@@ -734,7 +735,7 @@ body {
     .vitamineCard{
 
         max-width: 50rem;
-
+        height: 20rem;
         margin: 1rem;
         z-index: 3;
     }
@@ -742,13 +743,13 @@ body {
         width: 100%;
     }
     .vitamineDescription{
-        width: 98%;
-        height: auto;
+        width: 100%;
+
         align-items: start;
 
         z-index: 4;
     }
-    .vitamineDescription h3{
+    .vitamineDescription h2{
         width: 100%;
         text-align: center;
 
@@ -907,7 +908,7 @@ body {
     .effects , .vitamineAliment{
         width: 80%;
         justify-content: start;
-        padding: 1rem;
+        padding: 0.5rem 1rem;
         font-size: medium;
 
     }
@@ -915,9 +916,20 @@ body {
         width: 90%;
         margin: 4rem;
     }
-    .fonctions{
-        font-size: 1rem;
+    .fonctions {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        overflow-y: auto; /* scroll vertical si besoin */
     }
+    .fonctions p {
+        padding: 0.5rem;
+        width: 250px;
+        text-align: left;
+        font-size: medium;
+    }
+
     .vitamineCardContainer2{
         margin-bottom: 5rem;
     }
