@@ -1,4 +1,4 @@
-version: "3.8"
+
 
 services:
   mysql:
@@ -12,6 +12,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - ./.init:/docker-entrypoint-initdb.d
+      - ./backups:/backups
     ports:
       - "3306:3306"   # exposé à l'hôte
 
