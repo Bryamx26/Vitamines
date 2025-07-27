@@ -13,6 +13,9 @@ services:
       - db-data:/var/lib/mysql
 
       - /home/bryam/Dockers/Vitamines/backup:/backups
+
+    restart: unless-stopped
+
     ports:
       - "3306:3306"   # exposé à l'hôte
 
