@@ -124,7 +124,7 @@ function VitaminesDetails() {
                 <div className="vitamineContainer">
                     <div className="vitamineCardContainer1">
                         <div className="vitamineCard vitamineDescription">
-                            <h3>Description</h3>
+                            <h2>Description</h2>
                            <p style={{ whiteSpace: "pre-wrap" }}>{vitamine.description}</p>
                         </div>
                         <div className="vitamineAlimentGContainer">
@@ -139,7 +139,7 @@ function VitaminesDetails() {
                     <div className="vitamineCardContainer2">
 
                         <div className="vitamineCard fonctions">
-                            <h3>fonctions de la vitamine {nom}</h3>
+                            <h4>fonctions de la vitamine {nom}</h4>
                             {fonctions.map((font, i) => (
 
                                 <p key={i}> <b>{font.nom}</b> {font.description}</p>
@@ -148,22 +148,23 @@ function VitaminesDetails() {
                         <div className="vitamineInfosContainer">
 
                             <div className="effects">
-                                <h3>Effects</h3>
-                                        <b>Consomation normale</b>
+                                <h2> <u>Effects</u>  </h2>
+
+                                        <b> <i>Apport adéquat </i></b>
                                         {effects
                                             .filter(effect => effect.type_effet === "avantage")
                                             .map((effect, index) => (
                                                 <p key={`avantage-${index}`}>{effect.description}</p>
                                             ))}
 
-                                        <b>Carences</b>
+                                        <b> <i>Déficience</i></b>
                                         {effects
                                             .filter(effect => effect.type_effet === "carence")
                                             .map((effect, index) => (
                                                 <p key={`carence-${index}`}>{effect.description}</p>
                                             ))}
 
-                                        <b>Excès</b>
+                                        <b><i>Surplus</i></b>
                                         {effects
                                             .filter(effect => effect.type_effet === "excès")
                                             .map((effect, index) => (
