@@ -40,5 +40,4 @@ services:
     ports:
       - "5173:80"   # expose port 80 du container en 3000 sur l'hôte
 
-volumes:
-  db-data:
+
