@@ -6,7 +6,7 @@ function AlimentsGallery({ nom }) {
     const [aliment, setAliment] = useState([]);
 
     useEffect(() => {
-        fetch(`${API_URL}/vitamines/${encodeURIComponent(nom)}/aliments`)
+        fetch(`${API_URL}/aliments/${encodeURIComponent(nom)}`)
             .then(res => {
                 if (!res.ok) throw new Error("Erreur serveur");
                 return res.json();

@@ -25,10 +25,11 @@ function VitaminesDetails() {
     useEffect(() => {
         const fetchVitamines = async () => {
             try {
-                const response = await fetch(`${API_URL}/vitamines/id/${id}`);
+                const response = await fetch(`${API_URL}/vitamines/${id}`);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const data = await response.json();
-                setVitamine(data);
+                setVitamine(data[0]);
+
             } catch (err) {
                 console.error("Erreur lors du fetch des vitamines:", err);
                 setError(err);
@@ -52,7 +53,7 @@ function VitaminesDetails() {
             }
         };
         fetchEffects();
-    }, [vitamine?.nom]);
+    }, [id]);
 
     useEffect(() => {
         const fetchFonctions = async () => {
@@ -74,7 +75,7 @@ function VitaminesDetails() {
     if (error) return <Error />;
     if (!vitamine) return <Loading />;
 
-    const nom = vitamine.nom.replace("Vitamine ", "");
+    const nom = vitamine?.nom?.replace("Vitamine ", "") || "";
 
 
 
@@ -115,7 +116,7 @@ function VitaminesDetails() {
 
                 <div className="vitamineTitle">
                     <p>{vitamine.nom}</p>
-                    {user && user.email === "airtoncesar098@gmail.com" ?<button className="buttons" onClick={Editer}>éditer</button> : null}
+                    {user && user.email === "Bryamrishing@gmail.com" ?<button className="buttons" onClick={Editer}>éditer</button> : <button className="buttons" onClick={Editer}>éditer</button> }
 
 
                 </div>
