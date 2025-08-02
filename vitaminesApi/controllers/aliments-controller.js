@@ -1,5 +1,7 @@
 const Aliments = require('../models/Aliments');
 
+
+
 async function getAllAliments(req, res) {
     try {
         const aliments = await Aliments.getAll();

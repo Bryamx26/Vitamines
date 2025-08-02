@@ -4,17 +4,20 @@ const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger.js');
 const PORT = process.env.PORT || 3000;
-
 const app = express();
 
 app.use(cors("*"));
+app.use(express.json());
 const vitaminesRoutes = require('./routes/vitamines-routes');
 const alimentRoutes = require('./routes/aliments-routes');
+const userRoutes = require('./routes/user-routes');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use(express.json());
+
 app.use('/api', vitaminesRoutes); // route complète = /api/vitamines
 app.use('/api',alimentRoutes ); // route complète = /api/aliments
+app.use('/api', userRoutes);
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
 
 app.listen(PORT, () => {

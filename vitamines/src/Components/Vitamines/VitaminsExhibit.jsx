@@ -52,6 +52,7 @@ const VitaminsExhibit = () => {
 
     if (loading) return <Loading />;
     if (error) return <Error />;
+    console.log(user)
 
     return (
         <div className="Vitamines">
