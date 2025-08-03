@@ -8,8 +8,13 @@ const app = express();
 
 app.use(cors(
     {
-      origin : "*"
+        origin: 'https://vitamines.bryamsilva.online',
+        credentials: true
     }));
+app.options('*', cors({
+    origin: 'https://vitamines.bryamsilva.online',
+    credentials: true
+}));
 app.use(express.json());
 const vitaminesRoutes = require('./routes/vitamines-routes');
 const alimentRoutes = require('./routes/aliments-routes');
