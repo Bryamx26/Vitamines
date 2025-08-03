@@ -238,7 +238,7 @@ router.put("/vitamines/:id", vitaminesController.updateVitamine);
 
 /**
  * @swagger
- * /vitamines/{id}:
+ * /api/vitamines/{id}:
  *   delete:
  *     summary: Supprimer une vitamine
  *     tags:
