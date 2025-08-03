@@ -1,4 +1,4 @@
-const Aliments = require('../models/Aliments');
+const Aliments = require('../models/aliments');
 
 
 
