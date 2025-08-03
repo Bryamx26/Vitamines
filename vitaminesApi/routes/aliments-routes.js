@@ -67,5 +67,5 @@ router.get("/aliments",authMiddleware, alimentsController.getAllAliments);
  *         description: Aliments non trouvés
  */
 
-router.get("/aliments/:nom",authMiddleware, alimentsController.getAliments);
+router.get("/aliments/:nom", alimentsController.getAliments);
 module.exports = router;

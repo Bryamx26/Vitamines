@@ -16,8 +16,9 @@ function Login() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const { showNotification } = useNotification();
-    const handleSuccess = () => {
-        showNotification("Connexion réussie", "success");
+    const handleSuccess = (nom) => {
+        showNotification(`Connexion réussie 
+ Bienvenue ${nom}`, "success");
     };
 
     const handleError = () => {
@@ -39,10 +40,11 @@ function Login() {
             const data = await response.json();
 
             if (response.ok) {
+                const nom = data.nom;
 
                 login(data); // On sauvegarde le token etc.
                 console.log(data);
-                handleSuccess();
+                handleSuccess(nom);
                 navigate("/");
             } else {
                 handleError();

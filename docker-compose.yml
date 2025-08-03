@@ -9,8 +9,8 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     volumes:
-      - vitamines_data:/var/lib/mysql         # ✅ Volume Docker nommé
-      - ./backup:/backups                     # ✅ Tu peux garder ton dossier local de sauvegarde
+      - vitamines_data:/var/lib/mysql
+      - ./backup:/backups
     restart: unless-stopped
     ports:
       - "3306:3306"

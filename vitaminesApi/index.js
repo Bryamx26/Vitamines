@@ -17,7 +17,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', vitaminesRoutes); // route complète = /api/vitamines
 app.use('/api',alimentRoutes ); // route complète = /api/aliments
 app.use('/api', userRoutes);
-console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
+
 
 
 app.listen(PORT, () => {

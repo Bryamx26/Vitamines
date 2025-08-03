@@ -1,22 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import {useAPI} from "../context/APIContext.jsx"
 
 function AlimentsGallery({ nom }) {
     const API_URL = useAPI();
     const [aliment, setAliment] = useState([]);
 
+
+
     useEffect(() => {
-        fetch(`${API_URL}/aliments/${encodeURIComponent(nom)}`)
-            .then(res => {
-                if (!res.ok) throw new Error("Erreur serveur");
-                return res.json();
+
+
+
+
+            fetch(`${API_URL}/aliments/${encodeURIComponent(nom)}`, {
+                method: 'GET',
+
+
             })
-            .then(data => {
-                setAliment(data);
-            })
-            .catch(err => {
-                console.error("Erreur lors du chargement :", err);
-            });
+                .then(res => {
+                    if (!res.ok) throw new Error("Erreur serveur");
+                    return res.json();
+                })
+                .then(data => {
+                    setAliment(data);
+                })
+                .catch(err => {
+                    console.error("Erreur lors du chargement :", err);
+                });
+
+
+
     }, [nom]);
 
     console.log(aliment);

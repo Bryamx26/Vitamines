@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const db = require("../db");
 
 
 async function verifyUser(req, res) {
@@ -27,8 +28,8 @@ async function verifyUser(req, res) {
             return res.status(401).json({ error: 'Utilisateur non trouvé ou mot de passe incorrect' });
         }
 
-        // On supprime le mot de passe avant de renvoyer la réponse
-        const { password: _, ...safeUser } = user;
+
+
 
         const token = jwt.sign(
             { id: user.id, email: user.email },
@@ -38,9 +39,11 @@ async function verifyUser(req, res) {
                 expiresIn: '6h',
             }
         );
-
+        user.token = token;
+        // On supprime le mot de passe avant de renvoyer la réponse
+        const { password: _, ...safeUser } = user;
         res.status(200).json(safeUser);
-        console.log(token);
+
 
     } catch (error) {
         console.error(error);
@@ -48,4 +51,41 @@ async function verifyUser(req, res) {
     }
 }
 
-module.exports = { verifyUser };
+async function createUser(req, res) {
+    const { nom, email, password } = req.body;
+
+    if (!nom || !email || !password) {
+        return res.status(400).json({ message: 'Nom, email et mot de passe requis' });
+    }
+
+    try {
+        const existing = await User.getByEmail(email);
+        if (existing.length > 0) {
+            return res.status(409).json({ message: 'Un compte avec cet email existe déjà' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const userData = {
+            nom,
+            email,
+            hashedPassword
+        };
+
+        const insertId = await User.postUser(userData);
+
+        res.status(201).json({
+            message: 'Utilisateur créé avec succès',
+            user: {
+                id: insertId,
+                nom,
+                email
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+}
+
+module.exports = { verifyUser, createUser };

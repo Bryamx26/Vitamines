@@ -19,8 +19,8 @@ function Register() {
     const navigate = useNavigate();
     const { showNotification } = useNotification();
 
-    const handleSuccess = () => {
-        showNotification("Enregistrement réussi", "success");
+    const handleSuccess = (nom) => {
+        showNotification(`Enregistrement réussi \n bienvenue ${nom}`, "success");
     };
 
     const handleError = () => {
@@ -34,7 +34,7 @@ function Register() {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/vitamines/users`, {
+            const response = await fetch(`${API_URL}/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -45,11 +45,12 @@ function Register() {
             const data = await response.json();
 
             if (response.ok) {
-                handleSuccess();
+
+                handleSuccess(nom);
                 login(data);
                 navigate("/");
             } else {
-                setError(data.error || "Erreur lors de l'inscription.");
+
                 handleError();
             }
         } catch (err) {
@@ -128,7 +129,7 @@ function Register() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
 
-                    {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
+
                     {
                         password !== "" &&
                         confirmPassword !== "" &&

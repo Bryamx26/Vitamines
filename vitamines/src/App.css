@@ -590,13 +590,7 @@ body {
     outline: none;
     font-size: 1rem;
 }
-a{
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
 
-
-}
 
 .buttons , #send{
     font-family: 'popyns', sans-serif;
@@ -977,6 +971,7 @@ a{
         );
 
     }
+
 
 }
 
