@@ -123,7 +123,7 @@ router.get("/vitamines/:id/fonctions", vitaminesController.getVitamineFonctions)
 
 /**
  * @swagger
- * /api/vitamines/ :
+ * /api/vitamines:
  *   post:
  *     summary: Créer une nouvelle vitamine
  *     tags:
