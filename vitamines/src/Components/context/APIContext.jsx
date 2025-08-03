@@ -18,7 +18,7 @@ export function APIProvider({ children }) {
             return "http://localhost:3000/api";
         } else {
             // Accès public (production)
-            return `https://api.bryamsilva.online`;
+            return `https://api.bryamsilva.online/api`;
         }
 
     };
