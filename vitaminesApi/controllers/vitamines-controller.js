@@ -1,4 +1,5 @@
 const Vitamines = require("../models/vitamines");
+const {invalidateCacheByKey} = require("../middlewares/cache-middleware");
 
 async function getVitamines(req, res) {
 
@@ -106,9 +107,13 @@ async function createVitamine(req, res) {
             fonctions
         };
 
+
+
         const result = await Vitamines.createVitamine(vitamineData);
 
         res.status(201).json({ message: 'Vitamine créée', id: result.id });
+
+        invalidateCacheByKey('/api/vitamines/');
     } catch (error) {
         console.error('Erreur lors de la création de la vitamine:', error);
         res.status(500).json({ message: 'Erreur lors de la création' });

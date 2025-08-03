@@ -1,5 +1,6 @@
 const db = require("../db");
 
+
 const Vitamines = {
     async getAll() {
         const [rows] = await db.query(`SELECT * FROM vitamines`);

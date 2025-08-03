@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../db");
+const {invalidateCacheByKey } = require('../middlewares/cache-middleware');
 
 
 async function verifyUser(req, res) {
@@ -73,6 +74,9 @@ async function createUser(req, res) {
         };
 
         const insertId = await User.postUser(userData);
+
+        invalidateCacheByKey('/api/register');
+
 
         res.status(201).json({
             message: 'Utilisateur créé avec succès',

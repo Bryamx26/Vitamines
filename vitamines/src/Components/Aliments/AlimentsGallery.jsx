@@ -14,8 +14,6 @@ function AlimentsGallery({ nom }) {
 
             fetch(`${API_URL}/aliments/${encodeURIComponent(nom)}`, {
                 method: 'GET',
-
-
             })
                 .then(res => {
                     if (!res.ok) throw new Error("Erreur serveur");
@@ -36,8 +34,8 @@ function AlimentsGallery({ nom }) {
 
     return (
         <div className="aliments-gallery">
-            {aliment.map((item, index) => (
-                <div className="bubble" key={index}>
+            {Array.isArray(aliment) && aliment.map((item,index) => (
+                <div className="bubble" key={item + index}>
 
 
                     <img className="AlimentImages"  src={`/images/alimentsImages/${item.aliment.toLowerCase()}.png`}
