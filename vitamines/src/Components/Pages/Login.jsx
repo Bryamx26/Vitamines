@@ -7,6 +7,7 @@ import { UserContext } from "/src/Components/context/UserContext.jsx"
 
 import {ThemeContext} from "../context/ThemeContext.jsx";
 
+
 function Login() {
     const API_URL = useAPI();
     const {isDark} = useContext(ThemeContext);
@@ -15,38 +16,42 @@ function Login() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const { showNotification } = useNotification();
-    const handleSuccess = () => {
-        showNotification("Connexion réussie", "success");
+    const handleSuccess = (nom) => {
+        showNotification(`Connexion réussie 
+ Bienvenue ${nom}`, "success");
     };
 
     const handleError = () => {
-        showNotification("Connexion échouée", "error");
+        showNotification( "Connexion échouée" , "error");
     };
 
     const handleSubmit = async (e) => {
-
-
         e.preventDefault();
 
         try {
-            const response = await fetch(
-                `${API_URL}/vitamines/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
-            );
+            const response = await fetch(`${API_URL}/auth`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password }) // On envoie dans le body
+            });
 
             const data = await response.json();
 
             if (response.ok) {
-                login(data)
-                console.log(data.nom)
-                handleSuccess()
+                const nom = data.nom;
 
+                login(data); // On sauvegarde le token etc.
+                console.log(data);
+                handleSuccess(nom);
                 navigate("/");
             } else {
-
                 handleError();
             }
         } catch (error) {
             console.error("Erreur de requête :", error);
+            handleError(error, "error");
             alert("Erreur réseau.");
         }
     };

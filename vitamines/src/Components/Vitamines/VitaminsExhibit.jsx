@@ -22,7 +22,7 @@ const VitaminsExhibit = () => {
         const fetchVitamines = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`${API_URL}/vitamines`);
+                const response = await fetch(`${API_URL}/vitamines/`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -30,6 +30,7 @@ const VitaminsExhibit = () => {
 
                 const data = await response.json();
                 setVitamines(data);
+                console.log(data)
             } catch (err) {
                 setError(true);
                 console.error('Erreur lors du fetch des vitamines:', err);
@@ -51,6 +52,7 @@ const VitaminsExhibit = () => {
 
     if (loading) return <Loading />;
     if (error) return <Error />;
+    console.log(user)
 
     return (
         <div className="Vitamines">

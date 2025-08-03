@@ -13,7 +13,7 @@ const swaggerDefinition = {
 
 const options = {
     swaggerDefinition,
-    apis:['./index.js'],
+    apis:['./routes/*'],
 
 }
 
