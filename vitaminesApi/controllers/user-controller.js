@@ -2,7 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../db");
-const {invalidateCacheByKey } = require('../middlewares/cache-middleware');
+const { invalidateCacheByKey } = require('../middlewares/cache-middleware');
 
 
 async function verifyUser(req, res) {

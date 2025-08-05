@@ -1,4 +1,5 @@
 const db = require("../db");
+const { clearAllCache } = require("../middlewares/cache-middleware");
 
 
 const Vitamines = {
@@ -7,20 +8,20 @@ const Vitamines = {
         return rows;
     },
 
-    async getVitamine(id){
-        const [rows] = await db.query(`SELECT * FROM vitamines WHERE id= ?` , [id]);
+    async getVitamine(id) {
+        const [rows] = await db.query(`SELECT * FROM vitamines WHERE id= ?`, [id]);
         return rows;
     },
 
-    async getEffects(id){
+    async getEffects(id) {
         const [rows] = await db.query(
             `SELECT id, type AS type_effet, description FROM effets WHERE vitamine_id = ?`,
             [id]);
         return rows;
 
     },
-    async getFonctions(id){
-        const [rows] = await db.query( `SELECT f.id, f.nom, f.description FROM fonctions f JOIN vitamine_fonction vf ON f.id = vf.fonction_id WHERE vf.vitamine_id = ?`,
+    async getFonctions(id) {
+        const [rows] = await db.query(`SELECT f.id, f.nom, f.description FROM fonctions f JOIN vitamine_fonction vf ON f.id = vf.fonction_id WHERE vf.vitamine_id = ?`,
             [id]);
         return rows;
     },
@@ -30,39 +31,58 @@ const Vitamines = {
         try {
             await connection.beginTransaction();
 
-
+            // Mise à jour des infos générales de la vitamine
             await connection.query(
                 'UPDATE vitamines SET nom = ?, description = ?, couleur = ?, nom_scientifique = ? WHERE id = ?',
                 [nom, description, couleur, nom_scientifique, id]
             );
 
-
+            // Suppression des anciens effets et liens fonctions
             await connection.query('DELETE FROM effets WHERE vitamine_id = ?', [id]);
             await connection.query('DELETE FROM vitamine_fonction WHERE vitamine_id = ?', [id]);
 
+            // Insertion des nouveaux effets (si existants)
             if (Array.isArray(effets) && effets.length > 0) {
-                const effData = effets.map(e => [id, e.type, e.description]);
-                await connection.query('INSERT INTO effets (vitamine_id, type, description) VALUES ?', [effData]);
+                const placeholders = effets.map(() => '(?, ?, ?)').join(', ');
+                const values = effets.flatMap(e => [id, e.type, e.description]);
+
+                await connection.query(
+                    `INSERT INTO effets (vitamine_id, type, description) VALUES ${placeholders}`,
+                    values
+                );
             }
 
+            // Gestion des fonctions
             if (Array.isArray(fonctions) && fonctions.length > 0) {
                 const funcIds = [];
                 for (const f of fonctions) {
+                    // Recherche fonction par nom
                     const [rows] = await connection.query('SELECT id FROM fonctions WHERE nom = ?', [f.nom]);
                     let fid;
                     if (rows.length === 0) {
-                        const [result] = await connection.query('INSERT INTO fonctions (nom, description) VALUES (?, ?)', [f.nom, f.description]);
+                        // Insère nouvelle fonction
+                        const [result] = await connection.query(
+                            'INSERT INTO fonctions (nom, description) VALUES (?, ?)',
+                            [f.nom, f.description]
+                        );
                         fid = result.insertId;
                     } else {
                         fid = rows[0].id;
+                        // Met à jour la description si la fonction existe déjà
+                        await connection.query(
+                            'UPDATE fonctions SET description = ? WHERE id = ?',
+                            [f.description, fid]
+                        );
                     }
                     funcIds.push(fid);
                 }
+                // Lie la vitamine aux fonctions
                 const link = funcIds.map(fid => [id, fid]);
                 await connection.query('INSERT INTO vitamine_fonction (vitamine_id, fonction_id) VALUES ?', [link]);
             }
 
             await connection.commit();
+
             return { success: true };
         } catch (error) {
             await connection.rollback();

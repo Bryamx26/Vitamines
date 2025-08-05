@@ -30,7 +30,7 @@ const alimentsController = require("../controllers/aliments-controller");
  *
  */
 
-router.get("/aliments",authMiddleware, alimentsController.getAllAliments);
+router.get("/aliments", alimentsController.getAllAliments);
 
 
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../Layouts/Header.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
@@ -16,18 +16,30 @@ export default function VitamineEditor() {
         couleur: "#5e80c8",
         nom_scientifique: ""
     });
+
     const [effets, setEffets] = useState([]);
     const [fonctions, setFonctions] = useState([]);
 
+    // Refs pour garder toujours la dernière valeur au submit (évite closure stale)
+    const effetsRef = useRef(effets);
+    const fonctionsRef = useRef(fonctions);
+
+    useEffect(() => {
+        effetsRef.current = effets;
+    }, [effets]);
+
+    useEffect(() => {
+        fonctionsRef.current = fonctions;
+    }, [fonctions]);
+
+    // Fetch données initiales
     useEffect(() => {
         async function fetchData() {
             try {
-                // Récupérer vitamine
+                // Vitamine
                 const vitRes = await fetch(`${API_URL}/vitamines/${id}`);
                 if (!vitRes.ok) throw new Error("Erreur récupération vitamine");
                 const vitData = await vitRes.json();
-
-                // vitData est un tableau ? On prend le premier élément si oui, sinon l'objet direct
                 const vitObj = Array.isArray(vitData) ? vitData[0] : vitData;
 
                 setVitamine({
@@ -37,12 +49,11 @@ export default function VitamineEditor() {
                     nom_scientifique: vitObj?.nom_scientifique || ""
                 });
 
-                // Récupérer effets
+                // Effets
                 const effRes = await fetch(`${API_URL}/vitamines/${id}/effects`);
                 if (!effRes.ok) throw new Error("Erreur récupération effets");
                 const effData = await effRes.json();
 
-                // effData est un tableau d'objets effets
                 setEffets(
                     Array.isArray(effData)
                         ? effData.map((e) => ({
@@ -53,7 +64,7 @@ export default function VitamineEditor() {
                         : []
                 );
 
-                // Récupérer fonctions
+                // Fonctions
                 const fnRes = await fetch(`${API_URL}/vitamines/${id}/fonctions`);
                 if (!fnRes.ok) throw new Error("Erreur récupération fonctions");
                 const fnData = await fnRes.json();
@@ -72,45 +83,47 @@ export default function VitamineEditor() {
                 alert("Impossible de charger la vitamine");
             }
         }
-
         fetchData();
     }, [API_URL, id]);
 
-    // Handlers
+    // Handlers simples pour inputs
     const handleVitamineChange = ({ target: { name, value } }) => {
         setVitamine((v) => ({ ...v, [name]: value }));
     };
 
     const handleEffetChange = (index, field, value) => {
-        const newEffets = [...effets];
-        newEffets[index] = { ...newEffets[index], [field]: value };
-        setEffets(newEffets);
+        setEffets((prev) =>
+            prev.map((e, i) => (i === index ? { ...e, [field]: value } : e))
+        );
     };
 
     const handleFonctionChange = (index, field, value) => {
-        const newFonctions = [...fonctions];
-        newFonctions[index] = { ...newFonctions[index], [field]: value };
-        setFonctions(newFonctions);
+        setFonctions((prev) =>
+            prev.map((f, i) => (i === index ? { ...f, [field]: value } : f))
+        );
     };
 
-    const addEffet = () =>
-        setEffets([...effets, { type: "avantage", description: "" }]);
+    const addEffet = () => setEffets((prev) => [...prev, { type: "avantage", description: "" }]);
+    const removeEffet = (index) => setEffets((prev) => prev.filter((_, i) => i !== index));
 
-    const removeEffet = (index) => setEffets(effets.filter((_, i) => i !== index));
+    const addFonction = () => setFonctions((prev) => [...prev, { nom: "", description: "" }]);
+    const removeFonction = (index) => setFonctions((prev) => prev.filter((_, i) => i !== index));
 
-    const addFonction = () => setFonctions([...fonctions, { nom: "", description: "" }]);
-
-    const removeFonction = (index) =>
-        setFonctions(fonctions.filter((_, i) => i !== index));
-
-    // Soumission mise à jour
+    // Submit avec valeurs actuelles via refs
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const payload = {
+            ...vitamine,
+            effets: effetsRef.current,
+            fonctions: fonctionsRef.current
+        };
+        console.log("Payload envoyé:", payload);
+
         try {
             const res = await fetch(`${API_URL}/vitamines/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...vitamine, effets, fonctions })
+                body: JSON.stringify(payload)
             });
             if (!res.ok) throw new Error();
             alert("Vitamine mise à jour !");
@@ -120,7 +133,6 @@ export default function VitamineEditor() {
         }
     };
 
-    // Suppression
     const handleDelete = async () => {
         if (!window.confirm("Confirmer suppression ?")) return;
         try {
@@ -132,7 +144,6 @@ export default function VitamineEditor() {
             alert("Erreur suppression");
         }
     };
-
     return (
         <>
             <Header />

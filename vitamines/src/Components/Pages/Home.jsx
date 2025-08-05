@@ -1,17 +1,17 @@
 import Header from "../Layouts/Header.jsx";
 import VitaminsExhibit from "../Vitamines/VitaminsExhibit.jsx";
-import {ThemeContext} from "../context/ThemeContext.jsx";
-import {useContext} from "react";
+import { ThemeContext } from "../context/ThemeContext.jsx";
+import { useContext } from "react";
 
 
 
-function Home(){
-    const {isDark} = useContext(ThemeContext);
+function Home() {
+    const { isDark } = useContext(ThemeContext);
 
     return (
         <>
             <Header />
-            <main id="MainPage"  style = {{ backgroundColor: isDark ? "black": "#8865e6" , transition: "all 0.5s ease-in" }}>
+            <main id="MainPage" style={{ backgroundColor: isDark ? "black" : "#8865e6", transition: "all 0.5s ease-in" }}>
                 {isDark ? (
                     <>
                         <div className="vitamineTitleBacground" ></div>
@@ -19,13 +19,13 @@ function Home(){
 
                     </>
 
-                ):null}
+                ) : null}
 
 
                 <div className="Title">
                     <p>Vitamines</p>
                 </div>
-                <VitaminsExhibit/>
+                <VitaminsExhibit />
             </main>
         </>
     )

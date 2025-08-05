@@ -5,7 +5,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger.js');
 const PORT = process.env.PORT || 3000;
 const app = express();
-const {cacheMiddleware } = require('./middlewares/cache-middleware');
+const { cacheMiddleware } = require('./middlewares/cache-middleware');
 
 app.use(cors("*"));
 app.use(express.json());
@@ -17,7 +17,7 @@ const userRoutes = require('./routes/user-routes');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api', vitaminesRoutes); // route complète = /api/vitamines
-app.use('/api',alimentRoutes ); // route complète = /api/aliments
+app.use('/api', alimentRoutes); // route complète = /api/aliments
 app.use('/api', userRoutes);
 
 

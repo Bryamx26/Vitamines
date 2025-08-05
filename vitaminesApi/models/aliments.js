@@ -1,13 +1,13 @@
 const db = require('../db');
 
-const  Aliments = {
+const Aliments = {
 
     async getAll() {
 
         const [rows] = await db.query('SELECT * FROM aliments');
         return rows;
     },
-    async getAliments(nom){
+    async getAlimentsByVitamineName(nom) {
         const [rows] = await db.query(`
 SELECT a.nom AS aliment, v.nom AS vitamine 
 FROM vitamines v 

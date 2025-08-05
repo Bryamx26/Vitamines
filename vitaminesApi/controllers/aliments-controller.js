@@ -16,15 +16,16 @@ async function getAllAliments(req, res) {
 async function getAliments(req, res) {
     const nom = req.params.nom;
     try {
-        const aliments = await Aliments.getAliments(nom);
+        const aliments = await Aliments.getAlimentsByVitamineName(nom);
         if (!aliments || aliments.length === 0) {
-            return res.status(404).json({error: 'No aliments found'});
+            return res.status(404).json({ error: 'No aliments found' });
         }
         res.json(aliments);
+
     }
     catch (error) {
         console.error(error);
     }
 }
 
-module.exports = {getAllAliments, getAliments};
+module.exports = { getAllAliments, getAliments };

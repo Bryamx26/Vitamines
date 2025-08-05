@@ -5,7 +5,7 @@ import { useAPI } from "../context/APIContext.jsx";
 import { UserContext } from "../context/UserContext.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 
-import {useNotification} from "../context/NotificationContext.jsx";
+import { useNotification } from "../context/NotificationContext.jsx";
 function Register() {
     const API_URL = useAPI();
     const { isDark } = useContext(ThemeContext);
@@ -15,7 +15,7 @@ function Register() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+
     const navigate = useNavigate();
     const { showNotification } = useNotification();
 
@@ -31,7 +31,7 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        setError(null);
+
 
         try {
             const response = await fetch(`${API_URL}/register`, {
@@ -55,7 +55,7 @@ function Register() {
             }
         } catch (err) {
             console.error("Erreur réseau :", err);
-            setError("Erreur réseau. Vérifie ta connexion.");
+
         } finally {
             setIsLoading(false);
         }

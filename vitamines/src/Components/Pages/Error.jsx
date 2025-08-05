@@ -6,9 +6,9 @@ function Error() {
 
     return (
 
-        <div style= {{backgroundColor : "rgba(255,0,0,0.29)" , borderRadius : "30px"  , padding : "10px" ,marginTop : "50px" }  } >
+        <div style={{ backgroundColor: "rgba(255,0,0,0.29)", borderRadius: "30px", padding: "10px", marginTop: "50px" }} >
 
-        <p style={{color :'#000000' }}>Une erreur est survenue ...</p>
+            <p style={{ color: '#000000' }}>Une erreur est survenue ...</p>
         </div>
     )
 }

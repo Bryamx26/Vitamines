@@ -5,8 +5,8 @@ import VitamineCard from "./VitamineCard.jsx";
 import SearchInput from "../Inputs/SearchInput.jsx";
 import { useContext } from "react";
 import { UserContext } from "/src/Components/context/UserContext.jsx";
-import {useNavigate} from "react-router-dom";
-import {useAPI} from "../context/APIContext.jsx";
+import { useNavigate } from "react-router-dom";
+import { useAPI } from "../context/APIContext.jsx";
 
 const VitaminsExhibit = () => {
     const API_URL = useAPI();
@@ -60,18 +60,18 @@ const VitaminsExhibit = () => {
             <div className="vitaminesGallery">
 
                 {user && user.email === "airtoncesar098@gmail.com" ?
-                    <div className="card" onClick={function (){
+                    <div className="card" onClick={function () {
                         navigate("/VitamineCreator")
 
 
                     }}>
 
-                       <b className={"vitamineName"}>+</b>
+                        <b className={"vitamineName"}>+</b>
 
                         <p id={"description"} className="invisible">
-                           Crée ta vitamine
+                            Crée ta vitamine
                         </p>
-                    </div>: null}
+                    </div> : null}
 
                 {filteredVitamines.map((vitamine) => (
                     <VitamineCard

@@ -1,5 +1,5 @@
 const Vitamines = require("../models/vitamines");
-const {invalidateCacheByKey} = require("../middlewares/cache-middleware");
+const { invalidateCacheByKey, clearAllCache } = require("../middlewares/cache-middleware");
 
 async function getVitamines(req, res) {
 
@@ -9,7 +9,7 @@ async function getVitamines(req, res) {
         res.status(200).json(vitamines);
     }
     catch (error) {
-        res.status(500).send({error: error.message});
+        res.status(500).send({ error: error.message });
     }
 }
 
@@ -17,13 +17,13 @@ async function getVitamine(req, res) {
     const id = parseInt(req.params.id);
     try {
         const vitamine = await Vitamines.getVitamine(id);
-        if (!vitamine || vitamine.length === 0)  {
-            res.status(404).send({error :"Vitamine non trouvée"});
+        if (!vitamine || vitamine.length === 0) {
+            res.status(404).send({ error: "Vitamine non trouvée" });
         }
         res.status(200).json(vitamine);
     }
     catch (error) {
-        res.status(500).send({error: error.message});
+        res.status(500).send({ error: error.message });
     }
 
 }
@@ -58,7 +58,7 @@ async function getVitamineFonctions(req, res) {
         res.status(200).json(fonctions);
     }
     catch (error) {
-        res.status(500).send({error: error.message});
+        res.status(500).send({ error: error.message });
     }
 }
 
@@ -145,7 +145,16 @@ async function updateVitamine(req, res) {
 
         await Vitamines.updateVitamine(id, vitamineData);
 
-        res.json({ message: 'Modifié' });
+        // Invalider les caches spécifiques
+        invalidateCacheByKey(`/api/vitamines/${id}`);
+        invalidateCacheByKey(`/api/vitamines/${id}/fonctions`);
+        invalidateCacheByKey('/api/vitamines/');
+        invalidateCacheByKey(`/api/vitamines/${id}/effects`);
+
+        // Renvoyer les données mises à jour directement
+        const updatedVitamine = await Vitamines.getVitamine(id);
+        res.json(updatedVitamine[0]);
+
     } catch (error) {
         console.error('Erreur lors de la mise à jour de la vitamine:', error);
         res.status(500).json({ message: 'Erreur mise à jour' });
@@ -162,7 +171,14 @@ async function deleteVitamine(req, res) {
 
         await Vitamines.deleteVitamine(id);
 
+        // Invalider les caches spécifiques
+        invalidateCacheByKey(`/api/vitamines/${id}`);
+        invalidateCacheByKey(`/api/vitamines/${id}/effets`);
+        invalidateCacheByKey(`/api/vitamines/${id}/fonctions`);
+        invalidateCacheByKey('/api/vitamines/');
+
         res.json({ message: 'Vitamine supprimée' });
+
     } catch (error) {
         console.error('Erreur lors de la suppression de la vitamine:', error);
         res.status(500).json({ message: 'Erreur lors de la suppression' });
@@ -173,4 +189,4 @@ async function deleteVitamine(req, res) {
 
 
 
-module.exports = {getVitamines, getVitamine,getVitamineEffects, getVitamineFonctions, getVitamineComplete, createVitamine, updateVitamine, deleteVitamine, };
+module.exports = { getVitamines, getVitamine, getVitamineEffects, getVitamineFonctions, getVitamineComplete, createVitamine, updateVitamine, deleteVitamine, };

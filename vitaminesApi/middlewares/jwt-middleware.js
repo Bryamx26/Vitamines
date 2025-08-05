@@ -15,7 +15,7 @@ function authMiddleware(req, res, next) {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_PUBLIC.replace(/\\n/g, '\n'),{ algorithms: ['RS256'] });
+        const decoded = jwt.verify(token, process.env.JWT_PUBLIC.replace(/\\n/g, '\n'), { algorithms: ['RS256'] });
         req.user = decoded; // On stocke les infos du token dans req.user
         next(); // Token OK ➜ on continue vers la route suivante
     } catch (error) {

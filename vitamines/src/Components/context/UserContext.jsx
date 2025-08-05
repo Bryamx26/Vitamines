@@ -10,7 +10,7 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
-            setUser(storedUser); // ✅ Corrigé ici
+            setUser(JSON.parse(storedUser)); // ✅ Corrigé ici
         }
     }, []);
 

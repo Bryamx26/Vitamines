@@ -1,66 +1,66 @@
-import React, {useContext} from 'react';
-import {ThemeContext} from "../context/ThemeContext.jsx";
+import React, { useContext } from 'react';
+import { ThemeContext } from "../context/ThemeContext.jsx";
 
-const Loading= () => {
+const Loading = () => {
 
-    const {isDark} = useContext(ThemeContext);
+    const { isDark } = useContext(ThemeContext);
     return (
 
         <div style={{
-                backgroundColor: isDark ? "#000000" : "rgba(136,101,230,0)",
+            backgroundColor: isDark ? "#000000" : "rgba(136,101,230,0)",
             width: "100%",
             height: "100vh",
-            }}>
-        <div style={styles.container }>
-            {isDark && (
-                <>
+        }}>
+            <div style={styles.container}>
+                {isDark && (
+                    <>
+                        <div
+                            className="vitamineTitleBacground"
+                            style={{ position: "fixed", zIndex: 0 }}
+                        ></div>
+                        <div
+                            className="vitamineTitleBacground2"
+                            style={{ position: "fixed", zIndex: 0 }}
+                        ></div>
+                    </>
+                )}
+
+                <div style={styles.spinnerContainer}>
+                    {/* Boule 1 */}
                     <div
-                        className="vitamineTitleBacground"
-                        style={{ position: "fixed", zIndex: 0 }}
-                    ></div>
+                        className="ball-1"
+                        style={{
+                            ...styles.ball,
+                            backgroundColor: '#93C5FD'
+                        }}
+                    />
+
+                    {/* Boule 2 */}
                     <div
-                        className="vitamineTitleBacground2"
-                        style={{ position: "fixed", zIndex: 0 }}
-                    ></div>
-                </>
-            )}
+                        className="ball-2"
+                        style={{
+                            ...styles.ball,
+                            backgroundColor: '#86EFAC'
+                        }}
+                    />
 
-            <div style={styles.spinnerContainer}>
-                {/* Boule 1 */}
-                <div
-                    className="ball-1"
-                    style={{
-                        ...styles.ball,
-                        backgroundColor: '#93C5FD'
-                    }}
-                />
+                    {/* Boule 3 */}
+                    <div
+                        className="ball-3"
+                        style={{
+                            ...styles.ball,
+                            backgroundColor: '#F9A8D4'
+                        }}
+                    />
+                </div>
 
-                {/* Boule 2 */}
-                <div
-                    className="ball-2"
-                    style={{
-                        ...styles.ball,
-                        backgroundColor: '#86EFAC'
-                    }}
-                />
+                {/* Texte de chargement */}
+                <div style={styles.textContainer}>
+                    <p style={styles.text}>Chargement...</p>
+                </div>
 
-                {/* Boule 3 */}
-                <div
-                    className="ball-3"
-                    style={{
-                        ...styles.ball,
-                        backgroundColor: '#F9A8D4'
-                    }}
-                />
-            </div>
-
-            {/* Texte de chargement */}
-            <div style={styles.textContainer}>
-                <p style={styles.text}>Chargement...</p>
-            </div>
-
-            {/* Styles CSS pour l'animation */}
-            <style>{`
+                {/* Styles CSS pour l'animation */}
+                <style>{`
         @keyframes spin {
           0% {
             transform: rotate(0deg);
@@ -84,7 +84,7 @@ const Loading= () => {
           animation-delay: -0.8s;
         }
       `}</style>
-        </div>
+            </div>
         </div>
     );
 };

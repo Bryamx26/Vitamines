@@ -1,5 +1,5 @@
-import { useEffect, useState} from "react";
-import {useAPI} from "../context/APIContext.jsx"
+import { useEffect, useState } from "react";
+import { useAPI } from "../context/APIContext.jsx"
 
 function AlimentsGallery({ nom }) {
     const API_URL = useAPI();
@@ -12,19 +12,19 @@ function AlimentsGallery({ nom }) {
 
 
 
-            fetch(`${API_URL}/aliments/${encodeURIComponent(nom)}`, {
-                method: 'GET',
+        fetch(`${API_URL}/aliments/${encodeURIComponent(nom)}`, {
+            method: 'GET',
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Erreur serveur");
+                return res.json();
             })
-                .then(res => {
-                    if (!res.ok) throw new Error("Erreur serveur");
-                    return res.json();
-                })
-                .then(data => {
-                    setAliment(data);
-                })
-                .catch(err => {
-                    console.error("Erreur lors du chargement :", err);
-                });
+            .then(data => {
+                setAliment(data);
+            })
+            .catch(err => {
+                console.error("Erreur lors du chargement :", err);
+            });
 
 
 
@@ -34,12 +34,12 @@ function AlimentsGallery({ nom }) {
 
     return (
         <div className="aliments-gallery">
-            {Array.isArray(aliment) && aliment.map((item,index) => (
-                <div className="bubble" key={item + index}>
+            {Array.isArray(aliment) && aliment.map((item, index) => (
+                <div className="bubble" key={item.id + index}>
 
 
-                    <img className="AlimentImages"  src={`/images/alimentsImages/${item.aliment.toLowerCase()}.png`}
-                           alt={item.aliment}  />
+                    <img className="AlimentImages" src={`/images/alimentsImages/${item.aliment.toLowerCase()}.png`}
+                        alt={item.aliment} />
                 </div>
             ))}
         </div>
