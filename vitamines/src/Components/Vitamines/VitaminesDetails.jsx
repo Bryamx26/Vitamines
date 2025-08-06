@@ -49,9 +49,13 @@ function VitaminesDetails() {
                 const data = await response.json();
                 setEffects(data);
 
+                setEffects(Array.isArray(data) ? data : []);
+
+
             } catch (err) {
                 console.error("Erreur lors du fetch des effets:", err);
-                setError(err);
+
+
             }
         };
         fetchEffects();

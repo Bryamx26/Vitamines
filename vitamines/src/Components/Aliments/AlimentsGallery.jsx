@@ -21,6 +21,7 @@ function AlimentsGallery({ nom }) {
             })
             .then(data => {
                 setAliment(data);
+
             })
             .catch(err => {
                 console.error("Erreur lors du chargement :", err);
