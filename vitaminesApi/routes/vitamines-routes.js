@@ -5,6 +5,7 @@ const router = express.Router();
 //importation du controlleur
 
 const vitaminesController = require('../controllers/vitamines-controller');
+const {cacheMiddleware} = require("../middlewares/cache-middleware");
 
 
 
@@ -172,7 +173,7 @@ router.get("/vitamines/:id/fonctions", vitaminesController.getVitamineFonctions)
  *       400:
  *         description: Champs requis manquants
  */
-router.post("/vitamines", vitaminesController.createVitamine);
+router.post("/vitamines",cacheMiddleware(21600), vitaminesController.createVitamine);
 
 
 /**
@@ -233,7 +234,7 @@ router.post("/vitamines", vitaminesController.createVitamine);
  *         description: Erreur mise à jour
  */
 
-router.put("/vitamines/:id", vitaminesController.updateVitamine);
+router.put("/vitamines/:id", cacheMiddleware(21600),vitaminesController.updateVitamine);
 
 
 /**
@@ -256,7 +257,7 @@ router.put("/vitamines/:id", vitaminesController.updateVitamine);
  *         description: Vitamine non trouvée
  */
 
-router.delete("/vitamines/:id", vitaminesController.deleteVitamine);
+router.delete("/vitamines/:id",cacheMiddleware(21600), vitaminesController.deleteVitamine);
 
 
 

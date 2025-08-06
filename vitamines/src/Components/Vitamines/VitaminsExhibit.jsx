@@ -59,7 +59,7 @@ const VitaminsExhibit = () => {
             <SearchInput value={search} onChange={handleSearchChange} />
             <div className="vitaminesGallery">
 
-                {user && user.email === "airtoncesar098@gmail.com" ?
+                {user && user.role === "admin" ?
                     <div className="card" onClick={function () {
                         navigate("/VitamineCreator")
 

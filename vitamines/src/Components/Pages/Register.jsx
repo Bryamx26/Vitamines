@@ -117,13 +117,13 @@ function Register() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <label className={"text"} htmlFor="password">Confirm password</label>
+                    <label className={"text"} htmlFor="password-check">Confirm password</label>
                     <input
                         className="input"
                         autoComplete="off"
                         type="password"
                         name="password"
-                        id="password"
+                        id="password-check"
                         required
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}

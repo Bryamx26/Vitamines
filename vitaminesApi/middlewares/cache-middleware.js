@@ -4,7 +4,6 @@ function cacheMiddleware(ttlInSeconds) {
     return (req, res, next) => {
         const key = req.originalUrl;
 
-        // Ne pas utiliser le cache pour POST/PUT/DELETE
         if (req.method !== 'GET') {
             return next();
         }
@@ -14,19 +13,21 @@ function cacheMiddleware(ttlInSeconds) {
 
         if (cachedItem && (now - cachedItem.timestamp) < ttlInSeconds * 1000) {
             console.log(`Cache HIT: ${key}`);
+            res.status(cachedItem.statusCode);
             return res.json(cachedItem.data);
         }
 
         console.log(`Cache MISS: ${key}`);
 
-        // Intercepter la réponse pour la mettre en cache
-        const originalJson = res.json;
+        const originalJson = res.json.bind(res);
         res.json = (body) => {
             cache[key] = {
                 data: body,
+                statusCode: res.statusCode,
                 timestamp: Date.now()
             };
-            originalJson.call(res, body);
+            console.log(`Réponse mise en cache: ${key} avec status ${res.statusCode}`);
+            return originalJson(body);
         };
 
         next();
@@ -36,13 +37,20 @@ function cacheMiddleware(ttlInSeconds) {
 function invalidateCacheByKey(key) {
     if (cache[key]) {
         delete cache[key];
-        console.log("Cache invalidé pour :", key);
+        console.log(`Cache invalidé pour : ${key}`);
+    } else {
+        console.log(`Aucun cache à invalider pour : ${key}`);
     }
 }
 
 function clearAllCache() {
-    Object.keys(cache).forEach(key => delete cache[key]);
-    console.log("Cache vidé entièrement");
+    const cacheKeys = Object.keys(cache);
+    if (cacheKeys.length > 0) {
+        cacheKeys.forEach(key => delete cache[key]);
+        console.log("Cache vidé entièrement");
+    } else {
+        console.log("Le cache est déjà vide");
+    }
 }
 
 module.exports = { cacheMiddleware, invalidateCacheByKey, clearAllCache };
