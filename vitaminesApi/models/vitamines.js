@@ -26,15 +26,15 @@ const Vitamines = {
         return rows;
     },
     // Nouvelle méthode pour mettre à jour une vitamine
-    async updateVitamine(id, { nom, description, couleur, nom_scientifique, effets, fonctions }) {
+    async updateVitamine(id, { nom, description, couleur, nom_scientifique,gramage, effets, fonctions }) {
         const connection = await db.getConnection();
         try {
             await connection.beginTransaction();
 
             // Mise à jour des infos générales de la vitamine
             await connection.query(
-                'UPDATE vitamines SET nom = ?, description = ?, couleur = ?, nom_scientifique = ? WHERE id = ?',
-                [nom, description, couleur, nom_scientifique, id]
+                'UPDATE vitamines SET nom = ?, description = ?, couleur = ?, nom_scientifique = ?,gramage = ? WHERE id = ?',
+                [nom, description, couleur, nom_scientifique,gramage, id]
             );
 
             // Suppression des anciens effets et liens fonctions
@@ -98,12 +98,12 @@ const Vitamines = {
         try {
             await connection.beginTransaction();
 
-            const { nom, description, couleur, nom_scientifique, effets, fonctions } = vitamineData;
+            const { nom, description, couleur, nom_scientifique,gramage, effets, fonctions } = vitamineData;
 
 
             const [result] = await connection.query(
-                'INSERT INTO vitamines (nom, description, couleur, nom_scientifique) VALUES (?, ?, ?, ?)',
-                [nom, description, couleur, nom_scientifique]
+                'INSERT INTO vitamines (nom, description, couleur, nom_scientifique,gramage) VALUES (?, ?, ?, ?,?)',
+                [nom, description, couleur, nom_scientifique , gramage]
             );
 
             const vitamineId = result.insertId;

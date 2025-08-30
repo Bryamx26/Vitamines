@@ -46,23 +46,30 @@ export default function VitamineEditor() {
                     nom: vitObj?.nom || "",
                     description: vitObj?.description || "",
                     couleur: vitObj?.couleur || "#5e80c8",
-                    nom_scientifique: vitObj?.nom_scientifique || ""
+                    nom_scientifique: vitObj?.nom_scientifique || "",
+                    gramage : vitObj?.gramage || 0,
                 });
 
                 // Effets
                 const effRes = await fetch(`${API_URL}/vitamines/${id}/effects`);
-                if (!effRes.ok) throw new Error("Erreur récupération effets");
-                const effData = await effRes.json();
 
-                setEffets(
-                    Array.isArray(effData)
-                        ? effData.map((e) => ({
-                            id: e.id,
-                            type: e.type_effet || "avantage",
-                            description: e.description || ""
-                        }))
-                        : []
-                );
+                if (effRes.ok) {
+                    const effData = await effRes.json();
+                    setEffets(
+                        Array.isArray(effData)
+                            ? effData.map((e) => ({
+                                id: e.id,
+                                type: e.type_effet || "avantage",
+                                description: e.description || ""
+                            }))
+                            : []
+                    );
+                } else if (effRes.status === 404) {
+                    // Aucun effet → liste vide
+                    setEffets([]);
+                } else {
+                    throw new Error("Erreur récupération effets");
+                }
 
                 // Fonctions
                 const fnRes = await fetch(`${API_URL}/vitamines/${id}/fonctions`);
@@ -102,6 +109,12 @@ export default function VitamineEditor() {
             prev.map((f, i) => (i === index ? { ...f, [field]: value } : f))
         );
     };
+    const handleGramageChange = ( e ) =>{
+        setVitamine((prev)=>({
+            ...prev,
+                gramage : e.target.value
+        }))
+    }
 
     const addEffet = () => setEffets((prev) => [...prev, { type: "avantage", description: "" }]);
     const removeEffet = (index) => setEffets((prev) => prev.filter((_, i) => i !== index));
@@ -208,7 +221,14 @@ export default function VitamineEditor() {
 
                         <div className="vitamineAlimentGContainer">
                             <div className="vitamineQuantity">
+
                                 <div className="vitamineColorInput">
+                                    <label className={"upload-file-input"} htmlFor={"gramage"}>
+                                        Gramage : {vitamine.gramage ?? ""}
+                                    </label>
+                                    <pre>
+                                        <input className={"upload-file-input"} id={"gramage"} type={"number"} onChange={handleGramageChange} value={vitamine.gramage ?? ""} />
+                                    </pre>
                                     <span className="input">Choisir une couleur </span>
                                     <label className="color-picker">
                                         <div

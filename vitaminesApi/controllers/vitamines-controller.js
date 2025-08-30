@@ -92,7 +92,7 @@ async function getVitamineComplete(req, res) {
 
 async function createVitamine(req, res) {
     try {
-        const { nom, description, couleur, nom_scientifique, effets, fonctions } = req.body;
+        const { nom, description, couleur, nom_scientifique, effets, fonctions , gramage} = req.body;
 
         if (!nom || !description) {
             return res.status(400).json({ message: 'Nom et description sont requis' });
@@ -103,8 +103,10 @@ async function createVitamine(req, res) {
             description,
             couleur,
             nom_scientifique,
+            gramage,
             effets,
             fonctions
+
         };
 
 
@@ -128,7 +130,7 @@ async function updateVitamine(req, res) {
             return res.status(400).send({ error: "ID invalide" });
         }
 
-        const { nom, description, couleur, nom_scientifique, effets, fonctions } = req.body;
+        const { nom, description, couleur, nom_scientifique,gramage, effets, fonctions } = req.body;
 
         if (!nom || !description) {
             return res.status(400).json({ message: 'Nom et description sont requis' });
@@ -139,6 +141,7 @@ async function updateVitamine(req, res) {
             description,
             couleur,
             nom_scientifique,
+            gramage,
             effets,
             fonctions
         };

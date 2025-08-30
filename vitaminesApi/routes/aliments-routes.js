@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require("../middlewares/jwt-middleware");
 const alimentsController = require("../controllers/aliments-controller");
+const upload = require("../middlewares/uploadMiddleware");
 
 
 /**
@@ -68,4 +69,10 @@ router.get("/aliments", alimentsController.getAllAliments);
  */
 
 router.get("/aliments/:nom", alimentsController.getAliments);
+
+
+
+router.post("/uploadAliment", upload.single("File"), alimentsController.postNewAliment);
+
+
 module.exports = router;

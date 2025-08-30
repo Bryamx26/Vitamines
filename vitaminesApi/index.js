@@ -5,7 +5,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger.js');
 const PORT = process.env.PORT || 3000;
 const app = express();
-const { cacheMiddleware } = require('./middlewares/cache-middleware');
+
 
 app.use(cors("*"));
 app.use(express.json());

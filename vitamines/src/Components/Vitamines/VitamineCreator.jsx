@@ -3,6 +3,7 @@ import Header from "../Layouts/Header.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { useAPI } from "../context/APIContext.jsx";
 import AlimentsGallery from "../Aliments/AlimentsGallery.jsx";
+import AddAlimentBubble from "../Aliments/AddAlimentBubble.jsx";
 
 function VitamineCreator() {
     const API_URL = useAPI()
@@ -12,6 +13,7 @@ function VitamineCreator() {
         description: "",
         nom_scientifique: "",
         couleur: "#5e80c8",
+        gramage : 0,
     });
 
     const [effets, setEffets] = useState([
@@ -40,6 +42,13 @@ function VitamineCreator() {
         const newFonctions = [...fonctions];
         newFonctions[index][field] = value;
         setFonctions(newFonctions);
+    };
+
+    const handleGramageChange = (e) => {
+        setVitamine((prev) => ({
+            ...prev,                  // garde toutes les anciennes clés
+            gramage: e.target.value,  // met à jour uniquement gramage
+        }));
     };
 
     const addEffet = () => setEffets([...effets, { type: "avantage", description: "" }]);
@@ -164,7 +173,11 @@ function VitamineCreator() {
                             <div className="vitamineQuantity">
 
                                 <div className="vitamineColorInput">
-                                    <span className="input">Choisir une couleur </span>
+                                    <label className={"upload-file-input"} htmlFor={"gramage"}>
+                                        Gramage : {vitamine.gramage}
+                                    </label>
+                                    <pre><input className={"upload-file-input"} id={"gramage"} type={"number"} onChange={handleGramageChange} value={vitamine.gramage} />
+                                    </pre><span className="input">Choisir une couleur </span>
                                     <label className="color-picker">
 
                                         <div
@@ -185,7 +198,7 @@ function VitamineCreator() {
 
                             </div>
                             <div className="vitamineAliment">
-
+                                <AddAlimentBubble/>
                             </div>
                         </div>
                     </div>

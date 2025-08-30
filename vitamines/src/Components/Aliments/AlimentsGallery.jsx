@@ -8,38 +8,39 @@ function AlimentsGallery({ nom }) {
 
 
     useEffect(() => {
+        const fetchAliment = async () => {
+            try {
+                const res = await fetch(`${API_URL}/aliments/${encodeURIComponent(nom)}`, {
+                    method: "GET",
+                });
 
-
-
-
-        fetch(`${API_URL}/aliments/${encodeURIComponent(nom)}`, {
-            method: 'GET',
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("Erreur serveur");
-                return res.json();
-            })
-            .then(data => {
-                setAliment(data);
-
-            })
-            .catch(err => {
+                if (res.ok) {
+                    const data = await res.json();
+                    setAliment(data);
+                } else if (res.status === 404) {
+                    // Aucun aliment trouvé → état vide
+                    setAliment(null); // ou {} / [] selon ta logique
+                } else {
+                    throw new Error("Erreur serveur");
+                }
+            } catch (err) {
                 console.error("Erreur lors du chargement :", err);
-            });
+            }
+        };
 
-
-
-    }, [nom]);
-
+        if (nom) {
+            fetchAliment();
+        }
+    }, [API_URL, nom]);
     console.log(aliment);
 
     return (
         <div className="aliments-gallery">
             {Array.isArray(aliment) && aliment.map((item, index) => (
-                <div className="bubble" key={item.id + index}>
+                <div className="bubble" key={ index}>
 
 
-                    <img className="AlimentImages" src={`/images/alimentsImages/${item.aliment.toLowerCase()}.png`}
+                    <img className="AlimentImages" src={`/images/alimentsImages/${item.aliment}`}
                         alt={item.aliment} />
                 </div>
             ))}

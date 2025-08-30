@@ -10,6 +10,7 @@ import { UserContext } from "/src/Components/context/UserContext.jsx"
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { useAPI } from "../context/APIContext.jsx";
+import Quantity from "./Quantity.jsx";
 
 function VitaminesDetails() {
     const location = useLocation();
@@ -41,25 +42,28 @@ function VitaminesDetails() {
     }, [id, location.search]);
 
     useEffect(() => {
-
         const fetchEffects = async () => {
             try {
                 const response = await fetch(`${API_URL}/vitamines/${id}/effects`);
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                const data = await response.json();
-                setEffects(data);
 
-                setEffects(Array.isArray(data) ? data : []);
-
+                if (response.ok) {
+                    const data = await response.json();
+                    setEffects(Array.isArray(data) ? data : []);
+                } else if (response.status === 404) {
+                    // Aucun effet → tableau vide
+                    setEffects([]);
+                } else {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
 
             } catch (err) {
-                console.error("Erreur lors du fetch des effets:", err);
-
-
+                console.error("Erreur lors du fetch des effets:", err.message || err);
+                setEffects([]); // on met un tableau vide en cas d'erreur pour ne pas planter le composant
             }
         };
+
         fetchEffects();
-    }, [id, location.search]);
+    }, [API_URL, id]);
 
     useEffect(() => {
         const fetchFonctions = async () => {
@@ -81,8 +85,7 @@ function VitaminesDetails() {
     if (error) return <Error />;
     if (!vitamine) return <Loading />;
 
-    const nom = vitamine?.nom?.replace("Vitamine ", "") || "";
-    console.log(vitamine.nom);
+
 
 
 
@@ -137,9 +140,11 @@ function VitaminesDetails() {
                         </div>
                         <div className="vitamineAlimentGContainer">
 
-                            <div className="vitamineQuantity"></div>
+                            <div className="vitamineQuantity">
+                               <Quantity quantity={vitamine.gramage}/>
+                            </div>
                             <div className="vitamineAliment">
-                                <h3>Aliments riches en vitamine {nom}</h3>
+                                <h3>Aliments associés</h3>
                                 <AlimentsGallery nom={vitamine.nom} />
                             </div>
                         </div>
@@ -147,7 +152,7 @@ function VitaminesDetails() {
                     <div className="vitamineCardContainer2">
 
                         <div className="vitamineCard fonctions">
-                            <h4>fonctions de la vitamine {nom}</h4>
+                            <h4>fonctions</h4>
                             {fonctions.map((font, i) => (
 
                                 <p key={i}> <b>{font.nom}</b> {font.description}</p>
