@@ -5,7 +5,7 @@ import { useAPI } from "../context/APIContext.jsx";
 import { UserContext } from "../context/UserContext.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 
-import {useNotification} from "../context/NotificationContext.jsx";
+import { useNotification } from "../context/NotificationContext.jsx";
 function Register() {
     const API_URL = useAPI();
     const { isDark } = useContext(ThemeContext);
@@ -15,12 +15,12 @@ function Register() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+
     const navigate = useNavigate();
     const { showNotification } = useNotification();
 
-    const handleSuccess = () => {
-        showNotification("Enregistrement réussi", "success");
+    const handleSuccess = (nom) => {
+        showNotification(`Enregistrement réussi \n bienvenue ${nom}`, "success");
     };
 
     const handleError = () => {
@@ -31,10 +31,10 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        setError(null);
+
 
         try {
-            const response = await fetch(`${API_URL}/vitamines/users`, {
+            const response = await fetch(`${API_URL}/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -45,16 +45,17 @@ function Register() {
             const data = await response.json();
 
             if (response.ok) {
-                handleSuccess();
+
+                handleSuccess(nom);
                 login(data);
                 navigate("/");
             } else {
-                setError(data.error || "Erreur lors de l'inscription.");
+
                 handleError();
             }
         } catch (err) {
             console.error("Erreur réseau :", err);
-            setError("Erreur réseau. Vérifie ta connexion.");
+
         } finally {
             setIsLoading(false);
         }
@@ -116,19 +117,19 @@ function Register() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <label className={"text"} htmlFor="password">Confirm password</label>
+                    <label className={"text"} htmlFor="password-check">Confirm password</label>
                     <input
                         className="input"
                         autoComplete="off"
                         type="password"
                         name="password"
-                        id="password"
+                        id="password-check"
                         required
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
 
-                    {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
+
                     {
                         password !== "" &&
                         confirmPassword !== "" &&

@@ -24,7 +24,7 @@ function NavBar({menu}) {
         <>
             <nav  className={(menu ? "menu-open" : "menu-close") +" "+"nav"}>
                 <a className={"button"}  onClick={()=>(navigate(`/`))}> Home</a>
-                {user? <a className={"button"}  onClick={function(){
+                {user?  <a className={"button"}  onClick={function(){
                         handleInfo();
                         logout()
                         navigate("/")

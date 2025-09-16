@@ -10,7 +10,7 @@ function Contact() {
             <Header />
             <main
                 id="MainPage"
-                style={{ backgroundColor: isDark ? "#000000" :"#8865e6" }}
+                style={{ backgroundColor: isDark ? "#000000" : "#8865e6" }}
 
             >
                 {isDark && (

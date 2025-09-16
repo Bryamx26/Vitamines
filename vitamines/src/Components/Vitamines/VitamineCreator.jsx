@@ -1,17 +1,19 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import Header from "../Layouts/Header.jsx";
-import {ThemeContext} from "../context/ThemeContext.jsx";
-import{useAPI} from "../context/APIContext.jsx";
+import { ThemeContext } from "../context/ThemeContext.jsx";
+import { useAPI } from "../context/APIContext.jsx";
 import AlimentsGallery from "../Aliments/AlimentsGallery.jsx";
+import AddAlimentBubble from "../Aliments/AddAlimentBubble.jsx";
 
 function VitamineCreator() {
     const API_URL = useAPI()
-    const {isDark} = useContext(ThemeContext);
+    const { isDark } = useContext(ThemeContext);
     const [vitamine, setVitamine] = useState({
         nom: "",
         description: "",
         nom_scientifique: "",
         couleur: "#5e80c8",
+        gramage : 0,
     });
 
     const [effets, setEffets] = useState([
@@ -40,6 +42,13 @@ function VitamineCreator() {
         const newFonctions = [...fonctions];
         newFonctions[index][field] = value;
         setFonctions(newFonctions);
+    };
+
+    const handleGramageChange = (e) => {
+        setVitamine((prev) => ({
+            ...prev,                  // garde toutes les anciennes clés
+            gramage: e.target.value,  // met à jour uniquement gramage
+        }));
     };
 
     const addEffet = () => setEffets([...effets, { type: "avantage", description: "" }]);
@@ -90,20 +99,20 @@ function VitamineCreator() {
 
     return (
         <>
-            <Header/>
-            <form id="detailsPage" style={{backgroundColor:isDark? "black": vitamine.couleur} } onSubmit={handleSubmit} className="vitamineForm">
+            <Header />
+            <form id="detailsPage" style={{ backgroundColor: isDark ? "black" : vitamine.couleur }} onSubmit={handleSubmit} className="vitamineForm">
                 {isDark ? (
                     <>
                         <div className="vitamineTitleBacground2"
-                             style={{
-                                 background: isDark
-                                     ? `radial-gradient(
+                            style={{
+                                background: isDark
+                                    ? `radial-gradient(
                                     ${vitamine.couleur} 0%,
                                      rgba(5, 12, 241, 0.41) 30%,
                                      rgba(2, 2, 1, 0.02) 70%
                                         )`
-                                     : null,
-                             }}></div>
+                                    : null,
+                            }}></div>
                         <div
                             className="vitamineTitleBacground"
                             style={{
@@ -119,12 +128,12 @@ function VitamineCreator() {
 
                     </>
 
-                ):null}
+                ) : null}
 
 
 
                 <div className="vitamineTitle">
-                   <p>Vitamines Maker</p>
+                    <p>Vitamines Maker</p>
 
 
                 </div>
@@ -163,29 +172,33 @@ function VitamineCreator() {
 
                             <div className="vitamineQuantity">
 
-                               <div className="vitamineColorInput">
-                                   <span className="input">Choisir une couleur </span>
-                                   <label className="color-picker">
+                                <div className="vitamineColorInput">
+                                    <label className={"upload-file-input"} htmlFor={"gramage"}>
+                                        Gramage : {vitamine.gramage}
+                                    </label>
+                                    <pre><input className={"upload-file-input"} id={"gramage"} type={"number"} onChange={handleGramageChange} value={vitamine.gramage} />
+                                    </pre><span className="input">Choisir une couleur </span>
+                                    <label className="color-picker">
 
-                                       <div
-                                           className="preview"
-                                           style={{ backgroundColor: vitamine.couleur }}
-                                       ></div>
+                                        <div
+                                            className="preview"
+                                            style={{ backgroundColor: vitamine.couleur }}
+                                        ></div>
 
-                                       <input
-                                           id="colorInput"
-                                           className="hidden-color"
-                                           type="color"
-                                           name="couleur"
-                                           value={vitamine.couleur}
-                                           onChange={handleVitamineChange}
-                                       />
-                                   </label>
-                               </div>
+                                        <input
+                                            id="colorInput"
+                                            className="hidden-color"
+                                            type="color"
+                                            name="couleur"
+                                            value={vitamine.couleur}
+                                            onChange={handleVitamineChange}
+                                        />
+                                    </label>
+                                </div>
 
                             </div>
                             <div className="vitamineAliment">
-
+                                <AddAlimentBubble/>
                             </div>
                         </div>
                     </div>
@@ -193,11 +206,11 @@ function VitamineCreator() {
 
                         <div className="vitamineCard fonctions">
                             <h3>Fonctions</h3>
-                            <button  type="button" className="buttons" onClick={addFonction}>
+                            <button type="button" className="buttons" onClick={addFonction}>
                                 + Ajouter fonction
                             </button>
                             {fonctions.map((f, index) => (
-                                <div key={index} className="fonctionBloc" style={{ display: "flex", gap: "8px", alignItems: "center", justifyContent : "space-evenly" }}>
+                                <div key={index} className="fonctionBloc" style={{ display: "flex", gap: "8px", alignItems: "center", justifyContent: "space-evenly" }}>
                                     <input
                                         className="textInput"
                                         type="text"
@@ -238,7 +251,7 @@ function VitamineCreator() {
                                     <div
                                         key={index}
 
-                                        style={{ display: "flex", gap: "10px", alignItems: "center"  }}
+                                        style={{ display: "flex", gap: "10px", alignItems: "center" }}
                                     >
                                         <select
                                             className="textInput"
@@ -287,7 +300,7 @@ function VitamineCreator() {
                                     />
                                 </div>
                                 <div>
-                                    <button  type="submit" className={"buttons"}>
+                                    <button type="submit" className={"buttons"}>
                                         Créer la vitamine
                                     </button>
                                 </div>

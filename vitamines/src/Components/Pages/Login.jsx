@@ -1,22 +1,24 @@
-import {useContext, useState} from "react";
+import { useContext, useState } from "react";
 import Header from "../Layouts/Header.jsx";
-import {useNavigate} from "react-router-dom";
-import {useAPI} from "../context/APIContext.jsx";
+import { useNavigate } from "react-router-dom";
+import { useAPI } from "../context/APIContext.jsx";
 import { useNotification } from "../context/NotificationContext.jsx";
 import { UserContext } from "/src/Components/context/UserContext.jsx"
 
-import {ThemeContext} from "../context/ThemeContext.jsx";
+import { ThemeContext } from "../context/ThemeContext.jsx";
+
 
 function Login() {
     const API_URL = useAPI();
-    const {isDark} = useContext(ThemeContext);
-    const {login} = useContext(UserContext);
+    const { isDark } = useContext(ThemeContext);
+    const { login } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const { showNotification } = useNotification();
-    const handleSuccess = () => {
-        showNotification("Connexion réussie", "success");
+    const handleSuccess = (nom) => {
+        showNotification(`Connexion réussie 
+ Bienvenue ${nom}`, "success");
     };
 
     const handleError = () => {
@@ -24,29 +26,32 @@ function Login() {
     };
 
     const handleSubmit = async (e) => {
-
-
         e.preventDefault();
 
         try {
-            const response = await fetch(
-                `${API_URL}/vitamines/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
-            );
+            const response = await fetch(`${API_URL}/auth`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password }) // On envoie dans le body
+            });
 
             const data = await response.json();
 
             if (response.ok) {
-                login(data)
-                console.log(data.nom)
-                handleSuccess()
+                const nom = data.nom;
 
+                login(data); // On sauvegarde le token etc.
+                console.log(data);
+                handleSuccess(nom);
                 navigate("/");
             } else {
-
                 handleError();
             }
         } catch (error) {
             console.error("Erreur de requête :", error);
+            handleError(error, "error");
             alert("Erreur réseau.");
         }
     };
@@ -54,7 +59,7 @@ function Login() {
     return (
         <>
             <Header />
-            <div className="loginMain" style = {{ backgroundColor: isDark ? "black": "#8865E6" , transition: "all 0.5s ease-in" }}>
+            <div className="loginMain" style={{ backgroundColor: isDark ? "black" : "#8865E6", transition: "all 0.5s ease-in" }}>
 
                 {isDark ? (
                     <>
@@ -63,7 +68,7 @@ function Login() {
 
                     </>
 
-                ):null}
+                ) : null}
 
                 <form className="loginForm" onSubmit={handleSubmit}>
                     <h2 className="loginTitle">Sign-in</h2>
@@ -96,7 +101,7 @@ function Login() {
 
                     <p style={{ marginTop: "11px" }}>
                         Pas encore de compte ?{" "}
-                        <a href="/register" style={{ color: isDark ? "#ccc" : "#fff" , fontSize: "0.8rem" }}>
+                        <a href="/register" style={{ color: isDark ? "#ccc" : "#fff", fontSize: "0.8rem" }}>
                             Créez-en un ici
                         </a>
                     </p>

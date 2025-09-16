@@ -18,18 +18,18 @@ export function ThemeProvider({ children }) {
 
 
     const [closeMenu, setCloseMenu] = useState('/images/close.png');
-    const [burgerMenu,setBurgerMenu] = useState('/images/burgerMenu.png');
+    const [burgerMenu, setBurgerMenu] = useState('/images/burgerMenu.png');
 
     useEffect(() => {
-        if (isDark){
+        if (isDark) {
             setCloseMenu('/images/closeLight.svg');
             setBurgerMenu('/images/burgerMenuLight.svg');
 
-        }else {
+        } else {
             setCloseMenu('/images/closeDark.svg');
             setBurgerMenu('/images/burgerMenuDark.svg');
         }
-    },[isDark]);
+    }, [isDark]);
 
 
 

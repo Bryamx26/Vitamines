@@ -1,4 +1,4 @@
-import React, {createContext, useContext,} from "react";
+import React, { createContext, useContext, } from "react";
 
 // Crée le contexte
 export const APIContext = createContext();
@@ -15,10 +15,10 @@ export function APIProvider({ children }) {
 
         if (host === "localhost" || host.startsWith("192.168.")) {
             // Accès local ou réseau local
-            return "http://192.168.1.11:3000";
+            return "http://localhost:3000/api";
         } else {
             // Accès public (production)
-            return `https://api.bryamsilva.online`;
+            return `https://api.bryamsilva.online/api`;
         }
 
     };
