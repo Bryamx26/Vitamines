@@ -1,7 +1,6 @@
-
 services:
   mysql:
-    image: mariadb:11
+    image: mysql:8.0
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -9,11 +8,11 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     volumes:
-      - vitamines_db-data:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
       - ./backup:/docker-entrypoint-initdb.d
     restart: unless-stopped
-    ports:
-      - "3306:3306"
+    networks:
+      - backend
 
   api:
     build: ./vitaminesApi
@@ -27,6 +26,8 @@ services:
       - MYSQL_PASSWORD=password
     ports:
       - "3000:3000"
+    networks:
+      - backend
 
   frontend:
     build: ./vitamines
@@ -35,6 +36,9 @@ services:
       - api
     ports:
       - "5173:80"
+    networks:
+      - backend
 
-volumes:
-  vitamines_db-data:      # ✅ Déclaration du volume nommé (important !)
+networks:
+  backend:
+    driver: bridge
