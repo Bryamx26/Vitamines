@@ -4,11 +4,15 @@ import Header from "../Layouts/Header.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { useAPI } from "../context/APIContext.jsx";
 
+import AssociationModal from "../Aliments/AssociationModal.jsx";
+
 export default function VitamineEditor() {
     const API_URL = useAPI();
     const { isDark } = useContext(ThemeContext);
     const { id } = useParams();
     const navigate = useNavigate();
+    
+    const [modalOpen, setModalOpen] = useState(false);
 
     const [vitamine, setVitamine] = useState({
         nom: "",
@@ -246,7 +250,29 @@ export default function VitamineEditor() {
                                     </label>
                                 </div>
                             </div>
-                            <div className="vitamineAliment"></div>
+                            <div className="vitamineAliment">
+                                <h3>Aliments associés</h3>
+    
+                                {/* Tu pourras décommenter cette ligne si tu veux afficher les images ici aussi */}
+                                {/* <AlimentsGallery nom={vitamine.nom} /> */} 
+
+                                {/* AJOUT DE type="button" OBLIGATOIRE */}
+                                <button 
+                                    type="button" 
+                                    className="buttons" 
+                                    onClick={() => setModalOpen(true)}
+                                    style={{ marginTop: "1rem" }}
+                                >
+                                    Gérer les associations
+                                </button>
+
+                                <AssociationModal 
+                                    open={modalOpen} 
+                                    setOpen={setModalOpen} 
+                                    vitamineId={id} 
+                                    nom={vitamine.nom}
+                                />
+                            </div>
                         </div>
                     </div>
 

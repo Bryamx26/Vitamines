@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { UserContext } from "/src/Components/context/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useAPI } from "../context/APIContext.jsx";
+import GalleryErrorBanner from '../Layouts/GalleryErrorBanner.jsx';
 
 const VitaminsExhibit = () => {
     const API_URL = useAPI();
@@ -51,7 +52,7 @@ const VitaminsExhibit = () => {
     );
 
     if (loading) return <Loading />;
-    if (error) return <Error />;
+    if (error) return <GalleryErrorBanner />;
     console.log(user)
 
     return (

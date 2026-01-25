@@ -74,5 +74,49 @@ router.get("/aliments/:nom", alimentsController.getAliments);
 
 router.post("/uploadAliment", upload.single("File"), alimentsController.postNewAliment);
 
+/**
+ * @swagger
+ * /api/aliments/associate:
+ *   post:
+ *     summary: Associer un aliment à une vitamine
+ *     tags:
+ *       - Aliments
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               alimentId:
+ *                 type: integer
+ *               vitamineId:
+ *                 type: integer
+ */
+
+router.post("/aliments/associate", alimentsController.linkAlimentToVitamine);
+
+/**
+ * @swagger
+ * /api/aliments/dissociate:
+ *   delete:
+ *     summary: Supprimer le lien entre un aliment et une vitamine
+ *     tags:
+ *       - Aliments
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               alimentId:
+ *                 type: integer
+ *               vitamineId:
+ *                 type: integer
+ */
+
+router.delete("/aliments/dissociate", alimentsController.unlinkAlimentFromVitamine);
+
 
 module.exports = router;

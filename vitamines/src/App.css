@@ -540,7 +540,7 @@ body {
     align-items: center;
     height: 7rem;
     width: 90%;
-    overflow: hidden;
+    overflow: scroll;
 
 }
 

@@ -69,4 +69,39 @@ async function postNewAliment (req, res) {
     }
 };
 
-module.exports = { getAllAliments, getAliments , postNewAliment };
+async function linkAlimentToVitamine(req, res) {
+    const { alimentId, vitamineId } = req.body;
+
+    if (!alimentId || !vitamineId) {
+        return res.status(400).json({ error: "IDs manquants" });
+    }
+
+    try {
+        await Aliments.associate(alimentId, vitamineId);
+        res.status(200).json({ message: "Association réussie" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erreur lors de l'association" });
+    }
+}
+
+async function unlinkAlimentFromVitamine(req, res) {
+    const { alimentId, vitamineId } = req.body;
+
+    if (!alimentId || !vitamineId) {
+        return res.status(400).json({ error: "IDs manquants" });
+    }
+
+    try {
+        const result = await Aliments.dissociate(alimentId, vitamineId);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Liaison non trouvée" });
+        }
+        res.status(200).json({ message: "Désassociation réussie" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erreur lors de la désassociation" });
+    }
+}
+
+module.exports = { getAllAliments, getAliments , postNewAliment , linkAlimentToVitamine, unlinkAlimentFromVitamine };

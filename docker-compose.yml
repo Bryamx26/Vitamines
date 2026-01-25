@@ -2,15 +2,17 @@ services:
   mysql:
     image: mysql:8.0
     container_name: mysql
+    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: vitamines_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${DOCKER_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DOCKER_DATABASE}
+      MYSQL_USER: ${DOCKER_USER}
+      MYSQL_PASSWORD: ${DOCKER_PASSWORD}
     volumes:
       - ./mysql-data:/var/lib/mysql
-      - ./backup:/backup
       - ./docker-entrypoint:/docker-entrypoint-initdb.d
+   
+
     restart: unless-stopped
     networks:
       - backend
@@ -21,10 +23,10 @@ services:
     depends_on:
       - mysql
     environment:
-      - MYSQL_HOST=mysql
-      - MYSQL_DATABASE=vitamines_db
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
+      - API_DATABASE_HOST=${DOCKER_DATABASE_HOST}
+      - API_DATABASE=${DOCKER_DATABASE}
+      - API_USER=${DOCKER_USER}
+      - API_PASSWORD=${DOCKER_PASSWORD}
     ports:
       - "3000:3000"
     networks:
