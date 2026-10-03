@@ -1,6 +1,7 @@
 // src/components/DarkButtonToggle.jsx
 import React, { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext.jsx";
+import { MoonIcon, SunIcon } from "../Icons.jsx";
 
 
 function DarkButtonToggle() {
@@ -8,35 +9,16 @@ function DarkButtonToggle() {
 
     return (
         <button
+            type="button"
+            role="switch"
+            aria-checked={isDark}
+            aria-label="Thème sombre"
             onClick={() => setIsDark(!isDark)}
-            className="buttonDarkMode"
-            >
-
-
-            {isDark ?
-                <img
-                    style={{
-                        position: "relative",
-                        left: "25px", // Position finale pour le mode sombre
-                        transition: "all 0.2s ease-in-out"
-                    }}
-                    className="toggle"
-                    src="/images/soleil.svg"
-                    alt="Soleil"
-                />
-                :
-                <img
-                    style={{
-                        position: "relative",
-                        left: "0px", // Position initiale pour le mode clair
-                        transition: "all 0.2s ease-in-out"
-                    }}
-                    className="toggle"
-                    src="/images/lune.png"
-                    alt="Lune"
-                />
-            }
-
+            className="vt-toggle"
+        >
+            <span className="vt-toggle-thumb">
+                {isDark ? <MoonIcon size={15} /> : <SunIcon size={15} />}
+            </span>
         </button>
     );
 }

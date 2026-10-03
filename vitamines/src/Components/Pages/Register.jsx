@@ -1,14 +1,13 @@
 import { useContext, useState } from "react";
-import Header from "../Layouts/Header.jsx";
-import { useNavigate } from "react-router-dom";
+import Page from "../Layouts/Page.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import { Scatter } from "../Layouts/Decorations.jsx";
 import { useAPI } from "../context/APIContext.jsx";
 import { UserContext } from "../context/UserContext.jsx";
-import { ThemeContext } from "../context/ThemeContext.jsx";
 
 import { useNotification } from "../context/NotificationContext.jsx";
 function Register() {
     const API_URL = useAPI();
-    const { isDark } = useContext(ThemeContext);
     const { login } = useContext(UserContext);
     const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
@@ -61,104 +60,97 @@ function Register() {
         }
     };
 
+    const passwordsMatch = password !== "" && confirmPassword !== "" && confirmPassword === password;
+    const passwordsMismatch = password !== "" && confirmPassword !== "" && confirmPassword !== password;
+
     return (
-        <>
-            <Header />
-            <div
-                className="loginMain"
-                style={{
-                    backgroundColor: isDark ? "black" : "#3d8c65",
-                    transition: "all 0.5s ease-in",
-                }}
-            >
-                {isDark && (
-                    <>
-                        <div className="vitamineTitleBacground"></div>
-                        <div className="vitamineTitleBacground2"></div>
-                    </>
-                )}
+        <Page>
+            <div className="vt-auth-stage">
+                <Scatter />
+                <form className="vt-auth vt-auth-wide" onSubmit={handleSubmit}>
+                    <h1 className="vt-display vt-title">Inscription</h1>
 
-                <form className="loginForm" onSubmit={handleSubmit}>
-                    <h2 className="loginTitle">Sign-up</h2>
-
-                    <label className={"text"} htmlFor="nom">Username</label>
-                    <input
-                        className="input"
-                        autoComplete="off"
-                        type="text"
-                        name="nom"
-                        id="nom"
-                        required
-                        value={nom}
-                        onChange={(e) => setNom(e.target.value)}
-                    />
-
-
-                    <label className={"text"} htmlFor="email">Email</label>
-                    <input
-                        className="input"
-                        autoComplete="off"
-                        type="email"
-                        name="email"
-                        id="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-
-                    <label className={"text"} htmlFor="password">Password</label>
-                    <input
-                        className="input"
-                        autoComplete="off"
-                        type="password"
-                        name="password"
-                        id="password"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <label className={"text"} htmlFor="password-check">Confirm password</label>
-                    <input
-                        className="input"
-                        autoComplete="off"
-                        type="password"
-                        name="password"
-                        id="password-check"
-                        required
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-
-
-                    {
-                        password !== "" &&
-                        confirmPassword !== "" &&
-                        confirmPassword === password && (
+                    <div className="vt-field-row">
+                        <div className="vt-field">
+                            <label htmlFor="nom">Nom d'utilisateur</label>
                             <input
-                                type="submit"
-                                id="send"
-                                value={isLoading ? "Chargement..." : "Sign-up"}
-                                disabled={isLoading}
-                                style={{
-                                    opacity: isLoading ? 0.6 : 1,
-                                    cursor: isLoading ? "not-allowed" : "pointer",
-                                }}
+                                className="vt-input"
+                                autoComplete="username"
+                                type="text"
+                                name="nom"
+                                id="nom"
+                                required
+                                value={nom}
+                                onChange={(e) => setNom(e.target.value)}
                             />
-                        )
-                    }
+                        </div>
 
-                    <p style={{ marginTop: "1rem" }}>
-                        Déjà un compte ?{" "}
-                        <a
-                            href="/login"
-                            style={{ color: isDark ? "#ccc" : "#fff", fontSize: "0.8rem" }}
-                        >
-                            Connectez-vous ici
-                        </a>
+                        <div className="vt-field">
+                            <label htmlFor="email">E-mail</label>
+                            <input
+                                className="vt-input"
+                                autoComplete="email"
+                                type="email"
+                                name="email"
+                                id="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="vt-field-row">
+                        <div className="vt-field">
+                            <label htmlFor="password">Mot de passe</label>
+                            <input
+                                className="vt-input"
+                                autoComplete="new-password"
+                                type="password"
+                                name="password"
+                                id="password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        <div className="vt-field">
+                            <label htmlFor="password-check">Confirmer le mot de passe</label>
+                            <input
+                                className="vt-input"
+                                autoComplete="new-password"
+                                type="password"
+                                name="password"
+                                id="password-check"
+                                required
+                                aria-invalid={passwordsMismatch}
+                                aria-describedby={passwordsMismatch ? "password-error" : undefined}
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    {passwordsMismatch && (
+                        <p id="password-error" className="vt-field-error" role="alert">
+                            Les mots de passe ne correspondent pas.
+                        </p>
+                    )}
+
+                    <button
+                        type="submit"
+                        className="vt-btn-primary vt-btn-block"
+                        disabled={!passwordsMatch || isLoading}
+                    >
+                        {isLoading ? "Chargement…" : "Créer mon compte"}
+                    </button>
+
+                    <p className="vt-auth-switch">
+                        Déjà un compte ? <Link to="/Login">Se connecter</Link>
                     </p>
                 </form>
             </div>
-        </>
+        </Page>
     );
 }
 

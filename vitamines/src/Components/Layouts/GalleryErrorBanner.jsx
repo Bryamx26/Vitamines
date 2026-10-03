@@ -1,34 +1,15 @@
-
+import { AlertIcon } from "../Icons.jsx";
 
 function GalleryErrorBanner({
-  message = "Impossible de charger les éléments.",
+  message = "Impossible de charger les éléments. Vérifiez votre connexion puis rechargez la page.",
 }) {
 
-
   return (
-    <div
-      style={{
-        gridColumn: "1 / -1", // prend toute la largeur de la galerie
-        padding: "1.5rem",
-        borderRadius: "10px",
-        backgroundColor: "#fddb55",
-        border: "1px solid #ffe100",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "0.75rem",
-        color: "#4d4747"
-      }}
-    >
-      <strong style={{ fontSize: "1.1rem" }}>
-        ⚠️ Erreur de chargement
-      </strong>
-
-      <p style={{ margin: 0, textAlign: "center" }}>
-        {message}
-      </p>
-
-        <div style={{ display: "flex", gap: "1rem" }}>
+    <div className="vt-banner vt-banner-danger" role="alert">
+      <AlertIcon size={22} />
+      <div>
+        <strong className="vt-banner-title">Erreur de chargement</strong>
+        <p>{message}</p>
       </div>
     </div>
   );

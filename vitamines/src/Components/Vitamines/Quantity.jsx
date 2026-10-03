@@ -2,9 +2,9 @@ function Quantity({quantity}) {
 
 
     return (
-        <div className="vitamineQuantity-container">
-            <span className="vitamineQuantityText">mg/J</span>
-            <span className="vitamineQuantitySpan">{quantity} </span>
+        <div className="vt-qty">
+            <span className="vt-qty-unit">mg / jour</span>
+            <span className="vt-qty-value">{quantity}</span>
         </div>
     )
 

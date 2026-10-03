@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import Error from "../Pages/Error.jsx";
 import Loading from "../Pages/Loading.jsx";
 import VitamineCard from "./VitamineCard.jsx";
-import SearchInput from "../Inputs/SearchInput.jsx";
 import { useContext } from "react";
 import { UserContext } from "/src/Components/context/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useAPI } from "../context/APIContext.jsx";
 import GalleryErrorBanner from '../Layouts/GalleryErrorBanner.jsx';
+import { PlusIcon } from "../Icons.jsx";
+import { vitamineFamille } from "./vitamineMeta.js";
 
-const VitaminsExhibit = () => {
+const FILTRES = [
+    { value: "toutes", label: "Toutes", tone: "leaf" },
+    { value: "liposoluble", label: "Liposolubles", tone: "butter" },
+    { value: "hydrosoluble", label: "Hydrosolubles", tone: "sky" },
+];
+
+const VitaminsExhibit = ({ search = "" }) => {
     const API_URL = useAPI();
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
     const [vitamines, setVitamines] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(null);
-    const [search, setSearch] = useState('');
+    const [filtre, setFiltre] = useState("toutes");
 
 
     useEffect(() => {
@@ -43,47 +49,54 @@ const VitaminsExhibit = () => {
         fetchVitamines();
     }, []);
 
-    const handleSearchChange = (e) => {
-        setSearch(e.target.value);
-    };
-
     const filteredVitamines = vitamines.filter((vitamine) =>
         vitamine.nom.replace("Vitamine ", "").toLowerCase().includes(search.toLowerCase())
+        && (filtre === "toutes" || vitamineFamille(vitamine.nom) === filtre)
     );
 
-    if (loading) return <Loading />;
-    if (error) return <GalleryErrorBanner />;
-    console.log(user)
-
     return (
-        <div className="Vitamines">
-            <SearchInput value={search} onChange={handleSearchChange} />
-            <div className="vitaminesGallery">
+        <section className="vt-card vt-gallery-card" aria-labelledby="gallery-title">
+            <h2 id="gallery-title" className="vt-display vt-title">Toutes les vitamines</h2>
 
-                {user && user.role === "admin" ?
-                    <div className="card" onClick={function () {
-                        navigate("/VitamineCreator")
-
-
-                    }}>
-
-                        <b className={"vitamineName"}>+</b>
-
-                        <p id={"description"} className="invisible">
-                            Crée ta vitamine
-                        </p>
-                    </div> : null}
-
-                {filteredVitamines.map((vitamine) => (
-                    <VitamineCard
-                        key={vitamine.id}
-                        vitamine={vitamine}
-                        cliquable={true}
-                    />
+            <div className="vt-filters" role="group" aria-label="Filtrer par famille">
+                {FILTRES.map((f) => (
+                    <button
+                        key={f.value}
+                        type="button"
+                        className={`vt-badge vt-filter tone-${f.tone}`}
+                        aria-pressed={filtre === f.value}
+                        onClick={() => setFiltre(f.value)}
+                    >
+                        {f.label}
+                    </button>
                 ))}
             </div>
-        </div>
 
+            {loading ? <Loading /> : error ? <GalleryErrorBanner /> : (
+                <div className="vt-gallery">
+
+                    {user && user.role === "admin" ?
+                        <button type="button" className="vt-bubble vt-bubble-add" onClick={function () {
+                            navigate("/VitamineCreator")
+                        }}>
+                            <PlusIcon size={40} />
+                            <span className="vt-bubble-name">Créer une vitamine</span>
+                        </button> : null}
+
+                    {filteredVitamines.map((vitamine) => (
+                        <VitamineCard
+                            key={vitamine.id}
+                            vitamine={vitamine}
+                            cliquable={true}
+                        />
+                    ))}
+
+                    {filteredVitamines.length === 0 && (
+                        <p className="vt-empty">Aucune vitamine ne correspond à votre recherche.</p>
+                    )}
+                </div>
+            )}
+        </section>
     );
 };
 

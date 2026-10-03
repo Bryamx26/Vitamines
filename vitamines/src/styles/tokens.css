@@ -1,0 +1,93 @@
+/* Design system « Vitamines » — variables des deux thèmes.
+   Seul ce fichier contient des couleurs en dur. */
+
+/* ---------- Thème clair — Pastel naturel ---------- */
+:root, [data-theme="light"] {
+  --bg: #f7f2e8;              /* crème */
+  --surface: #fffbf4;
+  --surface-raised: #eef2e4;
+  --ink: #2e3a2b;             /* vert olive très foncé */
+  --ink-muted: #5b6656;
+  --line: #ddd5c4;
+  --line-strong: #7f8a78;
+  --primary: #4a7343;         /* sauge profonde — action */
+  --on-primary: #ffffff;
+  --focus: #4a7343;
+
+  --leaf: #c5dcb2;            /* sauge */
+  --peach: #f8cdb3;           /* pêche */
+  --butter: #f6e5a6;          /* beurre */
+  --lilac: #d9cff2;           /* lilas */
+  --sky: #c2dfec;             /* ciel */
+  --rose: #f4c3cf;            /* rose */
+  --on-accent: #2e3a2b;
+
+  --danger: #a8402c;  --danger-soft: #f7ddd5;
+  --success: #3d6e37; --success-soft: #e2eed9;
+
+  --shadow-soft: 0 10px 30px rgba(74, 88, 60, 0.12);
+  --shadow-pop: 0 18px 44px rgba(74, 88, 60, 0.18);
+  --scrim: rgba(46, 58, 43, 0.45);          /* fond derrière les modales */
+
+  --font-sans: var(--font-nunito);
+  --font-display: var(--font-fredoka);
+  --display-case: none;
+  --display-track: -0.02em;
+
+  color-scheme: light;
+}
+
+/* ---------- Thème sombre — Cyberpunk rétro ---------- */
+[data-theme="dark"] {
+  --bg: #0b0b0b;              /* noir mat */
+  --surface: #171717;
+  --surface-raised: #232323;
+  --ink: #f2efe6;             /* blanc cassé */
+  --ink-muted: #a8a49b;
+  --line: #2c2c2c;
+  --line-strong: #6e6e6e;
+  --primary: #7fc77a;         /* vert rétro — TOUS les boutons */
+  --on-primary: #141414;
+  --focus: #f2efe6;
+
+  --leaf: #7aa877;            /* kaki */
+  --peach: #d4584b;           /* rouge brique */
+  --butter: #e0a15e;          /* orange rétro */
+  --lilac: #a99ccc;           /* lavande éteinte */
+  --sky: #c6c5c0;             /* gris clair */
+  --rose: #e3867a;            /* saumon */
+  --on-accent: #141414;       /* encre noire des cartes */
+
+  --danger: #ff7a6b;  --danger-soft: #2b1513;
+  --success: #93d18e; --success-soft: #14251a;
+
+  --shadow-soft: 0 0 0 1px rgba(242, 239, 230, 0.08);   /* pas d'ombre, filet à peine visible */
+  --shadow-pop: 0 0 0 2px #0b0b0b, 0 0 0 4px #f2efe6;   /* double contour */
+  --scrim: rgba(0, 0, 0, 0.75);             /* fond derrière les modales */
+
+  --font-sans: var(--font-grotesk);
+  --font-display: var(--font-wide);
+  --display-case: uppercase;
+  --display-track: -0.01em;
+
+  color-scheme: dark;
+}
+
+/* ---------- Commun ---------- */
+:root {
+  /* espacements */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+  /* rayons */
+  --radius-xs: 6px; --radius-sm: 10px; --radius-md: 18px; --radius-lg: 28px; --radius-pill: 999px;
+  /* familles */
+  --font-nunito: "Nunito", system-ui, sans-serif;
+  --font-fredoka: "Fredoka", "Nunito", sans-serif;
+  --font-grotesk: "Space Grotesk", system-ui, sans-serif;
+  --font-wide: "Unbounded", "Space Grotesk", sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+}
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 26px; }
+.vt-display { font-family: var(--font-display); text-transform: var(--display-case); letter-spacing: var(--display-track); font-weight: 600; color: var(--ink); margin: 0; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+[data-theme="dark"] :focus-visible { box-shadow: 0 0 0 2px var(--bg); }

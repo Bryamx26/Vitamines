@@ -1,40 +1,37 @@
 // src/context/ThemeContext.jsx
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useLayoutEffect } from "react";
 
 // Création du contexte
 export const ThemeContext = createContext();
 
+// Thème initial : choix mémorisé, sinon préférence du système
+function getInitialTheme() {
+    try {
+        const stored = localStorage.getItem("theme");
+        if (stored === "dark" || stored === "light") return stored === "dark";
+    } catch {
+        // stockage indisponible (navigation privée…)
+    }
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+}
+
 // Fournisseur du contexte
 export function ThemeProvider({ children }) {
-    const [isDark, setIsDark] = useState(() => {
-        return localStorage.getItem("theme") === "dark"; // Récupère le thème stocké
-    });
+    const [isDark, setIsDark] = useState(getInitialTheme);
 
-    // Applique la classe "dark" ou "light" au <body> dès que le thème change
-    useEffect(() => {
-        document.body.className = isDark ? "dark" : "light";
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-    }, [isDark]);
-
-
-    const [closeMenu, setCloseMenu] = useState('/images/close.png');
-    const [burgerMenu, setBurgerMenu] = useState('/images/burgerMenu.png');
-
-    useEffect(() => {
-        if (isDark) {
-            setCloseMenu('/images/closeLight.svg');
-            setBurgerMenu('/images/burgerMenuLight.svg');
-
-        } else {
-            setCloseMenu('/images/closeDark.svg');
-            setBurgerMenu('/images/burgerMenuDark.svg');
+    // Applique data-theme sur <html> avant l'affichage pour éviter un flash
+    useLayoutEffect(() => {
+        const theme = isDark ? "dark" : "light";
+        document.documentElement.dataset.theme = theme;
+        try {
+            localStorage.setItem("theme", theme);
+        } catch {
+            // stockage indisponible : le thème reste valable pour la session
         }
     }, [isDark]);
 
-
-
     return (
-        <ThemeContext.Provider value={{ isDark, setIsDark, closeMenu, burgerMenu }}>
+        <ThemeContext.Provider value={{ isDark, setIsDark }}>
             {children}
         </ThemeContext.Provider>
     );

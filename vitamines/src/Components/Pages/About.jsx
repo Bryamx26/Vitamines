@@ -1,72 +1,48 @@
-import Header from "../Layouts/Header.jsx";
-import { ThemeContext } from "../context/ThemeContext.jsx";
-import { useContext } from "react";
+import Page from "../Layouts/Page.jsx";
+import { Frieze } from "../Layouts/Decorations.jsx";
+
+const ETAPES = [
+    { num: "01", titre: "Découvrir", tone: "butter", texte: "Parcourez les vitamines, leurs bienfaits et les aliments qui en contiennent." },
+    { num: "02", titre: "Comprendre", tone: "peach", texte: "Voyez ce qui se passe en cas de carence ou d'excès, sans jargon inutile." },
+    { num: "03", titre: "Bientôt : les quiz", tone: "lilac", texte: "Testez vos connaissances et apprenez en vous amusant." },
+];
 
 function About() {
-    const { isDark } = useContext(ThemeContext);
-
     return (
-        <>
-            <Header />
-            <main
-                id="MainPage"
-                style={{
-                    backgroundColor: isDark ? "black" : "#8865e6",
-                    transition: "all 0.5s ease-in",
-                    minHeight: "100vh",
+        <Page>
+            <section className="vt-hero">
+                <p className="vt-eyebrow">03 — Qui sommes-nous</p>
+                <h1 className="vt-display vt-hero-title">À propos</h1>
+                <Frieze small />
+            </section>
 
-                    color: isDark ? "white" : "#f5f5f5",
-                }}
-            >
-                {isDark && (
-                    <>
-                        <div className="vitamineTitleBacground"></div>
-                        <div className="vitamineTitleBacground2"></div>
-                    </>
-                )}
+            <div className="vt-grid-2">
+                <section className="vt-panel tone-sky">
+                    <h2 className="vt-display vt-panel-title">Un projet étudiant</h2>
+                    <p>
+                        Ce site a été conçu <strong>par des étudiants, pour des étudiants</strong>. Il aide à
+                        comprendre le rôle des vitamines dans notre corps, en s'amusant.
+                    </p>
+                </section>
+                <section className="vt-panel tone-leaf">
+                    <h2 className="vt-display vt-panel-title">Notre objectif</h2>
+                    <p>
+                        Un contenu clair, visuel et accessible à tous : les vitamines, leurs bienfaits, les effets
+                        d'une carence ou d'un excès. Le site évolue : vos suggestions sont les bienvenues.
+                    </p>
+                </section>
+            </div>
 
-                <div className="Title">
-                    <p>À propos</p>
-                </div>
-
-                <div style={{ maxWidth: "800px", margin: "0 auto", fontSize: "1.1rem", lineHeight: "1.7" }}>
-                    <section style={{ marginBottom: "2rem" }}>
-                        <h2 style={{ color: "#2196F3" }}>Un projet étudiant</h2>
-                        <p>
-                            Ce site a été conçu <strong>par des étudiants, pour des étudiants</strong>. Il a pour but
-                            d’aider à comprendre facilement le rôle des vitamines dans notre corps, et à apprendre en
-                            s’amusant.
-                        </p>
-                    </section>
-
-                    <section style={{ marginBottom: "2rem" }}>
-                        <h2 style={{ color: "#4CAF50" }}>Notre objectif</h2>
-                        <p>
-                            Nous souhaitons fournir un contenu clair, visuel et accessible à tous. Vous pouvez découvrir
-                            les différentes vitamines, leurs bienfaits, leurs effets en cas de carence ou d'excès, et
-                            bientôt, tester vos connaissances via des quizz.
-                        </p>
-                    </section>
-
-                    <section style={{ marginBottom: "2rem" }}>
-                        <h2 style={{ color: "#FF9800" }}>Un apprentissage agréable</h2>
-                        <p>
-                            Apprendre ne devrait jamais être ennuyeux. C’est pourquoi notre interface est pensée pour
-                            être agréable, ludique et motivante.
-                        </p>
-                    </section>
-
-                    <section>
-                        <h2 style={{ color: "#b61283" }}>Contact et suggestions</h2>
-                        <p>
-                            Ce site est en constante évolution. Si vous avez des suggestions ou des idées
-                            d’amélioration, n’hésitez pas à nous contacter via le formulaire dédié. Merci de faire
-                            partie de cette aventure !
-                        </p>
-                    </section>
-                </div>
-            </main>
-        </>
+            <ol className="vt-steps">
+                {ETAPES.map((e) => (
+                    <li key={e.num} className={`vt-step tone-${e.tone}`}>
+                        <span className="vt-step-num">{e.num}</span>
+                        <h2 className="vt-display vt-panel-title">{e.titre}</h2>
+                        <p>{e.texte}</p>
+                    </li>
+                ))}
+            </ol>
+        </Page>
     );
 }
 

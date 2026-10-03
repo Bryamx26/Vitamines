@@ -1,93 +1,37 @@
-import Header from "../Layouts/Header.jsx";
-import { ThemeContext } from "../context/ThemeContext.jsx";
-import { useContext } from "react";
+import Page from "../Layouts/Page.jsx";
+import { ArrowUpRightIcon, LinkIcon, MailIcon } from "../Icons.jsx";
 
 function Contact() {
-    const { isDark } = useContext(ThemeContext);
-
     return (
-        <>
-            <Header />
-            <main
-                id="MainPage"
-                style={{ backgroundColor: isDark ? "#000000" : "#8865e6" }}
+        <Page>
+            <section className="vt-hero">
+                <p className="vt-eyebrow">04 — Écrivez-nous</p>
+                <h1 className="vt-display vt-hero-title">Contact</h1>
+                <p className="vt-lead">
+                    Une question, une suggestion ou une remarque ? Écrivez-nous, nous vous répondrons avec plaisir.
+                </p>
+            </section>
 
-            >
-                {isDark && (
-                    <>
-                        <div
-                            className="vitamineTitleBacground"
-                            style={{ position: "fixed", zIndex: 0 }}
-                        ></div>
-                        <div
-                            className="vitamineTitleBacground2"
-                            style={{ position: "fixed", zIndex: 0 }}
-                        ></div>
-                    </>
-                )}
-
-                <div className="Title">
-                    <p>Contact</p>
-                </div>
-
-                <div
-                    style={{
-                        maxWidth: "600px",
-                        margin: "0 auto",
-                        fontSize: "1.1rem",
-                        lineHeight: "1.7",
-                    }}
+            <div className="vt-grid-2">
+                <a className="vt-link-card tone-peach" href="mailto:rishingsilvabryam@gmail.com">
+                    <MailIcon size={32} />
+                    <span className="vt-display vt-link-card-title">E-mail</span>
+                    <span className="vt-link-card-text">rishingsilvabryam@gmail.com</span>
+                    <ArrowUpRightIcon className="vt-link-card-arrow" size={28} />
+                </a>
+                <a
+                    className="vt-link-card tone-lilac"
+                    href="https://www.linkedin.com/in/bryam-rishing-silva-5a291b352"
+                    target="_blank"
+                    rel="noopener noreferrer"
                 >
-                    <section style={{ marginBottom: "2rem" }}>
-                        <h2 style={{ color: "#2196F3" }}>Nous contacter</h2>
-                        <p>
-                            Vous avez une question, une suggestion ou une remarque ? N'hésitez
-                            pas à nous écrire !
-                        </p>
-                    </section>
-
-                    <section style={{ marginBottom: "2rem" }}>
-                        <h3 style={{ color: "#4CAF50" }}>📧 Email</h3>
-                        <p>
-                            <a
-                                href="mailto:rishingsilvabryam@gmail.com"
-                                style={{
-                                    color: isDark ? "#3180bf" : "#00b2ff",
-                                    textDecoration: "underline",
-                                    position: "relative", // Pour que zIndex fonctionne si besoin
-                                    zIndex: 2,
-                                }}
-                            >
-                                rishingsilvabryam@gmail.com
-                            </a>
-                        </p>
-                    </section>
-
-                    <section
-                        style={{
-                            position: "relative", // Nécessaire pour que zIndex fonctionne
-                            zIndex: 4,
-                            marginBottom: "2rem",
-                        }}
-                    >
-                        <h3 style={{ color: "#0095ff" }}>🔗 LinkedIn</h3>
-                        <a
-                            href="https://www.linkedin.com/in/bryam-rishing-silva-5a291b352"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                                color: isDark ? "#1000fd" : "#00a1ff",
-                                textDecoration: "underline",
-                                position: "relative", // idem
-                                zIndex: 4,
-                            }}
-                        >
-                            Bryam Rishing Silva
-                        </a>
-                    </section>
-                </div>
-            </main>
-        </>
+                    <LinkIcon size={32} />
+                    <span className="vt-display vt-link-card-title">LinkedIn</span>
+                    <span className="vt-link-card-text">Bryam Rishing Silva<span className="vt-visually-hidden"> (nouvel onglet)</span></span>
+                    <ArrowUpRightIcon className="vt-link-card-arrow" size={28} />
+                </a>
+            </div>
+        </Page>
     );
 }
 
