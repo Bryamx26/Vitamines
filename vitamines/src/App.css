@@ -311,7 +311,7 @@ a { color: var(--primary); }
 .vt-family-letters {
   font-size: 40px;
   line-height: 1.1;
-  color: var(--panel-ink, var(--ink));
+  color: var(--ink);
 }
 
 /* ---------- Formes décoratives ---------- */
@@ -406,7 +406,7 @@ a { color: var(--primary); }
 .vt-panel-title {
   font-size: 24px;
   line-height: 30px;
-  color: var(--panel-ink, var(--ink));
+  color: var(--ink);
 }
 
 .vt-panel .vt-panel-title::before {
@@ -430,12 +430,12 @@ a { color: var(--primary); }
 
 .vt-fact dt {
   font-weight: 700;
-  color: var(--panel-ink, var(--ink));
+  color: var(--ink);
 }
 
 .vt-fact dd {
   margin: var(--space-1) 0 0;
-  color: var(--panel-muted, var(--ink-muted));
+  color: var(--ink-muted);
 }
 
 .vt-grid-2 {
@@ -651,7 +651,7 @@ a { color: var(--primary); }
   font-size: 13px;
   line-height: 18px;
   font-weight: 600;
-  color: var(--panel-ink, var(--ink));
+  color: var(--ink);
   overflow-wrap: anywhere;
 }
 
@@ -762,12 +762,11 @@ a { color: var(--primary); }
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--panel-muted, var(--ink-muted));
+  color: var(--ink-muted);
 }
 
 /* Les unités ne passent jamais en majuscules (« µ » deviendrait « Μ ») */
-.vt-unit,
-[data-theme="dark"] .vt-unit { text-transform: none; letter-spacing: 0; }
+.vt-unit { text-transform: none; letter-spacing: 0; }
 
 .vt-field-row {
   width: 100%;
@@ -1132,167 +1131,6 @@ a { color: var(--primary); }
 
 
 /* =========================================================
-   Thème sombre — Cyberpunk rétro
-   ========================================================= */
-[data-theme="dark"] .vt-display { font-weight: 700; }
-[data-theme="dark"] .vt-hero-title { font-weight: 800; }
-[data-theme="dark"] .vt-title { font-size: 32px; line-height: 1.15; }
-[data-theme="dark"] .vt-logo { font-weight: 700; }
-
-/* Micro-étiquettes en mono */
-[data-theme="dark"] :is(
-  .vt-eyebrow, .vt-label, .vt-stat-label, .vt-field label,
-  .vt-nav-link, .vt-badge, .vt-footer, .vt-bubble-name, .vt-bubble-family,
-  .vt-food-name, .vt-banner-title, .vt-fact dt
-) {
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-variant-caps: normal;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-[data-theme="dark"] .vt-eyebrow,
-[data-theme="dark"] .vt-label,
-[data-theme="dark"] .vt-stat-label,
-[data-theme="dark"] .vt-field label,
-[data-theme="dark"] .vt-nav-link { font-size: 12px; line-height: 16px; }
-
-[data-theme="dark"] .vt-badge { font-size: 11px; line-height: 14px; }
-[data-theme="dark"] .vt-footer { font-size: 11px; line-height: 18px; }
-
-/* Unité : mono, sans majuscules (garde « µ » et « mg » corrects) */
-[data-theme="dark"] .vt-qty-unit { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; }
-[data-theme="dark"] .vt-qty-value { color: var(--primary); font-weight: 800; }
-
-/* Nav */
-[data-theme="dark"] .vt-nav { border-radius: var(--radius-md); }
-[data-theme="dark"] .vt-nav-link { border-radius: var(--radius-sm); padding: 10px 14px; }
-[data-theme="dark"] .vt-burger { border-radius: var(--radius-sm); }
-
-/* Boutons : rectangles nets, capitales larges, flèche ↗ */
-[data-theme="dark"] .vt-btn-primary,
-[data-theme="dark"] .vt-btn-ghost {
-  border-radius: var(--radius-xs);
-  font-family: var(--font-wide);
-  font-size: 12px;
-  line-height: 18px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-[data-theme="dark"] .vt-btn-primary::after { content: "\2197"; }
-[data-theme="dark"] .vt-btn-ghost { border-color: var(--ink); }
-[data-theme="dark"] .vt-btn-danger { border-color: var(--danger); }
-
-/* Champs */
-[data-theme="dark"] .vt-input,
-[data-theme="dark"] .vt-color { border-radius: var(--radius-xs); }
-[data-theme="dark"] .vt-search-input { border-radius: var(--radius-md); }
-
-/* Badges */
-[data-theme="dark"] .vt-badge { border-radius: var(--radius-xs); padding: 6px 10px; }
-
-/* Bulles : aplat mat + anneau noir façon cadran */
-[data-theme="dark"] .vt-bubble {
-  box-shadow: inset 0 0 0 10px var(--tone), inset 0 0 0 11.5px var(--on-accent);
-}
-
-[data-theme="dark"] .vt-bubble:hover,
-[data-theme="dark"] .vt-bubble:focus-visible {
-  box-shadow: inset 0 0 0 10px var(--tone), inset 0 0 0 11.5px var(--on-accent), var(--shadow-pop);
-}
-
-[data-theme="dark"] .vt-bubble-letter { font-size: 42px; font-weight: 800; }
-[data-theme="dark"] .vt-bubble-name,
-[data-theme="dark"] .vt-bubble-family { font-size: 10px; line-height: 14px; }
-
-[data-theme="dark"] .vt-bubble-add {
-  box-shadow: none;
-  border-color: var(--line-strong);
-}
-
-/* Panneaux : cartes-affiches pleine couleur */
-[data-theme="dark"] .vt-panel {
-  --panel-ink: var(--on-accent);
-  --panel-muted: var(--on-accent);
-  background: var(--tone);
-  color: var(--on-accent);
-  box-shadow: none;
-}
-
-[data-theme="dark"] .vt-panel .vt-panel-title {
-  font-size: 19px;
-  line-height: 26px;
-  padding-bottom: var(--space-2);
-  border-bottom: 1.5px solid var(--panel-ink);
-}
-
-[data-theme="dark"] .vt-panel .vt-panel-title::before { content: none; }
-[data-theme="dark"] .vt-panel .vt-panel-title::after { content: " \2197"; }
-
-[data-theme="dark"] .vt-fact {
-  padding: var(--space-3) var(--space-4);
-  border: 1.5px solid var(--panel-ink);
-  border-radius: var(--radius-sm);
-}
-
-[data-theme="dark"] .vt-fact dt { font-size: 12px; line-height: 18px; }
-
-[data-theme="dark"] .vt-panel .vt-btn-ghost {
-  color: var(--panel-ink);
-  border-color: var(--panel-ink);
-}
-
-/* Page teintée : panneaux noirs avec bandeau de couleur */
-[data-theme="dark"] .vt-tinted .vt-panel {
-  --panel-ink: var(--ink);
-  --panel-muted: var(--ink-muted);
-  background: var(--bg);
-  color: var(--ink);
-  box-shadow: inset 0 6px 0 var(--tone);
-  padding-top: 30px;
-}
-
-[data-theme="dark"] .vt-tinted .vt-panel .vt-panel-title { border-bottom-color: var(--line-strong); }
-[data-theme="dark"] .vt-tinted .vt-fact { border-color: var(--line-strong); }
-
-/* Aliments : carrés arrondis gris clair */
-[data-theme="dark"] .vt-food-pill {
-  border: 0;
-  border-radius: var(--radius-md);
-  background: var(--sky);
-}
-
-[data-theme="dark"] .vt-food-name { font-size: 10px; line-height: 14px; }
-[data-theme="dark"] .vt-food-add { border-radius: var(--radius-md); }
-
-/* Connexion, modales : carte cerclée, titre souligné */
-[data-theme="dark"] .vt-auth,
-[data-theme="dark"] .vt-modal {
-  box-shadow: inset 0 0 0 1.5px var(--line-strong);
-}
-
-[data-theme="dark"] .vt-auth .vt-title,
-[data-theme="dark"] .vt-modal .vt-title {
-  padding-bottom: var(--space-2);
-  border-bottom: 1.5px solid var(--line-strong);
-}
-
-[data-theme="dark"] .vt-modal-close { border-radius: var(--radius-sm); }
-[data-theme="dark"] .vt-modal-col { border-radius: var(--radius-sm); }
-
-/* Bannières */
-[data-theme="dark"] .vt-banner { border-radius: var(--radius-md); }
-[data-theme="dark"] .vt-banner-title { font-size: 13px; }
-
-/* Cartes numérotées et cartes-liens */
-[data-theme="dark"] .vt-step-num { font-weight: 800; }
-[data-theme="dark"] .vt-link-card-title { font-size: 36px; }
-
-
-/* =========================================================
    Responsive
    ========================================================= */
 @media (max-width: 960px) {
@@ -1324,8 +1162,6 @@ a { color: var(--primary); }
 
   .vt-hero-title,
   .vt-hero-title-xl { font-size: 64px; }
-  [data-theme="dark"] .vt-hero-title,
-  [data-theme="dark"] .vt-hero-title-xl { font-size: min(64px, 16.5vw); }
 
   .vt-title { font-size: 34px; }
   .vt-card { padding: 20px; }
@@ -1339,7 +1175,6 @@ a { color: var(--primary); }
   .vt-gallery { gap: var(--space-6); }
   .vt-bubble { width: 136px; height: 136px; }
   .vt-bubble-letter { font-size: 52px; }
-  [data-theme="dark"] .vt-bubble-letter { font-size: 34px; }
 
   .vt-frieze .vt-shape-pill { width: 84px; height: 40px; }
   .vt-frieze .vt-shape-disc { width: 44px; height: 44px; }
