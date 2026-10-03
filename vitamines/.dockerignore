@@ -1,0 +1,11 @@
+# Le build se fait dans l'image : on n'y copie ni dépendances locales ni secrets
+node_modules
+dist
+npm-debug.log*
+.env
+.env.*
+*.pem
+*.key
+.git
+.gitignore
+.dockerignore

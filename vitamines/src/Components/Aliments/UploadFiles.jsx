@@ -60,6 +60,7 @@ function UploadFiles({ onUpload }) {
         try {
             const res = await fetch(`${API_URL}/uploadAliment`, {
                 method: "POST",
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // réservé aux admins
                 body: formData,
             });
 

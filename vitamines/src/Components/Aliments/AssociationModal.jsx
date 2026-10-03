@@ -55,13 +55,17 @@ function AssociationModal({ open, setOpen, vitamineId, nom }) { // Ajout de 'nom
         const promises = selectedIds.map(alimentId => 
             fetch(`${API_URL}${endpoint}`, {
                 method: method,
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`, // réservé aux admins
+                },
                 body: JSON.stringify({ alimentId, vitamineId })
             })
         );
 
         try {
-            await Promise.all(promises);
+            const responses = await Promise.all(promises);
+            if (responses.some((r) => !r.ok)) throw new Error("Réponse refusée par l'API");
             alert(actionType === "associate" ? "Association réussie !" : "Désassociation réussie !");
             setSelectedIds([]); 
             // setOpen(false); // Optionnel : fermer après action

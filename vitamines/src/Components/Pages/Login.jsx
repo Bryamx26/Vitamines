@@ -41,7 +41,6 @@ function Login() {
                 const nom = data.nom;
 
                 login(data); // On sauvegarde le token etc.
-                console.log(data);
                 handleSuccess(nom);
                 navigate("/");
             } else {

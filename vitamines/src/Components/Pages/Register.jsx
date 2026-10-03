@@ -22,8 +22,8 @@ function Register() {
         showNotification(`Enregistrement réussi \n bienvenue ${nom}`, "success");
     };
 
-    const handleError = () => {
-        showNotification("L’enregistrement a échoué", "error");
+    const handleError = (message) => {
+        showNotification(message || "L’enregistrement a échoué", "error");
     };
 
 
@@ -50,7 +50,7 @@ function Register() {
                 navigate("/");
             } else {
 
-                handleError();
+                handleError(data.message || data.error);
             }
         } catch (err) {
             console.error("Erreur réseau :", err);
@@ -60,6 +60,8 @@ function Register() {
         }
     };
 
+    // Même règle que l'API : 8 caractères minimum, au moins une lettre et un chiffre
+    const passwordStrong = password.length >= 8 && /[A-Za-z]/.test(password) && /\d/.test(password);
     const passwordsMatch = password !== "" && confirmPassword !== "" && confirmPassword === password;
     const passwordsMismatch = password !== "" && confirmPassword !== "" && confirmPassword !== password;
 
@@ -110,6 +112,7 @@ function Register() {
                                 name="password"
                                 id="password"
                                 required
+                                aria-describedby="password-hint"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
@@ -131,6 +134,10 @@ function Register() {
                         </div>
                     </div>
 
+                    <p id="password-hint" className={password && !passwordStrong ? "vt-field-error" : "vt-auth-switch"}>
+                        Au moins 8 caractères, dont une lettre et un chiffre.
+                    </p>
+
                     {passwordsMismatch && (
                         <p id="password-error" className="vt-field-error" role="alert">
                             Les mots de passe ne correspondent pas.
@@ -140,7 +147,7 @@ function Register() {
                     <button
                         type="submit"
                         className="vt-btn-primary vt-btn-block"
-                        disabled={!passwordsMatch || isLoading}
+                        disabled={!passwordsMatch || !passwordStrong || isLoading}
                     >
                         {isLoading ? "Chargement…" : "Créer mon compte"}
                     </button>
