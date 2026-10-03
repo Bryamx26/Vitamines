@@ -11,9 +11,7 @@ function Header() {
     return (
         <header className="vt-header">
             <Link to="/" className="vt-logo vt-on-tone">
-                <span className="vt-logo-mark" aria-hidden="true">
-                    <i></i><i></i><i></i><i></i>
-                </span>
+                <img className="vt-logo-img" src="/images/logo.svg" alt="" width="40" height="40" />
                 <span className="vt-logo-text">Vitamines</span>
             </Link>
             <NavBar menu={isOpen} onNavigate={() => setIsOpen(false)} />

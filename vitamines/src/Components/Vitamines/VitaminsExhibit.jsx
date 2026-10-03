@@ -49,6 +49,13 @@ const VitaminsExhibit = ({ search = "" }) => {
         fetchVitamines();
     }, []);
 
+    // Nombre de vitamines par filtre (données complètes, hors recherche)
+    const counts = {
+        toutes: vitamines.length,
+        liposoluble: vitamines.filter((v) => vitamineFamille(v.nom) === "liposoluble").length,
+        hydrosoluble: vitamines.filter((v) => vitamineFamille(v.nom) === "hydrosoluble").length,
+    };
+
     const filteredVitamines = vitamines.filter((vitamine) =>
         vitamine.nom.replace("Vitamine ", "").toLowerCase().includes(search.toLowerCase())
         && (filtre === "toutes" || vitamineFamille(vitamine.nom) === filtre)
@@ -67,7 +74,7 @@ const VitaminsExhibit = ({ search = "" }) => {
                         aria-pressed={filtre === f.value}
                         onClick={() => setFiltre(f.value)}
                     >
-                        {f.label}
+                        {f.label} · {counts[f.value]}
                     </button>
                 ))}
             </div>
