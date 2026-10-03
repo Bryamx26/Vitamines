@@ -6,7 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "migrate": "node migrations/001_nutriments.js",
+    "seed": "node seed/seed-nutriments.js"
   },
   "keywords": [],
   "author": "",

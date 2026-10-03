@@ -13,12 +13,14 @@ app.use(express.json());
 const vitaminesRoutes = require('./routes/vitamines-routes');
 const alimentRoutes = require('./routes/aliments-routes');
 const userRoutes = require('./routes/user-routes');
+const nutrimentsRoutes = require('./routes/nutriments-routes');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api', vitaminesRoutes); // route complète = /api/vitamines
 app.use('/api', alimentRoutes); // route complète = /api/aliments
 app.use('/api', userRoutes);
+app.use('/api', nutrimentsRoutes); // /api/nutriments, /api/categories, /api/aliments/:id/nutriments
 
 
 

@@ -33,7 +33,7 @@ async function verifyUser(req, res) {
 
 
         const token = jwt.sign(
-            { id: user.id, email: user.email },
+            { id: user.id, email: user.email, role: user.role }, // role : lu par requireAdmin
             process.env.JWT_PRIVATE.replace(/\\n/g, '\n'),  // 👈 important !
             {
                 algorithm: 'RS256',

@@ -1,4 +1,5 @@
 const Aliments = require('../models/aliments');
+const { clearAllCache } = require("../middlewares/cache-middleware");
 const fs = require("fs").promises;
 const path = require("path");
 
@@ -11,6 +12,7 @@ async function getAllAliments(req, res) {
     catch (error) {
 
         console.error(error);
+        res.status(500).json({ error: "Erreur serveur" });
     }
 }
 
@@ -26,6 +28,7 @@ async function getAliments(req, res) {
     }
     catch (error) {
         console.error(error);
+        res.status(500).json({ error: "Erreur serveur" });
     }
 }
 
@@ -58,6 +61,7 @@ async function postNewAliment (req, res) {
         // Créer l'aliment dans la DB
         const aliment = await Aliments.createAliment({ nom, type, path: req.file.originalname ,json });
 
+        clearAllCache();
         res.status(201).json({
             message: "Aliment créé avec succès",
             aliment,
@@ -78,6 +82,7 @@ async function linkAlimentToVitamine(req, res) {
 
     try {
         await Aliments.associate(alimentId, vitamineId);
+        clearAllCache();
         res.status(200).json({ message: "Association réussie" });
     } catch (error) {
         console.error(error);
@@ -97,6 +102,7 @@ async function unlinkAlimentFromVitamine(req, res) {
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: "Liaison non trouvée" });
         }
+        clearAllCache();
         res.status(200).json({ message: "Désassociation réussie" });
     } catch (error) {
         console.error(error);

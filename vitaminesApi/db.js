@@ -5,6 +5,7 @@ const pool = mysql.createPool({
   user: process.env.API_USER ,
   password: process.env.API_PASSWORD ,
   database: process.env.API_DATABASE ,
+  decimalNumbers: true, // DECIMAL renvoyés en nombres (apports)
 });
 
 module.exports = pool;

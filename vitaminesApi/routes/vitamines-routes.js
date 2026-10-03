@@ -6,6 +6,12 @@ const router = express.Router();
 
 const vitaminesController = require('../controllers/vitamines-controller');
 const {cacheMiddleware} = require("../middlewares/cache-middleware");
+const authMiddleware = require("../middlewares/jwt-middleware");
+const requireAdmin = require("../middlewares/require-admin");
+
+// Routes de compatibilité : lues et écrites dans les tables nutriments, même format qu'avant.
+const cache = cacheMiddleware(21600);
+const admin = [authMiddleware, requireAdmin];
 
 
 
@@ -38,7 +44,7 @@ const {cacheMiddleware} = require("../middlewares/cache-middleware");
  *                     type: string
  */
 
-router.get("/vitamines", vitaminesController.getVitamines);
+router.get("/vitamines", cache, vitaminesController.getVitamines);
 
 
 
@@ -77,7 +83,7 @@ router.get("/vitamines", vitaminesController.getVitamines);
  *         description: Vitamine non trouvée
  */
 
-router.get("/vitamines/:id", vitaminesController.getVitamine);
+router.get("/vitamines/:id", cache, vitaminesController.getVitamine);
 
 
 
@@ -98,7 +104,7 @@ router.get("/vitamines/:id", vitaminesController.getVitamine);
  *       200:
  *         description: Liste des effets
  */
-router.get("/vitamines/:id/effects", vitaminesController.getVitamineEffects);
+router.get("/vitamines/:id/effects", cache, vitaminesController.getVitamineEffects);
 
 
 /**
@@ -118,7 +124,7 @@ router.get("/vitamines/:id/effects", vitaminesController.getVitamineEffects);
  *       200:
  *         description: Liste des fonctions
  */
-router.get("/vitamines/:id/fonctions", vitaminesController.getVitamineFonctions);
+router.get("/vitamines/:id/fonctions", cache, vitaminesController.getVitamineFonctions);
 
 
 
@@ -129,6 +135,8 @@ router.get("/vitamines/:id/fonctions", vitaminesController.getVitamineFonctions)
  *     summary: Créer une nouvelle vitamine
  *     tags:
  *       - Vitamines
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -172,8 +180,12 @@ router.get("/vitamines/:id/fonctions", vitaminesController.getVitamineFonctions)
  *         description: Vitamine créée
  *       400:
  *         description: Champs requis manquants
+ *       401:
+ *         description: Token manquant ou invalide
+ *       403:
+ *         description: Réservé aux administrateurs
  */
-router.post("/vitamines",cacheMiddleware(21600), vitaminesController.createVitamine);
+router.post("/vitamines", admin, vitaminesController.createVitamine);
 
 
 /**
@@ -183,6 +195,8 @@ router.post("/vitamines",cacheMiddleware(21600), vitaminesController.createVitam
  *     summary: Mettre à jour une vitamine
  *     tags:
  *       - Vitamines
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -234,7 +248,7 @@ router.post("/vitamines",cacheMiddleware(21600), vitaminesController.createVitam
  *         description: Erreur mise à jour
  */
 
-router.put("/vitamines/:id", cacheMiddleware(21600),vitaminesController.updateVitamine);
+router.put("/vitamines/:id", admin, vitaminesController.updateVitamine);
 
 
 /**
@@ -244,6 +258,8 @@ router.put("/vitamines/:id", cacheMiddleware(21600),vitaminesController.updateVi
  *     summary: Supprimer une vitamine
  *     tags:
  *       - Vitamines
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -257,7 +273,7 @@ router.put("/vitamines/:id", cacheMiddleware(21600),vitaminesController.updateVi
  *         description: Vitamine non trouvée
  */
 
-router.delete("/vitamines/:id",cacheMiddleware(21600), vitaminesController.deleteVitamine);
+router.delete("/vitamines/:id", admin, vitaminesController.deleteVitamine);
 
 
 

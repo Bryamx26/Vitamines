@@ -3,6 +3,9 @@ const router = express.Router();
 const authMiddleware = require("../middlewares/jwt-middleware");
 const alimentsController = require("../controllers/aliments-controller");
 const upload = require("../middlewares/uploadMiddleware");
+const { cacheMiddleware } = require("../middlewares/cache-middleware");
+
+const cache = cacheMiddleware(21600);
 
 
 /**
@@ -31,7 +34,7 @@ const upload = require("../middlewares/uploadMiddleware");
  *
  */
 
-router.get("/aliments", alimentsController.getAllAliments);
+router.get("/aliments", cache, alimentsController.getAllAliments);
 
 
 
@@ -68,7 +71,7 @@ router.get("/aliments", alimentsController.getAllAliments);
  *         description: Aliments non trouvés
  */
 
-router.get("/aliments/:nom", alimentsController.getAliments);
+router.get("/aliments/:nom", cache, alimentsController.getAliments);
 
 
 

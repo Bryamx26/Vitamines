@@ -22,6 +22,7 @@ services:
     container_name: vitamines-api
     depends_on:
       - mysql
+    env_file: .env # JWT_PRIVATE / JWT_PUBLIC
     environment:
       - API_DATABASE_HOST=${DOCKER_DATABASE_HOST}
       - API_DATABASE=${DOCKER_DATABASE}

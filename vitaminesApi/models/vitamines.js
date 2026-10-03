@@ -1,19 +1,63 @@
+// Compatibilité : l'ancienne API « vitamines » lue et écrite dans les tables nutriments.
+// Les réponses gardent exactement l'ancien format (id, nom, description, couleur,
+// nom_scientifique, gramage) ; « gramage » = valeur_min de l'apport principal.
 const db = require("../db");
+const Nutriments = require("./nutriments");
+const { slugify } = require("../utils/text");
+
+const VITAMINE_SQL = `
+    SELECT n.id, n.nom, n.description, n.couleur, n.nom_scientifique
+    FROM nutriments n
+    JOIN categories c ON c.id = n.categorie_id
+    WHERE c.code = 'vitamine'`;
+
+async function withGramage(rows) {
+    const principal = await Nutriments.principalApports(rows.map((r) => r.id));
+    return rows.map((r) => ({ ...r, gramage: principal.get(r.id)?.valeur_min ?? null }));
+}
+
+// Slug libre dérivé du nom (suffixe -2, -3… si déjà pris)
+async function uniqueSlug(conn, nom) {
+    const base = slugify(nom) || "vitamine";
+    let slug = base;
+    for (let i = 2; ; i++) {
+        const [rows] = await conn.query("SELECT id FROM nutriments WHERE slug = ?", [slug]);
+        if (!rows.length) return slug;
+        slug = `${base}-${i}`;
+    }
+}
+
+// Met à jour la valeur de l'apport principal, ou le crée
+async function writeGramage(conn, id, gramage) {
+    if (gramage === undefined || gramage === null || gramage === "") return;
+    const [apports] = await conn.query("SELECT * FROM apports WHERE nutriment_id = ?", [id]);
+    const principal = Nutriments.pickPrincipal(apports);
+    if (principal) {
+        await conn.query("UPDATE apports SET valeur_min = ? WHERE id = ?", [gramage, principal.id]);
+    } else {
+        await conn.query(
+            `INSERT INTO apports (nutriment_id, population, type, valeur_min, unite, source)
+             VALUES (?, 'adulte', 'recommande', ?, 'mg/j', 'saisie admin')`,
+            [id, gramage]
+        );
+    }
+}
 
 const Vitamines = {
     async getAll() {
-        const [rows] = await db.query(`SELECT * FROM vitamines`);
-        return rows;
+        const [rows] = await db.query(`${VITAMINE_SQL} ORDER BY n.id`);
+        return withGramage(rows);
     },
 
     async getVitamine(id) {
-        const [rows] = await db.query(`SELECT * FROM vitamines WHERE id = ?`, [id]);
-        return rows;
+        const [rows] = await db.query(`${VITAMINE_SQL} AND n.id = ?`, [id]);
+        return withGramage(rows);
     },
 
     async getEffects(id) {
         const [rows] = await db.query(
-            `SELECT id, type AS type_effet, description FROM effets WHERE vitamine_id = ?`,
+            `SELECT id, CASE WHEN type = 'exces' THEN 'excès' ELSE type END AS type_effet, description
+             FROM nutriment_effets WHERE nutriment_id = ? ORDER BY ordre, id`,
             [id]
         );
         return rows;
@@ -21,172 +65,53 @@ const Vitamines = {
 
     async getFonctions(id) {
         const [rows] = await db.query(
-            `SELECT f.id, f.nom, f.description 
-       FROM fonctions f 
-       JOIN vitamine_fonction vf ON f.id = vf.fonction_id 
-       WHERE vf.vitamine_id = ?`,
+            `SELECT f.id, f.nom, f.description
+             FROM fonctions f
+             JOIN nutriment_fonction nf ON f.id = nf.fonction_id
+             WHERE nf.nutriment_id = ?
+             ORDER BY nf.ordre, f.id`,
             [id]
         );
         return rows;
     },
 
     async updateVitamine(id, { nom, description, couleur, nom_scientifique, gramage, effets, fonctions }) {
-        const connection = await db.getConnection();
-        try {
-            await connection.beginTransaction();
-
-            // 1️⃣ Mise à jour des infos générales
-            await connection.query(
-                'UPDATE vitamines SET nom = ?, description = ?, couleur = ?, nom_scientifique = ?, gramage = ? WHERE id = ?',
-                [nom, description, couleur, nom_scientifique, gramage, id]
-            );
-
-            // 2️⃣ Supprimer les anciens effets et liens fonctions
-            await connection.query('DELETE FROM effets WHERE vitamine_id = ?', [id]);
-            await connection.query('DELETE FROM vitamine_fonction WHERE vitamine_id = ?', [id]);
-
-            // 3️⃣ Insertion des nouveaux effets (si existants)
-            if (Array.isArray(effets) && effets.length > 0) {
-                // Déduplication des effets
-                const uniqueEffets = Array.from(
-                    new Map(effets.map(e => [`${e.type}-${e.description}`, e])).values()
+        return Nutriments.withTransaction(async (conn) => {
+            await Nutriments.writeFields(conn, id, { nom, description, couleur, nom_scientifique });
+            if (effets !== undefined) {
+                // Déduplication des effets, comme l'ancienne version
+                const unique = Array.from(
+                    new Map((effets || []).map((e) => [`${e.type}-${e.description}`, e])).values()
                 );
-
-                const placeholders = uniqueEffets.map(() => '(?, ?, ?)').join(', ');
-                const values = uniqueEffets.flatMap(e => [id, e.type, e.description]);
-
-                await connection.query(
-                    `INSERT INTO effets (vitamine_id, type, description) VALUES ${placeholders}`,
-                    values
-                );
+                await Nutriments.replaceEffets(conn, id, unique);
             }
-
-            // 4️⃣ Gestion des fonctions
-            if (Array.isArray(fonctions) && fonctions.length > 0) {
-                const funcIds = [];
-                for (const f of fonctions) {
-                    const [rows] = await connection.query('SELECT id FROM fonctions WHERE nom = ?', [f.nom]);
-                    let fid;
-                    if (rows.length === 0) {
-                        const [result] = await connection.query(
-                            'INSERT INTO fonctions (nom, description) VALUES (?, ?)',
-                            [f.nom, f.description]
-                        );
-                        fid = result.insertId;
-                    } else {
-                        fid = rows[0].id;
-                        await connection.query('UPDATE fonctions SET description = ? WHERE id = ?', [f.description, fid]);
-                    }
-                    funcIds.push(fid);
-                }
-
-                // Déduplication des IDs de fonctions
-                const uniqueFuncIds = [...new Set(funcIds)];
-
-                // Préparer placeholders et valeurs pour MySQL2
-                const linkPlaceholders = uniqueFuncIds.map(() => '(?, ?)').join(', ');
-                const linkValues = uniqueFuncIds.flatMap(fid => [id, fid]);
-
-                if (linkValues.length > 0) {
-                    await connection.query(
-                        `INSERT INTO vitamine_fonction (vitamine_id, fonction_id) VALUES ${linkPlaceholders}`,
-                        linkValues
-                    );
-                }
-            }
-
-            await connection.commit();
+            if (fonctions !== undefined) await Nutriments.replaceFonctions(conn, id, fonctions || []);
+            await writeGramage(conn, id, gramage);
             return { success: true };
-        } catch (error) {
-            await connection.rollback();
-            throw error;
-        } finally {
-            connection.release();
-        }
+        });
     },
 
     async createVitamine({ nom, description, couleur, nom_scientifique, gramage, effets, fonctions }) {
-        const connection = await db.getConnection();
-        try {
-            await connection.beginTransaction();
-
-            const [result] = await connection.query(
-                'INSERT INTO vitamines (nom, description, couleur, nom_scientifique, gramage) VALUES (?, ?, ?, ?, ?)',
-                [nom, description, couleur, nom_scientifique, gramage]
+        return Nutriments.withTransaction(async (conn) => {
+            const slug = await uniqueSlug(conn, nom);
+            const id = await Nutriments.writeFields(conn, null, {
+                slug, nom, description, couleur, nom_scientifique, categorie: "vitamine",
+            });
+            const unique = Array.from(
+                new Map((effets || []).map((e) => [`${e.type}-${e.description}`, e])).values()
             );
-
-            const vitamineId = result.insertId;
-
-            // Effets
-            if (Array.isArray(effets) && effets.length > 0) {
-                const uniqueEffets = Array.from(
-                    new Map(effets.map(e => [`${e.type}-${e.description}`, e])).values()
-                );
-                const placeholders = uniqueEffets.map(() => '(?, ?, ?)').join(', ');
-                const values = uniqueEffets.flatMap(e => [vitamineId, e.type, e.description]);
-
-                await connection.query(
-                    `INSERT INTO effets (vitamine_id, type, description) VALUES ${placeholders}`,
-                    values
-                );
-            }
-
-            // Fonctions
-            if (Array.isArray(fonctions) && fonctions.length > 0) {
-                const funcIds = [];
-                for (const f of fonctions) {
-                    const [rows] = await connection.query('SELECT id FROM fonctions WHERE nom = ?', [f.nom]);
-                    let fid;
-                    if (rows.length === 0) {
-                        const [r] = await connection.query(
-                            'INSERT INTO fonctions (nom, description) VALUES (?, ?)',
-                            [f.nom, f.description]
-                        );
-                        fid = r.insertId;
-                    } else {
-                        fid = rows[0].id;
-                    }
-                    funcIds.push(fid);
-                }
-
-                const uniqueFuncIds = [...new Set(funcIds)];
-                const linkPlaceholders = uniqueFuncIds.map(() => '(?, ?)').join(', ');
-                const linkValues = uniqueFuncIds.flatMap(fid => [vitamineId, fid]);
-
-                if (linkValues.length > 0) {
-                    await connection.query(
-                        `INSERT INTO vitamine_fonction (vitamine_id, fonction_id) VALUES ${linkPlaceholders}`,
-                        linkValues
-                    );
-                }
-            }
-
-            await connection.commit();
-            return { id: vitamineId, success: true };
-        } catch (error) {
-            await connection.rollback();
-            throw error;
-        } finally {
-            connection.release();
-        }
+            await Nutriments.replaceEffets(conn, id, unique);
+            await Nutriments.replaceFonctions(conn, id, fonctions || []);
+            await writeGramage(conn, id, gramage);
+            return { id, success: true };
+        });
     },
 
     async deleteVitamine(id) {
-        const connection = await db.getConnection();
-        try {
-            await connection.beginTransaction();
-            await connection.query('DELETE FROM effets WHERE vitamine_id = ?', [id]);
-            await connection.query('DELETE FROM vitamine_fonction WHERE vitamine_id = ?', [id]);
-            await connection.query('DELETE FROM vitamines WHERE id = ?', [id]);
-            await connection.commit();
-            return { success: true };
-        } catch (error) {
-            await connection.rollback();
-            throw error;
-        } finally {
-            connection.release();
-        }
-    }
+        // Les sous-tables suivent par ON DELETE CASCADE
+        await Nutriments.remove(id);
+        return { success: true };
+    },
 };
 
 module.exports = Vitamines;

@@ -1,5 +1,5 @@
 const Vitamines = require("../models/vitamines");
-const { invalidateCacheByKey, clearAllCache } = require("../middlewares/cache-middleware");
+const { clearAllCache } = require("../middlewares/cache-middleware");
 
 async function getVitamines(req, res) {
 
@@ -18,7 +18,7 @@ async function getVitamine(req, res) {
     try {
         const vitamine = await Vitamines.getVitamine(id);
         if (!vitamine || vitamine.length === 0) {
-            res.status(404).send({ error: "Vitamine non trouvée" });
+            return res.status(404).send({ error: "Vitamine non trouvée" });
         }
         res.status(200).json(vitamine);
     }
@@ -113,9 +113,8 @@ async function createVitamine(req, res) {
 
         const result = await Vitamines.createVitamine(vitamineData);
 
+        clearAllCache();
         res.status(201).json({ message: 'Vitamine créée', id: result.id });
-
-        invalidateCacheByKey('/api/vitamines/');
     } catch (error) {
         console.error('Erreur lors de la création de la vitamine:', error);
         res.status(500).json({ message: 'Erreur lors de la création' });
@@ -148,11 +147,7 @@ async function updateVitamine(req, res) {
 
         await Vitamines.updateVitamine(id, vitamineData);
 
-        // Invalider les caches spécifiques
-        invalidateCacheByKey(`/api/vitamines/${id}`);
-        invalidateCacheByKey(`/api/vitamines/${id}/fonctions`);
-        invalidateCacheByKey('/api/vitamines/');
-        invalidateCacheByKey(`/api/vitamines/${id}/effects`);
+        clearAllCache();
 
         // Renvoyer les données mises à jour directement
         const updatedVitamine = await Vitamines.getVitamine(id);
@@ -174,11 +169,7 @@ async function deleteVitamine(req, res) {
 
         await Vitamines.deleteVitamine(id);
 
-        // Invalider les caches spécifiques
-        invalidateCacheByKey(`/api/vitamines/${id}`);
-        invalidateCacheByKey(`/api/vitamines/${id}/effets`);
-        invalidateCacheByKey(`/api/vitamines/${id}/fonctions`);
-        invalidateCacheByKey('/api/vitamines/');
+        clearAllCache();
 
         res.json({ message: 'Vitamine supprimée' });
 
