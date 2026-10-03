@@ -1,0 +1,93 @@
+/* Design system « Vitamines » — variables des deux thèmes.
+   Seul ce fichier contient des couleurs en dur. */
+
+/* ---------- Thème clair — Pastel naturel ---------- */
+:root, [data-theme="light"] {
+  --bg: #f7f2e8;              /* crème */
+  --surface: #fffbf4;
+  --surface-raised: #eef2e4;
+  --ink: #2e3a2b;             /* vert olive très foncé */
+  --ink-muted: #5b6656;
+  --line: #ddd5c4;
+  --line-strong: #7f8a78;
+  --primary: #4a7343;         /* sauge profonde — action */
+  --on-primary: #ffffff;
+  --focus: #4a7343;
+
+  --leaf: #c5dcb2;            /* sauge */
+  --peach: #f8cdb3;           /* pêche */
+  --butter: #f6e5a6;          /* beurre */
+  --lilac: #d9cff2;           /* lilas */
+  --sky: #c2dfec;             /* ciel */
+  --rose: #f4c3cf;            /* rose */
+  --on-accent: #2e3a2b;
+
+  --danger: #a8402c;  --danger-soft: #f7ddd5;
+  --success: #3d6e37; --success-soft: #e2eed9;
+
+  --shadow-soft: 0 10px 30px rgba(74, 88, 60, 0.12);
+  --shadow-pop: 0 18px 44px rgba(74, 88, 60, 0.18);
+  --scrim: rgba(46, 58, 43, 0.45);          /* fond derrière les modales */
+
+  --font-sans: var(--font-nunito);
+  --font-display: var(--font-fredoka);
+  --display-case: none;
+  --display-track: -0.02em;
+
+  color-scheme: light;
+}
+
+/* ---------- Thème sombre — Pastel nocturne ----------
+   Même design que le clair : seules les couleurs changent. */
+[data-theme="dark"] {
+  --bg: #0a0d0a;              /* presque noir teinté de vert */
+  --surface: #242c22;
+  --surface-raised: #30392d;
+  --ink: #eef0e6;             /* blanc crème */
+  --ink-muted: #a9b2a0;
+  --line: #3a4436;
+  --line-strong: #7a8672;
+  --primary: #8fbf84;         /* sauge lumineuse — action */
+  --on-primary: #132011;
+  --focus: #8fbf84;
+
+  --leaf: #a9c99b;            /* sauge */
+  --peach: #eab49b;           /* pêche */
+  --butter: #e5d391;          /* beurre */
+  --lilac: #c0b3e6;           /* lilas */
+  --sky: #a7cbdc;             /* ciel */
+  --rose: #e4aab9;            /* rose */
+  --on-accent: #1c2419;       /* texte foncé sur les pastels */
+
+  --danger: #f08c78;  --danger-soft: #3a221c;
+  --success: #93cf88; --success-soft: #1d2c1a;
+
+  --shadow-soft: 0 0 0 1px rgba(238, 240, 230, 0.07), 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-pop: 0 0 0 1px rgba(238, 240, 230, 0.1), 0 18px 44px rgba(0, 0, 0, 0.6);
+  --scrim: rgba(0, 0, 0, 0.55);             /* voile des modales */
+
+  --font-sans: var(--font-nunito);
+  --font-display: var(--font-fredoka);
+  --display-case: none;
+  --display-track: -0.02em;
+
+  color-scheme: dark;
+}
+
+/* ---------- Commun ---------- */
+:root {
+  /* espacements */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+  /* rayons */
+  --radius-xs: 6px; --radius-sm: 10px; --radius-md: 18px; --radius-lg: 28px; --radius-pill: 999px;
+  /* familles */
+  --font-nunito: "Nunito", system-ui, sans-serif;
+  --font-fredoka: "Fredoka", "Nunito", sans-serif;
+  --font-grotesk: "Space Grotesk", system-ui, sans-serif;
+  --font-wide: "Unbounded", "Space Grotesk", sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+}
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 26px; }
+.vt-display { font-family: var(--font-display); text-transform: var(--display-case); letter-spacing: var(--display-track); font-weight: 600; color: var(--ink); margin: 0; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }

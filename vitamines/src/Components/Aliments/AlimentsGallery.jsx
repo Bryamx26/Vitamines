@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAPI } from "../context/APIContext.jsx"
 
-function AlimentsGallery({ nom }) {
+function AlimentsGallery({ nom, onCount }) {
     const API_URL = useAPI();
     const [aliment, setAliment] = useState([]);
 
@@ -32,19 +32,23 @@ function AlimentsGallery({ nom }) {
             fetchAliment();
         }
     }, [API_URL, nom]);
-    console.log(aliment);
+
+    // Prévient le parent du nombre d'aliments (pour masquer un panneau vide)
+    useEffect(() => {
+        onCount?.(Array.isArray(aliment) ? aliment.length : 0);
+    }, [aliment, onCount]);
 
     return (
-        <div className="aliments-gallery">
+        <ul className="vt-foods">
             {Array.isArray(aliment) && aliment.map((item, index) => (
-                <div className="bubble" key={ index}>
-
-
-                    <img className="AlimentImages" src={`/images/alimentsImages/${item.aliment}`}
-                        alt={item.aliment} />
-                </div>
+                <li className="vt-food" key={index}>
+                    <span className="vt-food-pill">
+                        <img src={`/images/alimentsImages/${item.aliment}`} alt="" />
+                    </span>
+                    <span className="vt-food-name">{item.nom || item.aliment}</span>
+                </li>
             ))}
-        </div>
+        </ul>
     );
 }
 

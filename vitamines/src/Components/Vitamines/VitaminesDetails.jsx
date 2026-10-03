@@ -1,25 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
 import Error from "../Pages/Error.jsx";
 import { useParams } from "react-router-dom";
-import VitamineCard from "./VitamineCard.jsx"; // <- utilisé ?
 import { useLocation } from "react-router-dom";
 import Loading from "../Pages/Loading.jsx";
-import Header from "../Layouts/Header.jsx";
+import Page from "../Layouts/Page.jsx";
 import AlimentsGallery from "../Aliments/AlimentsGallery.jsx";
 import { UserContext } from "/src/Components/context/UserContext.jsx"
 import { useNavigate } from "react-router-dom";
-import { ThemeContext } from "../context/ThemeContext.jsx";
 import { useAPI } from "../context/APIContext.jsx";
 import Quantity from "./Quantity.jsx";
+import { FAMILLE_LABELS, vitamineFamille, vitamineStockage, vitamineTone } from "./vitamineMeta.js";
+
+const EFFETS = [
+    { type: "avantage", label: "Apport adéquat" },
+    { type: "carence", label: "Carence" },
+    { type: "excès", label: "Excès" },
+];
 
 function VitaminesDetails() {
     const location = useLocation();
     const API_URL = useAPI();
-    const { isDark } = useContext(ThemeContext);
     const { id } = useParams();
     const [vitamine, setVitamine] = useState(null);
     const [fonctions, setFonctions] = useState([]);
     const [effects, setEffects] = useState([]);
+    const [alimentsCount, setAlimentsCount] = useState(0);
     const [error, setError] = useState(null);
     const { user } = useContext(UserContext);
 
@@ -85,115 +90,94 @@ function VitaminesDetails() {
     if (error) return <Error />;
     if (!vitamine) return <Loading />;
 
-
-
-
-
+    const famille = vitamineFamille(vitamine.nom);
+    const stockage = vitamineStockage(vitamine.nom);
+    const effetsGroupes = EFFETS
+        .map((g) => ({ ...g, items: effects.filter((effect) => effect.type_effet === g.type) }))
+        .filter((g) => g.items.length > 0);
+    const hasFonctions = Array.isArray(fonctions) && fonctions.length > 0;
 
     return (
-        <>
-            <Header />
-            <div id="detailsPage" style={{ backgroundColor: isDark ? "black" : vitamine.couleur, transition: "all 0.6s ease-in-out" }}  >
-                {isDark ? (
-                    <>
-                        <div className="vitamineTitleBacground2"
-                            style={{
-                                background: isDark
-                                    ? `radial-gradient(
-                                    ${vitamine.couleur} 0%,
-                                     rgba(5, 12, 241, 0.41) 30%,
-                                     rgba(2, 2, 1, 0.02) 70%
-                                        )`
-                                    : null,
-                            }}></div>
-                        <div
-                            className="vitamineTitleBacground"
-                            style={{
-                                background: isDark
-                                    ? `radial-gradient(
-                                    ${vitamine.couleur} 0%,
-                                     rgba(5, 12, 241, 0.41) 30%,
-                                     rgba(2, 2, 1, 0.02) 70%
-                                        )`
-                                    : null,
-                            }}
-                        ></div>
+        <Page tinted tone={vitamineTone(vitamine.nom)}>
+            <section className="vt-hero vt-on-tone">
+                <p className="vt-eyebrow">
+                    Fiche {String(id).padStart(2, "0")}{famille ? ` · ${FAMILLE_LABELS[famille]}` : ""}
+                </p>
+                <h1 className="vt-display vt-hero-title vt-hero-title-xl">{vitamine.nom}</h1>
+                {vitamine.nom_scientifique && <p className="vt-lead">{vitamine.nom_scientifique}</p>}
+                {user && user.role === "admin" ?
+                    <button type="button" className="vt-btn-ghost" onClick={Editer}>Éditer la fiche</button> : null}
+            </section>
 
-                    </>
-
-                ) : null}
-
-
-                <div className="vitamineTitle">
-                    <p>{vitamine.nom}</p>
-                    {user && user.role === "admin" ? <button className="buttons" onClick={Editer}>éditer</button> : null}
-
-
-                </div>
-
-
-                <div className="vitamineContainer">
-                    <div className="vitamineCardContainer1">
-                        <div className="vitamineCard vitamineDescription">
-                            <h2>Description</h2>
-                            <p style={{ whiteSpace: "pre-wrap" }}>{vitamine.description}</p>
-                        </div>
-                        <div className="vitamineAlimentGContainer">
-
-                            <div className="vitamineQuantity">
-                               <Quantity quantity={vitamine.gramage}/>
-                            </div>
-                            <div className="vitamineAliment">
-                                <h3>Aliments associés</h3>
-                                <AlimentsGallery nom={vitamine.nom} />
-                            </div>
-                        </div>
+            <div className="vt-stats">
+                {vitamine.gramage != null && (
+                    <div className="vt-card vt-stat">
+                        <p className="vt-stat-label">Apport conseillé</p>
+                        <Quantity quantity={vitamine.gramage} />
                     </div>
-                    <div className="vitamineCardContainer2">
-
-                        <div className="vitamineCard fonctions">
-                            <h4>fonctions</h4>
-                            {fonctions.map((font, i) => (
-
-                                <p key={i}> <b>{font.nom}</b> {font.description}</p>
-                            ))}
-                        </div>
-                        <div className="vitamineInfosContainer">
-
-                            <div className="effects">
-                                <h2> <u>Effects</u>  </h2>
-
-                                <b> <i>Apport adéquat </i></b>
-                                {effects
-                                    .filter(effect => effect.type_effet === "avantage")
-                                    .map((effect, index) => (
-                                        <p key={`avantage-${index}`}>{effect.description}</p>
-                                    ))}
-
-                                <b> <i>Déficience</i></b>
-                                {effects
-                                    .filter(effect => effect.type_effet === "carence")
-                                    .map((effect, index) => (
-                                        <p key={`carence-${index}`}>{effect.description}</p>
-                                    ))}
-
-                                <b><i>Surplus</i></b>
-                                {effects
-                                    .filter(effect => effect.type_effet === "excès")
-                                    .map((effect, index) => (
-                                        <p key={`exces-${index}`}>{effect.description}</p>
-                                    ))}
-
-
-                            </div>
-
-                            <div className="calculateur"></div>
-                        </div>
+                )}
+                {famille && (
+                    <div className="vt-card vt-stat">
+                        <p className="vt-stat-label">Famille</p>
+                        <span className={`vt-badge tone-${famille === "liposoluble" ? "butter" : "sky"}`}>
+                            {FAMILLE_LABELS[famille]}
+                        </span>
                     </div>
-
-                </div>
+                )}
+                {stockage && (
+                    <div className="vt-card vt-stat">
+                        <p className="vt-stat-label">Stockage</p>
+                        <p className="vt-stat-text">{stockage}</p>
+                    </div>
+                )}
             </div>
-        </>
+
+            {(vitamine.description || hasFonctions) && (
+                <div className="vt-grid-2">
+                    {vitamine.description && (
+                        <section className="vt-panel tone-sky">
+                            <h2 className="vt-display vt-panel-title">Description</h2>
+                            <p className="vt-prewrap">{vitamine.description.trim()}</p>
+                        </section>
+                    )}
+                    {hasFonctions && (
+                        <section className="vt-panel tone-leaf">
+                            <h2 className="vt-display vt-panel-title">Fonctions</h2>
+                            <dl className="vt-facts">
+                                {fonctions.map((font, i) => (
+                                    <div className="vt-fact" key={i}>
+                                        <dt>{font.nom.trim()}</dt>
+                                        <dd>{font.description?.trim()}</dd>
+                                    </div>
+                                ))}
+                            </dl>
+                        </section>
+                    )}
+                </div>
+            )}
+
+            <div className={`vt-grid-3-2${alimentsCount === 0 || effetsGroupes.length === 0 ? " vt-grid-single" : ""}`}>
+                {effetsGroupes.length > 0 && (
+                    <section className="vt-panel tone-peach">
+                        <h2 className="vt-display vt-panel-title">Effets</h2>
+                        <dl className="vt-facts">
+                            {effetsGroupes.map((g) => (
+                                <div className="vt-fact" key={g.type}>
+                                    <dt>{g.label}</dt>
+                                    {g.items.map((effect, index) => (
+                                        <dd key={`${g.type}-${index}`}>{effect.description}</dd>
+                                    ))}
+                                </div>
+                            ))}
+                        </dl>
+                    </section>
+                )}
+                <section className="vt-panel tone-butter" hidden={alimentsCount === 0}>
+                    <h2 className="vt-display vt-panel-title">Où la trouver</h2>
+                    <AlimentsGallery nom={vitamine.nom} onCount={setAlimentsCount} />
+                </section>
+            </div>
+        </Page>
     );
 }
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAPI } from "../context/APIContext.jsx";
 import { useNotification } from "../context/NotificationContext.jsx";
-import {data} from "react-router";
+import { UploadIcon } from "../Icons.jsx";
 
 function UploadFiles({ onUpload }) {
     const { showNotification } = useNotification();
@@ -28,7 +28,7 @@ function UploadFiles({ onUpload }) {
         try {
             const parsed = JSON.parse(str);
             return typeof parsed === "object" && parsed !== null; // doit être un objet ou un tableau
-        } catch (e) {
+        } catch {
             return false; // erreur => pas un JSON
         }
     }
@@ -47,7 +47,7 @@ function UploadFiles({ onUpload }) {
             return;
         }
         if (!json || !isJSON(json)) {
-            handleError("Veuillez introduire  un Json");
+            handleError("Veuillez saisir un JSON valide.");
             return;
         }
 
@@ -60,6 +60,7 @@ function UploadFiles({ onUpload }) {
         try {
             const res = await fetch(`${API_URL}/uploadAliment`, {
                 method: "POST",
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // réservé aux admins
                 body: formData,
             });
 
@@ -87,52 +88,63 @@ function UploadFiles({ onUpload }) {
 
         } catch (err) {
             console.error(err);
-            handleError("❌ Une erreur est survenue"); // fallback générique
+            handleError("L'envoi a échoué. Vérifiez le fichier puis réessayez."); // fallback générique
         }
     };
 
     return (
-        <div className="upload-files">
-            <h3>Ajouter un aliment</h3>
-            <input
-                className="upload-file-input"
-                type="text"
-                placeholder="Nom de l'aliment"
-                value={nom}
-                onChange={handleNomChange}
-            />
-            <select className="upload-file-input" value={type} onChange={handleTypeChange}>
-                <option value="">Sélectionner le type</option>
-                <option value="fruit">Fruit</option>
-                <option value="legume">Légume</option>
-                <option value="aliment">Aliment</option>
-                <option value="boisson">Boisson</option>
-                <option value="produit-laitier">Produit laitier</option>
-                <option value="cereale">Céréale</option>
-                <option value="proteine-animale">Protéine animale</option>
-                <option value="proteine-vegetale">Protéine végétale</option>
-                <option value="graisse">Graisse</option>
-                <option value="sucre">Sucre</option>
-                <option value="oleagineux">Oléagineux</option>
-                <option value="legumineuse">Légumineuse</option>
-                <option value="epice">Épice</option>
-                <option value="herbe-aromatique">Herbe aromatique</option>
-                <option value="produit-transforme">Produit transformé</option>
-                <option value="poisson">Poisson</option>
-                <option value="viande-rouge">Viande rouge</option>
-                <option value="viande-blanche">Viande blanche</option>
-            </select>
-            <input
-                className="upload-file-input"
-                type="file"
-                accept=".svg,.png"
-                onChange={handleFileChange}
-            />
-            <label htmlFor="json" className="upload-file-input">Json</label>
-            <input  id={"json"} className="upload-file-input" type="text" onChange={handleJsonChnageChange} />
-            <button className="upload-button" type="button" onClick={handleUpload}>
-                <p>Upload</p>
-                <img className="upload-image" src="/images/upload.svg" alt="upload" />
+        <div className="vt-upload">
+            <h3 className="vt-display vt-panel-title">Ajouter un aliment</h3>
+            <div className="vt-field">
+                <label htmlFor="upload-nom">Nom de l'aliment</label>
+                <input
+                    id="upload-nom"
+                    className="vt-input"
+                    type="text"
+                    value={nom}
+                    onChange={handleNomChange}
+                />
+            </div>
+            <div className="vt-field">
+                <label htmlFor="upload-type">Type</label>
+                <select id="upload-type" className="vt-input" value={type} onChange={handleTypeChange}>
+                    <option value="">Sélectionner le type</option>
+                    <option value="fruit">Fruit</option>
+                    <option value="legume">Légume</option>
+                    <option value="aliment">Aliment</option>
+                    <option value="boisson">Boisson</option>
+                    <option value="produit-laitier">Produit laitier</option>
+                    <option value="cereale">Céréale</option>
+                    <option value="proteine-animale">Protéine animale</option>
+                    <option value="proteine-vegetale">Protéine végétale</option>
+                    <option value="graisse">Graisse</option>
+                    <option value="sucre">Sucre</option>
+                    <option value="oleagineux">Oléagineux</option>
+                    <option value="legumineuse">Légumineuse</option>
+                    <option value="epice">Épice</option>
+                    <option value="herbe-aromatique">Herbe aromatique</option>
+                    <option value="produit-transforme">Produit transformé</option>
+                    <option value="poisson">Poisson</option>
+                    <option value="viande-rouge">Viande rouge</option>
+                    <option value="viande-blanche">Viande blanche</option>
+                </select>
+            </div>
+            <div className="vt-field">
+                <label htmlFor="upload-file">Image (SVG ou PNG)</label>
+                <input
+                    id="upload-file"
+                    className="vt-input vt-file"
+                    type="file"
+                    accept=".svg,.png"
+                    onChange={handleFileChange}
+                />
+            </div>
+            <div className="vt-field">
+                <label htmlFor="json">Apports (JSON)</label>
+                <input id="json" className="vt-input" type="text" onChange={handleJsonChnageChange} />
+            </div>
+            <button className="vt-btn-primary vt-btn-block" type="button" onClick={handleUpload}>
+                <UploadIcon size={18} /> Envoyer
             </button>
         </div>
     );

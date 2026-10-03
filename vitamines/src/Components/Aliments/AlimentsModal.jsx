@@ -1,5 +1,6 @@
 import UploadFiles from "./UploadFiles.jsx";
 import AllAlimentFrame from "./AllAlimentFrame.jsx";
+import { CloseIcon } from "../Icons.jsx";
 
 function AlimentsModal({open, setOpen }) {
 
@@ -10,26 +11,18 @@ function AlimentsModal({open, setOpen }) {
     }
 
     return (
-        <div className="AlimentsModalContainer">
+        <div className="vt-modal-backdrop">
+            <div className="vt-modal" role="dialog" aria-modal="true" aria-labelledby="aliments-modal-title">
+                <button type="button" className="vt-modal-close" onClick={toggle} aria-label="Fermer">
+                    <CloseIcon size={20} />
+                </button>
 
-            <img className=" modal-button" src={"/images/close.svg"}  alt="close" onClick={toggle}/>
+                <h2 id="aliments-modal-title" className="vt-display vt-title">Aliments</h2>
 
-            <div  className="modal-top">
+                <AllAlimentFrame/>
 
-                    <AllAlimentFrame/>
-
-
+                <UploadFiles/>
             </div>
-
-            <div className="modal-bottom">
-                <div className="modal-upload-div" >
-                    <UploadFiles/>
-                </div>
-
-            </div>
-
-
-
         </div>
     );
 }
