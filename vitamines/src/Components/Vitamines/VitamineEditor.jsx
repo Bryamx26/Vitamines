@@ -138,7 +138,10 @@ export default function VitamineEditor() {
         try {
             const res = await fetch(`${API_URL}/vitamines/${id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`, // route réservée aux admins
+                },
                 body: JSON.stringify(payload)
             });
             if (!res.ok) throw new Error();
@@ -152,7 +155,10 @@ export default function VitamineEditor() {
     const handleDelete = async () => {
         if (!window.confirm("Confirmer suppression ?")) return;
         try {
-            const res = await fetch(`${API_URL}/vitamines/${id}`, { method: "DELETE" });
+            const res = await fetch(`${API_URL}/vitamines/${id}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            });
             if (!res.ok) throw new Error();
             alert("Supprimée");
             navigate("/");

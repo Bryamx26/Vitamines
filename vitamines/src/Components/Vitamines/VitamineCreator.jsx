@@ -75,6 +75,7 @@ function VitamineCreator() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`, // route réservée aux admins
                 },
                 body: JSON.stringify(data),
             });
