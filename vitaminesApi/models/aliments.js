@@ -35,7 +35,8 @@ ORDER BY a.id`, [nom]);
     // Associer un aliment à une vitamine (nutriment)
     async associate(alimentId, vitamineId) {
         const [rows] = await db.query(
-            "INSERT IGNORE INTO `aliment_nutriment` (aliment_id, nutriment_id) VALUES (?, ?)",
+            // Pas d'INSERT IGNORE : il masquerait l'erreur si l'aliment ou le nutriment n'existe pas
+            "INSERT INTO `aliment_nutriment` (aliment_id, nutriment_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE aliment_id = aliment_id",
             [alimentId, vitamineId]
         );
         return rows;

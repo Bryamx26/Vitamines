@@ -59,6 +59,13 @@ async function createUser(req, res) {
         return res.status(400).json({ message: 'Nom, email et mot de passe requis' });
     }
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ message: 'Adresse e-mail invalide' });
+    }
+    if (password.length < 8 || !/[A-Za-z]/.test(password) || !/\d/.test(password)) {
+        return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 8 caractères, dont une lettre et un chiffre.' });
+    }
+
     try {
         const existing = await User.getByEmail(email);
         if (existing.length > 0) {

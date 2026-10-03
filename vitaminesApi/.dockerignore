@@ -1,0 +1,13 @@
+# Rien de secret ni de local dans l'image de l'API
+node_modules
+npm-debug.log*
+.env
+.env.*
+*.pem
+*.key
+keys
+uploads
+.git
+.gitignore
+.dockerignore
+Dockerfile

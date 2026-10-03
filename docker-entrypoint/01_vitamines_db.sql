@@ -167,8 +167,7 @@ INSERT INTO `effets` (`vitamine_id`, `type`, `description`) VALUES
 -- 6. USERS
 -- --------------------------------------------------------
 
-INSERT INTO `users` (`id`, `nom`, `email`, `password`, `created_at`, `role`) VALUES
-(1, 'Bryam', 'bryamrishing@gmail.com', '$2a$12$9pju1fejLIg87oFTv.85lOKqsV4GRudx6LpZT9sOggPfEUaVVLuvW', '2025-06-28 12:33:11', 'admin'),
-(3, 'Airton', 'airtoncesar098@gmail.com', '$2a$12$J3ymkr5TfLc6jaw/p.YYP.M/e0pJL2LmCeYrPcWQM.rWhkJlHFita', '2025-08-02 12:52:33', 'admin');
+-- Aucun compte n'est créé ici : inscrivez-vous sur le site puis donnez le rôle admin
+-- (voir README.md > « Créer le compte administrateur »).
 
 COMMIT;

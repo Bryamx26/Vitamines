@@ -2,6 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 const userController = require("../controllers/user-controller");
+const rateLimit = require("../middlewares/rate-limit");
+
+// Protection contre les essais de mots de passe en série
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    message: "Trop de tentatives de connexion. Réessayez dans quelques minutes.",
+});
+const registerLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 5,
+    message: "Trop d'inscriptions depuis cette adresse. Réessayez plus tard.",
+});
 
 
 
@@ -33,10 +46,12 @@ const userController = require("../controllers/user-controller");
  *         description: Requête invalide
  *       401:
  *         description: Authentification échouée
+ *       429:
+ *         description: Trop de tentatives (10 par 15 minutes et par IP)
  */
 
 
-router.post("/auth", userController.verifyUser);
+router.post("/auth", authLimiter, userController.verifyUser);
 
 
 /**
@@ -117,7 +132,7 @@ router.post("/auth", userController.verifyUser);
  *                   type: string
  *                   example: Erreur serveur
  */
-router.post("/register", userController.createUser);
+router.post("/register", registerLimiter, userController.createUser);
 
 
 module.exports = router;

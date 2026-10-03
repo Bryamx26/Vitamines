@@ -2,7 +2,7 @@ services:
   mysql:
     image: mysql:8.0
     container_name: mysql
-    env_file: .env
+    # Seules les variables MySQL sont transmises (pas les clés JWT du .env)
     environment:
       MYSQL_ROOT_PASSWORD: ${DOCKER_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DOCKER_DATABASE}
@@ -11,8 +11,6 @@ services:
     volumes:
       - ./mysql-data:/var/lib/mysql
       - ./docker-entrypoint:/docker-entrypoint-initdb.d
-   
-
     restart: unless-stopped
     networks:
       - backend
@@ -22,14 +20,25 @@ services:
     container_name: vitamines-api
     depends_on:
       - mysql
+    # UID/GID de l'hôte : l'API doit pouvoir écrire dans le dossier d'images partagé
+    user: "${APP_UID:-1000}:${APP_GID:-1000}"
     env_file: .env # JWT_PRIVATE / JWT_PUBLIC
     environment:
       - API_DATABASE_HOST=${DOCKER_DATABASE_HOST}
       - API_DATABASE=${DOCKER_DATABASE}
       - API_USER=${DOCKER_USER}
       - API_PASSWORD=${DOCKER_PASSWORD}
+      - NODE_ENV=${NODE_ENV:-development}
+      - CORS_ORIGINS=${CORS_ORIGINS:-}
+      - TRUST_PROXY=${TRUST_PROXY:-}
+      - ALIMENTS_IMAGES_DIR=/vitaminesApi/aliments-images
+    volumes:
+      # Images d'aliments : envoyées par l'API, servies par nginx (montage ci-dessous)
+      - ./vitamines/public/images/alimentsImages:/vitaminesApi/aliments-images
     ports:
-      - "3000:3000"
+      # 127.0.0.1 par défaut : en production, l'API passe par le reverse proxy HTTPS
+      - "${API_BIND:-127.0.0.1}:3000:3000"
+    restart: unless-stopped
     networks:
       - backend
 
@@ -38,8 +47,11 @@ services:
     container_name: vitamines-frontend
     depends_on:
       - api
+    volumes:
+      - ./vitamines/public/images/alimentsImages:/usr/share/nginx/html/images/alimentsImages:ro
     ports:
-      - "80:8080" # Expose frontend on port 80 of the host machine
+      - "${FRONT_BIND:-127.0.0.1}:${FRONT_PORT:-80}:8080"
+    restart: unless-stopped
     networks:
       - backend
 

@@ -60,8 +60,10 @@ Vitamines est une application web qui explique simplement le rôle des nutriment
 | Service | Image / build | Port publié | Rôle |
 |---|---|---|---|
 | `mysql` | `mysql:8.0` | aucun | Base `vitamines_db`, initialisée depuis `docker-entrypoint/` |
-| `api` | `./vitaminesApi` | `3000` | API REST (utilisateur non root `api`) |
-| `frontend` | `./vitamines` | `80 → 8080` | Fichiers statiques servis par nginx (utilisateur non root) |
+| `api` | `./vitaminesApi` | `127.0.0.1:3000` | API REST (utilisateur non root, UID `APP_UID`) |
+| `frontend` | `./vitamines` | `127.0.0.1:80 → 8080` | Fichiers statiques servis par nginx (utilisateur non root) |
+
+Les images d'aliments (`vitamines/public/images/alimentsImages`) sont montées dans les deux conteneurs : l'API y écrit les images envoyées par les admins, nginx les sert en lecture seule.
 
 **Stack** : React 19, React Router 7, Vite 7 · Node 22, Express 5, mysql2, jsonwebtoken, bcrypt, multer, swagger-jsdoc · MySQL 8 · Docker Compose.
 
@@ -101,9 +103,9 @@ cd vitamines && npm ci && npm run dev    # http://localhost:5173, API sur :3000
 
 Ces points sont **bloquants** : voir aussi [limites connues](#état-du-projet-et-limites-connues).
 
-1. **Comptes du dump** : `docker-entrypoint/01_vitamines_db.sql` contient deux comptes administrateurs et des données de test. Supprimez le bloc `INSERT INTO users` (et les lignes de test) avant une installation neuve, puis créez votre admin comme indiqué à l'étape 6.
-2. **Mots de passe** : choisissez des mots de passe MySQL forts et uniques. Les anciens mots de passe de développement apparaissent dans l'historique git : ne les réutilisez pas.
-3. **Clés JWT** : générez une paire de clés dédiée à la production (étape 3). Ne copiez pas de fichier `.pem` dans `vitaminesApi/` : sans `.dockerignore`, il serait embarqué dans l'image.
+1. **Mots de passe** : choisissez des mots de passe MySQL forts et uniques. Les anciens mots de passe de développement apparaissent dans l'historique git : ne les réutilisez pas.
+2. **Clés JWT** : générez une paire de clés dédiée à la production (étape 3) et gardez les fichiers `.pem` hors du dépôt (ou dans `keys/`, ignoré par git et par Docker).
+3. **Données** : le dump `docker-entrypoint/01_vitamines_db.sql` ne crée aucun compte ; il contient encore quelques lignes de test (fonctions « sss », aliments « q » et « test ») à retirer si vous le souhaitez.
 
 ### 3. Configurer l'environnement
 
@@ -112,7 +114,16 @@ cp .env.example .env
 chmod 600 .env
 ```
 
-Renseignez `DOCKER_ROOT_PASSWORD`, `DOCKER_USER`, `DOCKER_PASSWORD` (et gardez `DOCKER_DATABASE=vitamines_db`, `DOCKER_DATABASE_HOST=mysql`).
+Renseignez `DOCKER_ROOT_PASSWORD`, `DOCKER_USER`, `DOCKER_PASSWORD` (et gardez `DOCKER_DATABASE=vitamines_db`, `DOCKER_DATABASE_HOST=mysql`), puis pour la production :
+
+```dotenv
+NODE_ENV=production
+TRUST_PROXY=1
+CORS_ORIGINS=https://vitamines.bryamsilva.online
+APP_UID=1000          # id -u du propriétaire de vitamines/public/images/alimentsImages
+APP_GID=1000          # id -g
+FRONT_PORT=8081       # le port 80 de l'hôte est pris par le reverse proxy
+```
 
 **Générer les clés JWT** (en dehors du dépôt) :
 
@@ -134,22 +145,16 @@ shred -u jwt-private.pem jwt-public.pem
 | `DOCKER_USER` / `DOCKER_PASSWORD` | mysql, api | Compte applicatif MySQL |
 | `DOCKER_DATABASE_HOST` | api | Hôte MySQL vu par l'API (`mysql`) |
 | `JWT_PRIVATE` / `JWT_PUBLIC` | api | Clés RS256 qui signent et vérifient les tokens (validité 6 h) |
+| `NODE_ENV` | api | `production` désactive Swagger et active HSTS |
+| `CORS_ORIGINS` | api | Origines autorisées, séparées par des virgules |
+| `TRUST_PROXY` | api | `1` derrière un reverse proxy (IP réelle pour le limiteur de connexion) |
+| `API_DOCS` | api | `true` pour garder `/api-docs` en production |
+| `APP_UID` / `APP_GID` | api | Utilisateur du conteneur, propriétaire du dossier d'images |
+| `API_BIND` / `FRONT_BIND` / `FRONT_PORT` | compose | Interface et port publiés (défaut `127.0.0.1`, port 80) |
 
-### 4. Ports : passer derrière le reverse proxy
+### 4. Reverse proxy HTTPS
 
-En production, n'exposez pas directement l'API et nginx sur Internet. Dans `docker-compose.yml`, liez les ports à la boucle locale et ajoutez un redémarrage automatique :
-
-```yaml
-  api:
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:3000:3000"
-
-  frontend:
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:8081:8080"
-```
+Par défaut, l'API et nginx n'écoutent que sur `127.0.0.1` (ports `3000` et `FRONT_PORT`) et redémarrent automatiquement : seul le reverse proxy les expose sur Internet.
 
 Exemple de `/etc/caddy/Caddyfile` (certificats HTTPS automatiques) :
 
@@ -202,6 +207,8 @@ curl -s -o /dev/null -w "%{http_code}\n" -X POST https://api.bryamsilva.online/a
 ```
 
 Puis ouvrez <https://vitamines.bryamsilva.online>, basculez le thème, ouvrez une fiche et connectez-vous en admin.
+
+**Sécurité en place** : écritures réservées aux admins (JWT RS256 + rôle), 10 tentatives de connexion par 15 minutes et par IP (5 inscriptions par heure), mot de passe d'au moins 8 caractères avec lettre et chiffre, CORS limité aux origines déclarées, en-têtes `nosniff` / `DENY` / `no-referrer`, upload limité aux PNG et SVG sans script (2 Mo, nom de fichier généré par le serveur), cache borné à 500 réponses.
 
 ## Exploitation
 
@@ -301,11 +308,10 @@ DESIGN-SYSTEM.md, THEME-*.md  spécifications du design
 
 **Branches** : le nouveau design du front est sur `feat/design-system` puis `feat/accueil-design` ; la nouvelle base et l'API sur `feat/nutriments`. Elles partent toutes de `dev` et doivent être fusionnées avant la mise en production. Le front n'utilise encore que les routes `/api/vitamines` : les minéraux et oligo-éléments sont disponibles dans l'API mais pas encore affichés.
 
-**À corriger avant une mise en production publique** (détails dans l'audit) :
+**Limites connues**
 
-- `POST /uploadAliment`, `POST /aliments/associate` et `DELETE /aliments/dissociate` ne demandent pas d'authentification ; l'upload accepte des SVG et écrit dans un dossier qui n'existe pas dans le conteneur (fonction cassée en Docker).
-- Pas de `.dockerignore` : tout le dossier (dont d'éventuels `.pem` ou `.env`) est copié dans les images.
-- `/auth` n'a aucune limite de tentatives ; le token est stocké dans `localStorage` et la page de connexion l'écrit dans la console.
-- CORS ouvert à toutes les origines, Swagger public, aucun en-tête de sécurité côté API.
-- Cache mémoire sans limite de taille (une entrée par URL différente).
+- Le token est stocké dans `localStorage` : une faille XSS dans le front permettrait de le lire. Un cookie `HttpOnly` demanderait de revoir l'authentification (CSRF, CORS avec identifiants).
+- Le limiteur de connexion et le cache sont en mémoire : ils repartent de zéro au redémarrage et ne se partagent pas entre plusieurs instances de l'API.
+- Les anciens mots de passe MySQL restent lisibles dans l'historique git (le réécrire demanderait un `git push --force`).
+- `POST /register` renvoie un `id` incorrect ; depuis le réseau local (`192.168.x`), le front appelle `localhost:3000`.
 - Pas de tests automatisés ni d'intégration continue.
