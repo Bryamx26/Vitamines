@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import Page from "../Layouts/Page.jsx";
 import { useAPI } from "../context/APIContext.jsx";
 import { PlusIcon } from "../Icons.jsx";
+import TonePicker from "../Inputs/TonePicker.jsx";
+import { vitamineTone } from "./vitamineMeta.js";
 
 import AssociationModal from "../Aliments/AssociationModal.jsx";
 
@@ -39,18 +41,17 @@ export default function VitamineEditor() {
     useEffect(() => {
         async function fetchData() {
             try {
-                // Vitamine
-                const vitRes = await fetch(`${API_URL}/vitamines/${id}`);
+                // Vitamine (fiche nutriment : contient l'accent « tone »)
+                const vitRes = await fetch(`${API_URL}/nutriments/${id}`);
                 if (!vitRes.ok) throw new Error("Erreur récupération vitamine");
-                const vitData = await vitRes.json();
-                const vitObj = Array.isArray(vitData) ? vitData[0] : vitData;
+                const vitObj = await vitRes.json();
 
                 setVitamine({
                     nom: vitObj?.nom || "",
                     description: vitObj?.description || "",
-                    couleur: vitObj?.couleur || "#5e80c8",
                     nom_scientifique: vitObj?.nom_scientifique || "",
-                    gramage : vitObj?.gramage || 0,
+                    gramage : vitObj?.apport_principal?.valeur_min ?? 0,
+                    tone: vitamineTone(vitObj?.nom, vitObj?.tone),
                 });
 
                 // Effets
@@ -199,23 +200,11 @@ export default function VitamineEditor() {
                                 className="vt-input"
                             />
                         </div>
-                        <div className="vt-field-row">
-                            <div className="vt-field">
-                                <label htmlFor="gramage">Apport <span className="vt-unit">(mg / jour)</span></label>
-                                <input className="vt-input" id="gramage" type="number" onChange={handleGramageChange} value={vitamine.gramage ?? ""} />
-                            </div>
-                            <div className="vt-field">
-                                <label htmlFor="colorInput">Couleur</label>
-                                <input
-                                    id="colorInput"
-                                    className="vt-color"
-                                    type="color"
-                                    name="couleur"
-                                    value={vitamine.couleur}
-                                    onChange={handleVitamineChange}
-                                />
-                            </div>
+                        <div className="vt-field">
+                            <label htmlFor="gramage">Apport <span className="vt-unit">(mg / jour)</span></label>
+                            <input className="vt-input" id="gramage" type="number" onChange={handleGramageChange} value={vitamine.gramage ?? ""} />
                         </div>
+                        <TonePicker value={vitamine.tone} onChange={(tone) => setVitamine((v) => ({ ...v, tone }))} />
                     </section>
 
                     <section className="vt-panel tone-sky">

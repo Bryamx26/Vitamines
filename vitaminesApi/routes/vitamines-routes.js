@@ -157,6 +157,10 @@ router.get("/vitamines/:id/fonctions", cache, vitaminesController.getVitamineFon
  *                 type: string
  *               nom_scientifique:
  *                 type: string
+ *               tone:
+ *                 type: string
+ *                 enum: [leaf, peach, butter, lilac, sky, rose]
+ *                 description: Accent du design system (fond de la fiche) ; met aussi à jour « couleur »
  *               effets:
  *                 type: array
  *                 items:
@@ -223,6 +227,10 @@ router.post("/vitamines", admin, vitaminesController.createVitamine);
  *                 type: string
  *               nom_scientifique:
  *                 type: string
+ *               tone:
+ *                 type: string
+ *                 enum: [leaf, peach, butter, lilac, sky, rose]
+ *                 description: Accent du design system (fond de la fiche) ; met aussi à jour « couleur »
  *               effets:
  *                 type: array
  *                 items:

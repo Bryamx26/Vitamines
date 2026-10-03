@@ -29,7 +29,8 @@ const VitaminsExhibit = ({ search = "" }) => {
         const fetchVitamines = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`${API_URL}/vitamines/`);
+                // Liste des nutriments « vitamine » : contient la famille et l'accent choisis en base
+                const response = await fetch(`${API_URL}/nutriments?categorie=vitamine`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -52,13 +53,13 @@ const VitaminsExhibit = ({ search = "" }) => {
     // Nombre de vitamines par filtre (données complètes, hors recherche)
     const counts = {
         toutes: vitamines.length,
-        liposoluble: vitamines.filter((v) => vitamineFamille(v.nom) === "liposoluble").length,
-        hydrosoluble: vitamines.filter((v) => vitamineFamille(v.nom) === "hydrosoluble").length,
+        liposoluble: vitamines.filter((v) => vitamineFamille(v.nom, v.famille) === "liposoluble").length,
+        hydrosoluble: vitamines.filter((v) => vitamineFamille(v.nom, v.famille) === "hydrosoluble").length,
     };
 
     const filteredVitamines = vitamines.filter((vitamine) =>
         vitamine.nom.replace("Vitamine ", "").toLowerCase().includes(search.toLowerCase())
-        && (filtre === "toutes" || vitamineFamille(vitamine.nom) === filtre)
+        && (filtre === "toutes" || vitamineFamille(vitamine.nom, vitamine.famille) === filtre)
     );
 
     return (

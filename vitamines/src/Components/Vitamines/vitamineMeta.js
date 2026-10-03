@@ -13,7 +13,8 @@ export function vitamineCode(nom = "") {
     return match ? match[0].toUpperCase() : "";
 }
 
-export function vitamineFamille(nom) {
+export function vitamineFamille(nom, famille) {
+    if (famille === "liposoluble" || famille === "hydrosoluble") return famille;
     const lettre = vitamineCode(nom).charAt(0);
     if (LIPOSOLUBLES.includes(lettre)) return "liposoluble";
     if (HYDROSOLUBLES.includes(lettre)) return "hydrosoluble";
@@ -30,8 +31,21 @@ export const FAMILLE_TONES = {
     hydrosoluble: "sky",
 };
 
-// Nom d'accent (leaf, peach, butter, lilac, sky, rose) → classe .tone-*
-export function vitamineTone(nom) {
+// Les 6 accents du design system (valeurs de la colonne nutriments.tone)
+export const TONES = [
+    { value: "leaf", label: "Sauge" },
+    { value: "peach", label: "Pêche" },
+    { value: "butter", label: "Beurre" },
+    { value: "lilac", label: "Lilas" },
+    { value: "sky", label: "Ciel" },
+    { value: "rose", label: "Rose" },
+];
+const TONE_VALUES = TONES.map((t) => t.value);
+
+// Accent → classe .tone-* : celui choisi dans l'éditeur (tone) s'il existe,
+// sinon une valeur déduite de la lettre
+export function vitamineTone(nom, tone) {
+    if (TONE_VALUES.includes(tone)) return tone;
     const code = vitamineCode(nom);
     if (OWN_TONES[code]) return OWN_TONES[code];
     return FAMILLE_TONES[vitamineFamille(nom)] ?? "leaf";

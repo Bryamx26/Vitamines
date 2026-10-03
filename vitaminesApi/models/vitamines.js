@@ -16,6 +16,12 @@ async function withGramage(rows) {
     return rows.map((r) => ({ ...r, gramage: principal.get(r.id)?.valeur_min ?? null }));
 }
 
+// Un accent choisi (tone) impose sa couleur claire : `couleur` reste cohérente pour l'ancien front
+function withTone(fields, tone) {
+    if (!tone) return fields;
+    return { ...fields, tone, couleur: Nutriments.TONE_COLORS[tone] };
+}
+
 // Slug libre dérivé du nom (suffixe -2, -3… si déjà pris)
 async function uniqueSlug(conn, nom) {
     const base = slugify(nom) || "vitamine";
@@ -75,9 +81,9 @@ const Vitamines = {
         return rows;
     },
 
-    async updateVitamine(id, { nom, description, couleur, nom_scientifique, gramage, effets, fonctions }) {
+    async updateVitamine(id, { nom, description, couleur, nom_scientifique, gramage, effets, fonctions, tone }) {
         return Nutriments.withTransaction(async (conn) => {
-            await Nutriments.writeFields(conn, id, { nom, description, couleur, nom_scientifique });
+            await Nutriments.writeFields(conn, id, withTone({ nom, description, couleur, nom_scientifique }, tone));
             if (effets !== undefined) {
                 // Déduplication des effets, comme l'ancienne version
                 const unique = Array.from(
@@ -91,12 +97,12 @@ const Vitamines = {
         });
     },
 
-    async createVitamine({ nom, description, couleur, nom_scientifique, gramage, effets, fonctions }) {
+    async createVitamine({ nom, description, couleur, nom_scientifique, gramage, effets, fonctions, tone }) {
         return Nutriments.withTransaction(async (conn) => {
             const slug = await uniqueSlug(conn, nom);
-            const id = await Nutriments.writeFields(conn, null, {
+            const id = await Nutriments.writeFields(conn, null, withTone({
                 slug, nom, description, couleur, nom_scientifique, categorie: "vitamine",
-            });
+            }, tone));
             const unique = Array.from(
                 new Map((effets || []).map((e) => [`${e.type}-${e.description}`, e])).values()
             );

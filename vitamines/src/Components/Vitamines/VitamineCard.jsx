@@ -11,12 +11,12 @@ function VitamineCard({ vitamine, cliquable }) {
     }
 
     const lettre = vitamineCode(vitamine.nom) || vitamine.nom.replace("Vitamine ", "");
-    const famille = vitamineFamille(vitamine.nom);
+    const famille = vitamineFamille(vitamine.nom, vitamine.famille);
 
     return (
         <button
             type="button"
-            className={`vt-bubble tone-${vitamineTone(vitamine.nom)}`}
+            className={`vt-bubble tone-${vitamineTone(vitamine.nom, vitamine.tone)}`}
             onClick={function () { handleClick() }}
             aria-label={`${vitamine.nom}${vitamine.nom_scientifique ? ", " + vitamine.nom_scientifique : ""}`}
         >

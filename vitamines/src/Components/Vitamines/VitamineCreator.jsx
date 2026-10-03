@@ -3,6 +3,8 @@ import Page from "../Layouts/Page.jsx";
 import { useAPI } from "../context/APIContext.jsx";
 import AddAlimentBubble from "../Aliments/AddAlimentBubble.jsx";
 import { PlusIcon } from "../Icons.jsx";
+import TonePicker from "../Inputs/TonePicker.jsx";
+import { vitamineTone } from "./vitamineMeta.js";
 
 function VitamineCreator() {
     const API_URL = useAPI()
@@ -66,6 +68,7 @@ function VitamineCreator() {
 
         const data = {
             ...vitamine,
+            tone: vitamine.tone || vitamineTone(vitamine.nom), // couleur proposée si rien n'est choisi
             effets,
             fonctions,
         };
@@ -135,23 +138,11 @@ function VitamineCreator() {
                                 required
                             />
                         </div>
-                        <div className="vt-field-row">
-                            <div className="vt-field">
-                                <label htmlFor="gramage">Apport <span className="vt-unit">(mg / jour)</span></label>
-                                <input className="vt-input" id="gramage" type="number" onChange={handleGramageChange} value={vitamine.gramage} />
-                            </div>
-                            <div className="vt-field">
-                                <label htmlFor="colorInput">Couleur</label>
-                                <input
-                                    id="colorInput"
-                                    className="vt-color"
-                                    type="color"
-                                    name="couleur"
-                                    value={vitamine.couleur}
-                                    onChange={handleVitamineChange}
-                                />
-                            </div>
+                        <div className="vt-field">
+                            <label htmlFor="gramage">Apport <span className="vt-unit">(mg / jour)</span></label>
+                            <input className="vt-input" id="gramage" type="number" onChange={handleGramageChange} value={vitamine.gramage} />
                         </div>
+                        <TonePicker value={vitamine.tone || vitamineTone(vitamine.nom)} onChange={(tone) => setVitamine((v) => ({ ...v, tone }))} />
                     </section>
 
                     <section className="vt-panel tone-sky">

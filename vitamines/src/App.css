@@ -806,6 +806,73 @@ a { color: var(--primary); }
   cursor: pointer;
 }
 
+/* Choix de l'accent d'une vitamine (éditeur) */
+.vt-tones {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.vt-tones legend {
+  margin: 0 auto var(--space-2);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.vt-tones-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.vt-tone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  cursor: pointer;
+}
+
+.vt-tone input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.vt-tone-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--tone);
+  color: var(--on-accent);
+  border: 2px solid var(--line-strong);
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s ease;
+}
+
+.vt-tone:hover .vt-tone-swatch { transform: translateY(-2px); }
+.vt-tone input:checked + .vt-tone-swatch { border-color: var(--ink); box-shadow: 0 0 0 2px var(--ink); }
+.vt-tone input:focus-visible + .vt-tone-swatch { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+.vt-tone-label {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
 .vt-field-error {
   margin: 0;
   color: var(--danger);

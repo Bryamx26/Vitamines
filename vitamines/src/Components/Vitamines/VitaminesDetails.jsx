@@ -33,10 +33,11 @@ function VitaminesDetails() {
     useEffect(() => {
         const fetchVitamines = async () => {
             try {
-                const response = await fetch(`${API_URL}/vitamines/${id}`);
+                // Fiche nutriment : contient l'accent (tone) et la famille choisis en base
+                const response = await fetch(`${API_URL}/nutriments/${id}`);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const data = await response.json();
-                setVitamine(data[0]);
+                setVitamine({ ...data, gramage: data.apport_principal?.valeur_min ?? null });
 
             } catch (err) {
                 console.error("Erreur lors du fetch des vitamines:", err);
@@ -90,7 +91,7 @@ function VitaminesDetails() {
     if (error) return <Error />;
     if (!vitamine) return <Loading />;
 
-    const famille = vitamineFamille(vitamine.nom);
+    const famille = vitamineFamille(vitamine.nom, vitamine.famille);
     const stockage = vitamineStockage(vitamine.nom);
     const effetsGroupes = EFFETS
         .map((g) => ({ ...g, items: effects.filter((effect) => effect.type_effet === g.type) }))
@@ -98,7 +99,7 @@ function VitaminesDetails() {
     const hasFonctions = Array.isArray(fonctions) && fonctions.length > 0;
 
     return (
-        <Page tinted tone={vitamineTone(vitamine.nom)}>
+        <Page tinted tone={vitamineTone(vitamine.nom, vitamine.tone)}>
             <section className="vt-hero vt-on-tone">
                 <p className="vt-eyebrow">
                     Fiche {String(id).padStart(2, "0")}{famille ? ` · ${FAMILLE_LABELS[famille]}` : ""}

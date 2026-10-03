@@ -1,5 +1,9 @@
 const Vitamines = require("../models/vitamines");
 const { clearAllCache } = require("../middlewares/cache-middleware");
+const { ENUMS } = require("../models/nutriments");
+
+// Accents du design system acceptés pour la couleur d'une vitamine
+const TONES = ENUMS.tone;
 
 async function getVitamines(req, res) {
 
@@ -92,10 +96,13 @@ async function getVitamineComplete(req, res) {
 
 async function createVitamine(req, res) {
     try {
-        const { nom, description, couleur, nom_scientifique, effets, fonctions , gramage} = req.body;
+        const { nom, description, couleur, nom_scientifique, effets, fonctions , gramage, tone} = req.body;
 
         if (!nom || !description) {
             return res.status(400).json({ message: 'Nom et description sont requis' });
+        }
+        if (tone != null && !TONES.includes(tone)) {
+            return res.status(400).json({ message: `Couleur invalide (${TONES.join(', ')})` });
         }
 
         const vitamineData = {
@@ -105,7 +112,8 @@ async function createVitamine(req, res) {
             nom_scientifique,
             gramage,
             effets,
-            fonctions
+            fonctions,
+            tone
 
         };
 
@@ -129,10 +137,13 @@ async function updateVitamine(req, res) {
             return res.status(400).send({ error: "ID invalide" });
         }
 
-        const { nom, description, couleur, nom_scientifique,gramage, effets, fonctions } = req.body;
+        const { nom, description, couleur, nom_scientifique,gramage, effets, fonctions, tone } = req.body;
 
         if (!nom || !description) {
             return res.status(400).json({ message: 'Nom et description sont requis' });
+        }
+        if (tone != null && !TONES.includes(tone)) {
+            return res.status(400).json({ message: `Couleur invalide (${TONES.join(', ')})` });
         }
 
         const vitamineData = {
@@ -142,7 +153,8 @@ async function updateVitamine(req, res) {
             nom_scientifique,
             gramage,
             effets,
-            fonctions
+            fonctions,
+            tone
         };
 
         await Vitamines.updateVitamine(id, vitamineData);
