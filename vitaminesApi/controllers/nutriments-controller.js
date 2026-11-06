@@ -17,6 +17,10 @@ function validate(body, { creation }) {
     if (body.tone != null && !ENUMS.tone.includes(body.tone)) return `tone invalide (${ENUMS.tone.join(", ")})`;
     if (body.couleur != null && !/^#[0-9a-fA-F]{6}$/.test(body.couleur)) return "couleur invalide (format #rrggbb)";
 
+    if (body.gramage != null && (typeof body.gramage !== "number" || !Number.isFinite(body.gramage) || body.gramage < 0)) {
+        return "gramage invalide (nombre positif attendu)";
+    }
+
     for (const e of Nutriments.flattenEffets(body.effets)) {
         if (!ENUMS.effet.includes(Nutriments.normalizeEffetType(e.type))) return `type d'effet invalide : ${e.type}`;
         if (!e.description) return "Chaque effet doit avoir une description";

@@ -397,6 +397,22 @@ async function writeFields(conn, id, data) {
     return result.insertId;
 }
 
+// « gramage » : valeur de l'apport principal (formulaire admin) ; met à jour l'apport ou le crée
+async function writeGramage(conn, id, gramage) {
+    if (gramage === undefined || gramage === null) return;
+    const [apports] = await conn.query("SELECT * FROM apports WHERE nutriment_id = ?", [id]);
+    const principal = pickPrincipal(apports);
+    if (principal) {
+        await conn.query("UPDATE apports SET valeur_min = ? WHERE id = ?", [gramage, principal.id]);
+    } else {
+        await conn.query(
+            `INSERT INTO apports (nutriment_id, population, type, valeur_min, unite, source)
+             VALUES (?, 'adulte', 'recommande', ?, 'mg/j', 'saisie admin')`,
+            [id, gramage]
+        );
+    }
+}
+
 // Remplace uniquement les sous-listes présentes dans `data`
 async function writeChildren(conn, id, data) {
     if (data.formes !== undefined) await replaceFormes(conn, id, data.formes);
@@ -406,6 +422,8 @@ async function writeChildren(conn, id, data) {
     if (data.apports !== undefined) await replaceApports(conn, id, data.apports);
     if (data.aliments !== undefined) await replaceAliments(conn, id, data.aliments);
     if (data.interactions !== undefined) await replaceInteractions(conn, id, data.interactions);
+    // Après `apports` : le gramage s'applique à la liste à jour
+    await writeGramage(conn, id, data.gramage);
 }
 
 async function withTransaction(fn) {

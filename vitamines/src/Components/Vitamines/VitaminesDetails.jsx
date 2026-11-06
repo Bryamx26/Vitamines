@@ -14,7 +14,7 @@ import { FAMILLE_LABELS, vitamineFamille, vitamineStockage, vitamineTone } from 
 const EFFETS = [
     { type: "avantage", label: "Apport adéquat" },
     { type: "carence", label: "Carence" },
-    { type: "excès", label: "Excès" },
+    { type: "exces", label: "Excès" },
 ];
 
 function VitaminesDetails() {
@@ -23,7 +23,7 @@ function VitaminesDetails() {
     const { id } = useParams();
     const [vitamine, setVitamine] = useState(null);
     const [fonctions, setFonctions] = useState([]);
-    const [effects, setEffects] = useState([]);
+    const [effects, setEffects] = useState({});
     const [alimentsCount, setAlimentsCount] = useState(0);
     const [error, setError] = useState(null);
     const { user } = useContext(UserContext);
@@ -38,6 +38,8 @@ function VitaminesDetails() {
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const data = await response.json();
                 setVitamine({ ...data, gramage: data.apport_principal?.valeur_min ?? null });
+                setEffects(data.effets || {});
+                setFonctions(data.fonctions || []);
 
             } catch (err) {
                 console.error("Erreur lors du fetch des vitamines:", err);
@@ -47,43 +49,6 @@ function VitaminesDetails() {
         fetchVitamines();
     }, [id, location.search]);
 
-    useEffect(() => {
-        const fetchEffects = async () => {
-            try {
-                const response = await fetch(`${API_URL}/vitamines/${id}/effects`);
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setEffects(Array.isArray(data) ? data : []);
-                } else if (response.status === 404) {
-                    // Aucun effet → tableau vide
-                    setEffects([]);
-                } else {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-            } catch (err) {
-                console.error("Erreur lors du fetch des effets:", err.message || err);
-                setEffects([]); // on met un tableau vide en cas d'erreur pour ne pas planter le composant
-            }
-        };
-
-        fetchEffects();
-    }, [API_URL, id]);
-
-    useEffect(() => {
-        const fetchFonctions = async () => {
-            try {
-                const response = await fetch(`${API_URL}/vitamines/${id}/fonctions`);
-                if (!response.ok) throw new Error("Erreur lors du chargement des fonctions");
-                const data = await response.json();
-                setFonctions(data);
-            } catch (err) {
-                setError(err.message);
-            }
-        };
-        fetchFonctions();
-    }, [id, location.search]);
     const Editer = () => {
         navigate(`/VitamineEditor/${id}`);
     };
@@ -94,7 +59,7 @@ function VitaminesDetails() {
     const famille = vitamineFamille(vitamine.nom, vitamine.famille);
     const stockage = vitamineStockage(vitamine.nom);
     const effetsGroupes = EFFETS
-        .map((g) => ({ ...g, items: effects.filter((effect) => effect.type_effet === g.type) }))
+        .map((g) => ({ ...g, items: effects[g.type] || [] }))
         .filter((g) => g.items.length > 0);
     const hasFonctions = Array.isArray(fonctions) && fonctions.length > 0;
 

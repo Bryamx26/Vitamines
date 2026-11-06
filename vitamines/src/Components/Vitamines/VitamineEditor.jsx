@@ -18,7 +18,6 @@ export default function VitamineEditor() {
     const [vitamine, setVitamine] = useState({
         nom: "",
         description: "",
-        couleur: "#5e80c8",
         nom_scientifique: ""
     });
 
@@ -54,40 +53,23 @@ export default function VitamineEditor() {
                     tone: vitamineTone(vitObj?.nom, vitObj?.tone),
                 });
 
-                // Effets
-                const effRes = await fetch(`${API_URL}/vitamines/${id}/effects`);
-
-                if (effRes.ok) {
-                    const effData = await effRes.json();
-                    setEffets(
-                        Array.isArray(effData)
-                            ? effData.map((e) => ({
-                                id: e.id,
-                                type: e.type_effet || "avantage",
-                                description: e.description || ""
-                            }))
-                            : []
-                    );
-                } else if (effRes.status === 404) {
-                    // Aucun effet → liste vide
-                    setEffets([]);
-                } else {
-                    throw new Error("Erreur récupération effets");
-                }
-
-                // Fonctions
-                const fnRes = await fetch(`${API_URL}/vitamines/${id}/fonctions`);
-                if (!fnRes.ok) throw new Error("Erreur récupération fonctions");
-                const fnData = await fnRes.json();
-
-                setFonctions(
-                    Array.isArray(fnData)
-                        ? fnData.map((f) => ({
-                            id: f.id,
-                            nom: f.nom || "",
-                            description: f.description || ""
+                // Effets (groupés par type) et fonctions : déjà dans la fiche
+                const effetsGroupes = vitObj?.effets || {};
+                setEffets(
+                    ["avantage", "carence", "exces"].flatMap((type) =>
+                        (effetsGroupes[type] || []).map((e) => ({
+                            id: e.id,
+                            type,
+                            description: e.description || ""
                         }))
-                        : []
+                    )
+                );
+                setFonctions(
+                    (vitObj?.fonctions || []).map((f) => ({
+                        id: f.id,
+                        nom: f.nom || "",
+                        description: f.description || ""
+                    }))
                 );
             } catch (err) {
                 console.error(err);
@@ -129,15 +111,16 @@ export default function VitamineEditor() {
     // Submit avec valeurs actuelles via refs
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const { gramage, ...champs } = vitamine;
         const payload = {
-            ...vitamine,
-            effets: effetsRef.current,
-            fonctions: fonctionsRef.current
+            ...champs,
+            gramage: gramage === "" || gramage == null ? null : Number(gramage),
+            effets: effetsRef.current.map(({ type, description }) => ({ type, description })),
+            fonctions: fonctionsRef.current.map(({ nom, description }) => ({ nom, description }))
         };
-        console.log("Payload envoyé:", payload);
 
         try {
-            const res = await fetch(`${API_URL}/vitamines/${id}`, {
+            const res = await fetch(`${API_URL}/nutriments/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -145,18 +128,21 @@ export default function VitamineEditor() {
                 },
                 body: JSON.stringify(payload)
             });
-            if (!res.ok) throw new Error();
+            if (!res.ok) {
+                const body = await res.json().catch(() => ({}));
+                throw new Error(body.error || "");
+            }
             alert("Vitamine mise à jour !");
             navigate(-1);
-        } catch {
-            alert("Erreur lors de la mise à jour");
+        } catch (err) {
+            alert("Erreur lors de la mise à jour" + (err.message ? ` : ${err.message}` : ""));
         }
     };
 
     const handleDelete = async () => {
         if (!window.confirm("Confirmer suppression ?")) return;
         try {
-            const res = await fetch(`${API_URL}/vitamines/${id}`, {
+            const res = await fetch(`${API_URL}/nutriments/${id}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
             });
@@ -290,7 +276,7 @@ export default function VitamineEditor() {
                             >
                                 <option value="avantage">Avantage</option>
                                 <option value="carence">Carence</option>
-                                <option value="excès">Excès</option>
+                                <option value="exces">Excès</option>
                             </select>
                             <input
                                 className="vt-input"

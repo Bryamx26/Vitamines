@@ -56,6 +56,7 @@ const admin = [authMiddleware, requireAdmin];
  *         - type: object
  *           properties:
  *             description: { type: string }
+ *             gramage: { type: number, writeOnly: true, description: "En écriture seulement : valeur de l'apport principal (mg/j), créé s'il n'existe pas" }
  *             absorption: { type: string }
  *             metabolisme: { type: string }
  *             stockage: { type: string }
