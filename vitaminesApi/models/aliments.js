@@ -7,15 +7,20 @@ const Aliments = {
         const [rows] = await db.query('SELECT * FROM aliments');
         return rows;
     },
+
+    // Compatibilité : [{ id, nom, aliment (= path), vitamine }] pour un nom de vitamine.
+    // Les aliments sans image (path NULL, créés par le seed) sont exclus : l'ancien front
+    // ne sait afficher que des images.
     async getAlimentsByVitamineName(nom) {
         const [rows] = await db.query(`
-SELECT a.nom, a.path AS aliment, v.nom AS vitamine 
-FROM vitamines v 
-JOIN aliments_vitamines av 
-ON v.id = av.vitamine_id 
-JOIN aliments a 
-ON a.id = av.aliment_id 
-WHERE v.nom = ?`, [nom]);
+SELECT a.id, a.nom, a.path AS aliment, n.nom AS vitamine
+FROM nutriments n
+JOIN aliment_nutriment an
+ON n.id = an.nutriment_id
+JOIN aliments a
+ON a.id = an.aliment_id
+WHERE n.nom = ? AND a.path IS NOT NULL
+ORDER BY a.id`, [nom]);
         return rows;
     },
 
@@ -24,7 +29,29 @@ WHERE v.nom = ?`, [nom]);
 
         const [rows] = await db.query("INSERT INTO `aliments` (nom, type, path,gramage) VALUES (?,?,?,?)",[aliment.nom , aliment.type, aliment.path,aliment.json]);
         return rows;
+    },
+
+
+    // Associer un aliment à une vitamine (nutriment)
+    async associate(alimentId, vitamineId) {
+        const [rows] = await db.query(
+            // Pas d'INSERT IGNORE : il masquerait l'erreur si l'aliment ou le nutriment n'existe pas
+            "INSERT INTO `aliment_nutriment` (aliment_id, nutriment_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE aliment_id = aliment_id",
+            [alimentId, vitamineId]
+        );
+        return rows;
+    },
+
+    // Désassocier un aliment d'une vitamine (nutriment)
+    async dissociate(alimentId, vitamineId) {
+        const [rows] = await db.query(
+            "DELETE FROM `aliment_nutriment` WHERE aliment_id = ? AND nutriment_id = ?",
+            [alimentId, vitamineId]
+        );
+        return rows;
     }
+
+
 
 }
 

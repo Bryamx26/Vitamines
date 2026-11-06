@@ -1,0 +1,64 @@
+[
+  {
+    "nutriments": ["vitamine-a", "vitamine-d", "vitamine-e", "vitamine-k", "vitamine-c"],
+    "question": "Quelles vitamines sont liposolubles ?",
+    "reponses": [
+      { "texte": "A, D, E et K", "statut": "correcte" },
+      { "texte": "A et D", "statut": "incomplete", "explication": "Il manque les vitamines E et K." },
+      { "texte": "C et B12", "statut": "fausse", "explication": "Elles sont hydrosolubles." },
+      { "texte": "Toutes les vitamines", "statut": "fausse" }
+    ],
+    "correction": "Les vitamines liposolubles (A, D, E, K) se dissolvent dans les graisses et peuvent être stockées, surtout dans le foie. Les vitamines B et C sont hydrosolubles."
+  },
+  {
+    "nutriments": ["vitamine-c"],
+    "question": "Quelle maladie est due à une carence prolongée en vitamine C ?",
+    "reponses": [
+      { "texte": "Le scorbut", "statut": "correcte" },
+      { "texte": "Le rachitisme", "statut": "fausse", "explication": "Le rachitisme est lié à un manque de vitamine D." },
+      { "texte": "La pellagre", "statut": "fausse", "explication": "La pellagre est liée à un manque de vitamine B3." }
+    ],
+    "correction": "Le scorbut apparaît après plusieurs semaines sans vitamine C : fatigue, saignement des gencives, mauvaise cicatrisation."
+  },
+  {
+    "nutriments": ["vitamine-d"],
+    "question": "Comment l'organisme obtient-il de la vitamine D ?",
+    "reponses": [
+      { "texte": "Par la peau exposée au soleil (UVB)", "statut": "correcte" },
+      { "texte": "Par l'alimentation (poissons gras, œufs…)", "statut": "correcte" },
+      { "texte": "Uniquement par l'alimentation", "statut": "incomplete", "explication": "La peau en fabrique aussi grâce aux UVB." },
+      { "texte": "Par la respiration", "statut": "fausse" }
+    ],
+    "correction": "La vitamine D vient surtout de la synthèse cutanée sous l'effet des UVB, et en partie de l'alimentation (poissons gras, jaune d'œuf, produits enrichis)."
+  },
+  {
+    "nutriments": ["vitamine-k"],
+    "question": "Quel est le rôle principal de la vitamine K ?",
+    "reponses": [
+      { "texte": "La coagulation du sang", "statut": "correcte" },
+      { "texte": "La vision de nuit", "statut": "fausse", "explication": "C'est le rôle de la vitamine A." },
+      { "texte": "Le métabolisme des os", "statut": "incomplete", "explication": "Elle y participe, mais son rôle principal reste la coagulation." }
+    ],
+    "correction": "La vitamine K est indispensable à la synthèse des facteurs de coagulation. Elle intervient aussi dans la minéralisation osseuse."
+  },
+  {
+    "nutriments": ["vitamine-b9", "vitamine-b12"],
+    "question": "Quelles vitamines interviennent ensemble dans la formation des globules rouges ?",
+    "reponses": [
+      { "texte": "B9 (folates) et B12", "statut": "correcte" },
+      { "texte": "B12 seulement", "statut": "incomplete", "explication": "Les folates (B9) sont aussi nécessaires." },
+      { "texte": "Vitamine C", "statut": "fausse", "explication": "Elle favorise l'absorption du fer, mais ce n'est pas elle qui est attendue ici." }
+    ],
+    "correction": "Les vitamines B9 et B12 travaillent ensemble dans la synthèse de l'ADN des cellules de la moelle : une carence de l'une ou l'autre donne une anémie (globules rouges trop gros)."
+  },
+  {
+    "nutriments": ["vitamine-b12"],
+    "question": "Dans quels aliments trouve-t-on naturellement de la vitamine B12 ?",
+    "reponses": [
+      { "texte": "Viande, poisson, œufs, produits laitiers", "statut": "correcte" },
+      { "texte": "Fruits et légumes", "statut": "fausse", "explication": "Les végétaux n'en contiennent pratiquement pas." },
+      { "texte": "La viande", "statut": "incomplete", "explication": "Le poisson, les œufs et les produits laitiers en contiennent aussi." }
+    ],
+    "correction": "La vitamine B12 est présente presque uniquement dans les produits d'origine animale : les végétaliens doivent se supplémenter."
+  }
+]

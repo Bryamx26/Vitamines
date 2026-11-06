@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AlimentsModal from "../Aliments/AlimentsModal.jsx";
+import { PlusIcon } from "../Icons.jsx";
 
 function AddAlimentBubble() {
     const [open, setOpen] = useState(false);
@@ -8,15 +9,11 @@ function AddAlimentBubble() {
         <>
             <button
                 type="button"
-                className="bubble-button"
+                className="vt-food-add"
                 onClick={() => setOpen(true)}
                 aria-label="Ajouter un aliment"
             >
-                <img
-                    src="/images/add.svg"
-                    alt=""
-                    style={{ width: "30px", height: "30px" }}
-                />
+                <PlusIcon size={28} />
             </button>
 
             <AlimentsModal open={open} setOpen={setOpen} />

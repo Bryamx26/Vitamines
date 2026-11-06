@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAPI } from "../context/APIContext.jsx"
 
-function AllAlimentFrame() {
+function AllAlimentFrame({ version = 0 }) {
     const API_URL = useAPI();
     const [aliment, setAliment] = useState([]);
 
@@ -27,21 +27,20 @@ function AllAlimentFrame() {
         };
 
         fetchAliments();
-    }, []);
+    }, [API_URL, version]);
 
 
     return (
-        <div className="aliments-frame">
+        <ul className="vt-foods">
             {Array.isArray(aliment) && aliment.map((item, index) => (
-
-                <div className="bubble" key={ index}>
-
-
-                    <img className="AlimentImages"  src={`/images/alimentsImages/${item.path} `}
-                         alt={item.nom} title={item.gramage} />
-                </div>
+                <li className="vt-food" key={item.id ?? index}>
+                    <span className="vt-food-pill">
+                        {item.path && <img src={`/images/alimentsImages/${item.path}`} alt="" />}
+                    </span>
+                    <span className="vt-food-name">{item.nom}</span>
+                </li>
             ))}
-        </div>
+        </ul>
     );
 }
 

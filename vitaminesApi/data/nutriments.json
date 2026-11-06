@@ -1,0 +1,2570 @@
+{
+  "version": 1,
+  "genere_le": "2026-10-03",
+  "source": "Notes de cours « Nut & Diet Q2 » (Bryam) ; valeurs manquantes complétées par EFSA et marquées « complément » ; champs a_verifier=true à confirmer (CSS 2016 avis 9285 / EFSA DRV Finder).",
+  "categories": [
+    {
+      "code": "vitamine",
+      "nom": "Vitamines"
+    },
+    {
+      "code": "mineral",
+      "nom": "Minéraux"
+    },
+    {
+      "code": "oligo-element",
+      "nom": "Oligo-éléments"
+    }
+  ],
+  "familles": [
+    {
+      "code": "liposoluble",
+      "nom": "Liposolubles",
+      "description": "Solubles dans les matières grasses : A, D, E, K."
+    },
+    {
+      "code": "hydrosoluble",
+      "nom": "Hydrosolubles",
+      "description": "Solubles dans l'eau : vitamines B et C."
+    }
+  ],
+  "generalites": {
+    "vitamines": [
+      "Composés organiques sans valeur énergétique (kcal).",
+      "Présentes en faible quantité dans la nourriture (milligrammes, microgrammes).",
+      "Ne peuvent pas être synthétisées par l'homme, ou pas en quantité suffisante.",
+      "Nécessaires à la croissance et au maintien de l'état de santé."
+    ],
+    "besoin": [
+      "Éviter les carences ou leurs manifestations cliniques ; épanouissement physique maximal.",
+      "Climat : la vitamine D est fabriquée via le soleil ; plus de soleil, moins d'apport exogène.",
+      "Habitudes de vie : travailleurs de force, sportifs."
+    ]
+  },
+  "nutriments": [
+    {
+      "slug": "vitamine-a",
+      "nom": "Vitamine A",
+      "symbole": "A",
+      "nom_scientifique": "Rétinol",
+      "categorie": "vitamine",
+      "famille": "liposoluble",
+      "tone": "peach",
+      "description": "Vitamine liposoluble essentielle à la vision, à l'immunité, à la croissance et à la santé de la peau. Terme générique qui désigne plusieurs substances : la vitamine A préformée (rétinol) et les provitamines A (caroténoïdes).",
+      "absorption": "Se trouve dans la partie grasse des aliments. Le rétinol (produits animaux) est présent sous forme d'esters d'acides gras ; environ 10 % des caroténoïdes peuvent être transformés en vitamine A.",
+      "metabolisme": "Rétinol (fonction alcool) ⇄ rétinal (fonction aldéhyde) → acide rétinoïque, qui contribue au bon fonctionnement du système nerveux.",
+      "stockage": "Stockée dans le foie.",
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [
+        {
+          "nom": "Rétinol",
+          "description": "Vitamine A préformée, fonction alcool, d'origine animale (esters d'acides gras)."
+        },
+        {
+          "nom": "Rétinal",
+          "description": "Vitamine A préformée, fonction aldéhyde."
+        },
+        {
+          "nom": "Bêta-carotène",
+          "description": "Provitamine A : pigment jaune-orange-rouge des fruits et légumes, activité antioxydante."
+        },
+        {
+          "nom": "Alpha-carotène",
+          "description": "Provitamine A, caroténoïde."
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Vision",
+          "description": "Synthèse du pigment rhodopsine, qui détermine la sensibilité de l'œil à la lumière."
+        },
+        {
+          "nom": "Régulation de l'expression des gènes",
+          "description": "Régule de nombreuses protéines, la croissance et la différenciation cellulaire (hormone de croissance)."
+        },
+        {
+          "nom": "Croissance et développement",
+          "description": "Le rétinol et l'acide rétinoïque sont nécessaires au développement de l'embryon et à la différenciation des organes."
+        },
+        {
+          "nom": "Immunité",
+          "description": "Le rétinol maintient l'intégrité des cellules des muqueuses et participe à la différenciation des lymphocytes."
+        },
+        {
+          "nom": "Globules rouges",
+          "description": "Facilite la mobilisation du fer pour son incorporation dans l'hémoglobine ; les rétinoïdes interviennent dans la différenciation des cellules souches en globules rouges."
+        }
+      ],
+      "effets": [
+        {
+          "type": "avantage",
+          "description": "Améliore la vision, notamment la vision nocturne."
+        },
+        {
+          "type": "avantage",
+          "description": "Renforce le système immunitaire."
+        },
+        {
+          "type": "avantage",
+          "description": "Favorise la santé de la peau et des muqueuses."
+        },
+        {
+          "type": "avantage",
+          "description": "Participe à la croissance et à la différenciation cellulaire."
+        },
+        {
+          "type": "carence",
+          "description": "Héméralopie (baisse de la vision dans la pénombre) : la rhodopsine n'est plus synthétisée."
+        },
+        {
+          "type": "carence",
+          "description": "Xérophtalmie (sécheresse de l'œil) pouvant mener à la cécité."
+        },
+        {
+          "type": "carence",
+          "description": "Une carence ou un excès entraîne un défaut de croissance."
+        },
+        {
+          "type": "exces",
+          "description": "Hypervitaminose A : maux de tête, nausées, fatigue, douleurs osseuses, peau sèche."
+        },
+        {
+          "type": "exces",
+          "description": "Risque d'anomalies congénitales en cas de surconsommation pendant la grossesse."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "recommande",
+          "valeur_min": 750,
+          "valeur_max": null,
+          "unite": "µg ER/j",
+          "source": "EFSA (PRI) — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "femme",
+          "type": "recommande",
+          "valeur_min": 650,
+          "valeur_max": null,
+          "unite": "µg ER/j",
+          "source": "EFSA (PRI) — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 3000,
+          "valeur_max": null,
+          "unite": "µg ER/j",
+          "source": "EFSA (UL)",
+          "a_verifier": false,
+          "note": "Limite pour le rétinol préformé ; hors notes."
+        }
+      ],
+      "unites": "1 ER (équivalent rétinol) = 1 µg de rétinol = 6 µg de bêta-carotène = 12 µg des autres caroténoïdes ; 1 UI = 0,3 µg ER.",
+      "aliments": [
+        "Foie",
+        "Beurre",
+        "Lait",
+        "Oeuf",
+        "Saumon",
+        "Carotte",
+        "Épinard",
+        "Patate douce",
+        "Melon"
+      ],
+      "aliments_source": "Notes : rétinol dans le règne animal, caroténoïdes dans les fruits et légumes colorés. Liste précise : complément.",
+      "interactions": [
+        {
+          "cible": "zinc",
+          "type": "depend",
+          "description": "Une déficience en zinc altère la synthèse de la Retinol Binding Protein et diminue la conversion du rétinol en rétinal."
+        },
+        {
+          "cible": "fer",
+          "type": "synergie",
+          "description": "Une déficience en vitamine A aggrave l'anémie ferriprive."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-d",
+      "nom": "Vitamine D",
+      "symbole": "D",
+      "nom_scientifique": "Calciférol",
+      "categorie": "vitamine",
+      "famille": "liposoluble",
+      "tone": "rose",
+      "description": "Vitamine liposoluble à activité hormonale, indispensable à la formation et au maintien des os. L'homme la synthétise dans la peau sous l'effet des UVB.",
+      "absorption": "Besoin exogène plus faible si la production endogène (soleil) est suffisante.",
+      "metabolisme": "La D3 est inactive : elle est activée dans le foie (25-OH-D, calcidiol) puis dans les reins (1,25-(OH)2-D, calcitriol), transportée dans le sang par la DBP (Vitamin D Binding Protein) et agit via un récepteur spécifique VDR dans les tissus cibles.",
+      "stockage": "Se stocke dans les tissus adipeux.",
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [
+        {
+          "nom": "D2 – ergocalciférol",
+          "description": "Synthétisée par les levures et les plantes, en quantités minimes."
+        },
+        {
+          "nom": "D3 – cholécalciférol",
+          "description": "Synthétisée chez l'homme dans la peau à partir du 7-déhydrocholestérol sous l'effet des UVB."
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Formation et maintien de la masse osseuse",
+          "description": "Augmente l'absorption intestinale du calcium et du phosphore, la libération du calcium de l'os et la maturation des ostéoclastes."
+        },
+        {
+          "nom": "Maintien et contrôle de la calcémie",
+          "description": "Active la synthèse de protéines (ostéocalcine, collagène) et l'absorption intestinale du calcium."
+        },
+        {
+          "nom": "Immunité",
+          "description": "Régulation de la synthèse des interleukines et des cytokines."
+        },
+        {
+          "nom": "Contrôle de la prolifération et de la différenciation cellulaires",
+          "description": null
+        },
+        {
+          "nom": "Autres",
+          "description": "Sécrétion d'insuline, pression sanguine."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Taux sanguin de 25-OH-D souhaitable : au minimum 50 nmol/L ; atteint par seulement 1/3 des plus de 65 ans."
+        },
+        {
+          "type": "carence",
+          "description": "Rachitisme chez l'enfant, ostéomalacie chez l'adulte (complément)."
+        },
+        {
+          "type": "exces",
+          "description": "Hypercalcémie en cas de surdosage prolongé (complément)."
+        }
+      ],
+      "allegations": [
+        "Contribue au développement normal des os et des dents (EFSA 2014).",
+        "Contribue au maintien des fonctions immunitaires et musculaires (EFSA 2014)."
+      ],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "recommande",
+          "valeur_min": 10,
+          "valeur_max": 15,
+          "unite": "µg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 50,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : AMT adulte maintenu à 50 µg/j par le CSS (tableau 35) ; l'EFSA (2012) propose 100 µg/j. Notes manuscrites : 50 µg/j."
+        }
+      ],
+      "unites": "40 UI = 1 µg de vitamine D.",
+      "aliments": [
+        "Saumon",
+        "Sardine",
+        "Hareng",
+        "Oeuf",
+        "Lait",
+        "Champignons"
+      ],
+      "aliments_source": "Sources non détaillées dans les notes : complément.",
+      "interactions": [
+        {
+          "cible": "calcium",
+          "type": "favorise",
+          "description": "Augmente l'absorption intestinale du calcium."
+        },
+        {
+          "cible": "phosphore",
+          "type": "favorise",
+          "description": "Augmente l'absorption intestinale du phosphore."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-e",
+      "nom": "Vitamine E",
+      "symbole": "E",
+      "nom_scientifique": "Tocophérol",
+      "categorie": "vitamine",
+      "famille": "liposoluble",
+      "tone": "lilac",
+      "description": "Vitamine liposoluble antioxydante : elle neutralise les radicaux libres et protège les membranes cellulaires.",
+      "absorption": "Suit la digestion des lipides (nécessite la sécrétion pancréatique) ; aux doses physiologiques, 40 à 60 % est absorbé.",
+      "metabolisme": "Passe par le système lymphatique, puis circule dans les lipoprotéines (LDL, HDL) et les cellules sanguines vers le foie et les tissus. Présente dans les aliments sous forme d'esters de tocophérol.",
+      "stockage": "Foie et tissus.",
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [
+        {
+          "nom": "Tocophérols",
+          "description": "Alpha, bêta, gamma, delta."
+        },
+        {
+          "nom": "Tocotriénols",
+          "description": "Alpha, bêta, gamma, delta (8 formes au total avec les tocophérols, en 2 familles)."
+        },
+        {
+          "nom": "RRR-α-tocophérol",
+          "description": "Forme naturelle : 90 % de l'activité vitaminique E dans les tissus humains."
+        },
+        {
+          "nom": "dl-α-tocophérol",
+          "description": "Forme synthétique (dextrogyre + lévogyre), moins active que la forme naturelle."
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Antioxydant",
+          "description": "Neutralise les radicaux libres et réduit le risque d'agression/modification de la structure des tissus."
+        },
+        {
+          "nom": "Stabilisation des membranes cellulaires",
+          "description": null
+        },
+        {
+          "nom": "Régulation des gènes",
+          "description": "Régulation des gènes responsables de la réponse inflammatoire."
+        },
+        {
+          "nom": "Agrégation plaquettaire",
+          "description": "Diminue la viscosité du sang."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Nouveau-né prématuré : lésions de la rétine."
+        },
+        {
+          "type": "carence",
+          "description": "Enfant : neuropathie."
+        },
+        {
+          "type": "carence",
+          "description": "Adulte : anémie hémolytique, atteinte neurologique chronique, myopathie."
+        },
+        {
+          "type": "exces",
+          "description": "Effet antioxydant perdu à forte dose ; à dose élevée, pourrait accroître certains risques (notes : cancer de la prostate) — confirmé par le CSS 2016 (étude SELECT, vitamine E associée au sélénium)."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "adequat",
+          "valeur_min": 13,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "EFSA 2015 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "femme",
+          "type": "adequat",
+          "valeur_min": 11,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "EFSA 2015 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 150,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : le CSS abaisse l'AMT à 150 mg/j chez l'adulte (tableau 37, étude SELECT) ; EFSA/SCF : 270–300 mg/j. Notes manuscrites : 150 mg/j."
+        }
+      ],
+      "unites": "1 mg α-TE (équivalent α-tocophérol, RRR) = 1,49 UI.",
+      "aliments": [
+        "Huile de tournesol",
+        "Huile de germe de blé",
+        "Amandes",
+        "Noisettes",
+        "Céréales complètes",
+        "Avocat",
+        "Épinard"
+      ],
+      "aliments_source": "Notes : huiles végétales (surtout riches en AGPI), fruits oléagineux, céréales complètes (germe), légumes, avocat.",
+      "interactions": [
+        {
+          "cible": "vitamine-c",
+          "type": "synergie",
+          "description": "La vitamine C participe à la régénération de la vitamine E oxydée."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-k",
+      "nom": "Vitamine K",
+      "symbole": "K",
+      "nom_scientifique": "Phylloquinone / ménaquinones",
+      "categorie": "vitamine",
+      "famille": "liposoluble",
+      "tone": "butter",
+      "description": "Vitamine liposoluble de la coagulation (« K » de Koagulation) qui intervient aussi dans le métabolisme osseux.",
+      "absorption": "Absorption de 10 à 80 % selon la matrice alimentaire ; suit la digestion des lipides (sécrétions biliaires et pancréatiques) ; plus faible si l'aliment contient des chloroplastes ; diminuée par les AGPI à longue chaîne.",
+      "metabolisme": "La K2 est plus biodisponible que la K1. Activité extra-hépatique (os, vaisseaux) : maintien de la densité osseuse.",
+      "stockage": "K1 et K2 stockées dans le foie.",
+      "elimination": "Excrétion principalement fécale, via la bile.",
+      "quantite_corps": null,
+      "formes": [
+        {
+          "nom": "K1 – phylloquinone",
+          "description": "Synthétisée par les plantes."
+        },
+        {
+          "nom": "K2 – ménaquinones",
+          "description": "Synthétisées par les bactéries (microbiote intestinal, produits fermentés : fromages, natto)."
+        },
+        {
+          "nom": "K3 – ménadione",
+          "description": "Forme de synthèse."
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Coagulation",
+          "description": "Cofacteur de la γ-carboxylase qui active la prothrombine et plusieurs protéines de la coagulation (facteurs II, VII, IX, X)."
+        },
+        {
+          "nom": "Métabolisme osseux (K2)",
+          "description": "Synthèse et carboxylation de l'ostéocalcine, qui favorise la fixation du calcium dans les os et réduit la calcification des organes et des vaisseaux."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Très rare (biodisponibilité élevée)."
+        },
+        {
+          "type": "carence",
+          "description": "Nouveau-né : risque car absence de microbiote et faible apport par le lait maternel."
+        },
+        {
+          "type": "carence",
+          "description": "Situations à risque : pathologie hépatique, médication prolongée, malabsorption."
+        },
+        {
+          "type": "carence",
+          "description": "Personnes âgées : une carence pourrait favoriser la résorption osseuse."
+        },
+        {
+          "type": "exces",
+          "description": "Peu toxique ; la ménadione (K3) donnée au nouveau-né à plus de 5 mg/j provoque une anémie hémolytique."
+        },
+        {
+          "type": "interaction",
+          "description": "Anticoagulants anti-vitamine K (warfarine) : éviter les excès d'apport ; mention obligatoire sur les compléments dès 25 µg/j."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "adequat",
+          "valeur_min": 50,
+          "valeur_max": 70,
+          "unite": "µg/j",
+          "source": "notes (vitamine K1)",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Épinard",
+        "Chou",
+        "Brocoli",
+        "Salade",
+        "Choucroute",
+        "Avocat",
+        "Fromage",
+        "Natto",
+        "Viande"
+      ],
+      "aliments_source": "Notes : K1 dans les légumes verts à feuilles, les lacto-fermentés et l'avocat ; K2 dans les viandes, fromages et le natto.",
+      "interactions": [
+        {
+          "cible": "medicament:anti-vitamine K",
+          "type": "medicament",
+          "description": "Antagonisée par les anticoagulants AVK (warfarine) ; l'héparine n'interfère pas."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-c",
+      "nom": "Vitamine C",
+      "symbole": "C",
+      "nom_scientifique": "Acide ascorbique",
+      "categorie": "vitamine",
+      "famille": "hydrosoluble",
+      "tone": "sky",
+      "description": "Vitamine hydrosoluble antioxydante que l'homme ne sait pas synthétiser : un apport quotidien est nécessaire. Utilisée aussi comme additif (E300, acide L-ascorbique).",
+      "absorption": "Exogène (non synthétisée par l'homme). Absorbée dans l'iléon → sang → tissus.",
+      "metabolisme": "Éliminée par les urines (sous forme d'acide oxalique notamment).",
+      "stockage": "Stock de 1,5 à 3 g ; besoin d'un apport quotidien.",
+      "elimination": "Urinaire.",
+      "quantite_corps": "1,5 à 3 g",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Immunité",
+          "description": "Mobilité des polynucléaires neutrophiles, transformation des lymphocytes, défense immunitaire humorale."
+        },
+        {
+          "nom": "Métabolisme du fer",
+          "description": "Favorise la conversion du fer ferrique (Fe3+) en fer ferreux (Fe2+), mieux absorbé par l'organisme."
+        },
+        {
+          "nom": "Coenzyme",
+          "description": "Impliquée dans la biosynthèse du collagène, de la carnitine et des neurotransmetteurs (dopamine, noradrénaline, adrénaline)."
+        },
+        {
+          "nom": "Métabolisme de l'histamine",
+          "description": "Dégradation et contrôle de la libération de l'histamine."
+        },
+        {
+          "nom": "Interaction avec les radicaux libres",
+          "description": "Protection contre les agents oxydants ; régénère la vitamine E."
+        },
+        {
+          "nom": "Inhibition des nitrosamines",
+          "description": "Intervient dans la conversion des nitrosamines, ce qui réduit le risque de cancer."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Scorbut (< 10 mg/j) : anémie, œdèmes, atteinte des membres inférieurs, mort d'épuisement."
+        },
+        {
+          "type": "carence",
+          "description": "Fumeurs : besoins augmentés de 20 %."
+        },
+        {
+          "type": "carence",
+          "description": "Diabétiques : besoins augmentés (compétition entre le glucose et l'acide L-ascorbique à l'entrée des cellules)."
+        },
+        {
+          "type": "exces",
+          "description": "À partir de 3–4 g/j : diarrhée osmotique, troubles digestifs."
+        },
+        {
+          "type": "exces",
+          "description": "Augmente l'excrétion urinaire d'oxalate : risque de lithiase oxalo-calcique (calculs rénaux) à partir de 1000 mg/j."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "recommande",
+          "valeur_min": 110,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 2,
+          "valeur_max": null,
+          "unite": "g/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Orange",
+        "Kiwi",
+        "Poivron",
+        "Fraise",
+        "Brocoli",
+        "Chou",
+        "Persil",
+        "Citron"
+      ],
+      "aliments_source": "Sources illisibles dans les notes : complément.",
+      "interactions": [
+        {
+          "cible": "fer",
+          "type": "favorise",
+          "description": "Réduit le fer ferrique en fer ferreux et augmente son absorption."
+        },
+        {
+          "cible": "vitamine-e",
+          "type": "synergie",
+          "description": "Régénère la vitamine E oxydée."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-b1",
+      "nom": "Vitamine B1",
+      "symbole": "B1",
+      "nom_scientifique": "Thiamine",
+      "categorie": "vitamine",
+      "famille": "hydrosoluble",
+      "tone": "leaf",
+      "description": "Vitamine hydrosoluble cofacteur d'enzymes de la production d'énergie (ATP) et neuromodulateur.",
+      "absorption": "Biodisponibilité : végétaux (thiamine libre), produits animaux (surtout pyrophosphate de thiamine, 80 %). Diminue avec l'âge et l'alcool.",
+      "metabolisme": null,
+      "stockage": "Peu stockée.",
+      "elimination": "Éliminée par les urines, telle quelle ou sous forme de métabolites.",
+      "quantite_corps": null,
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Cofacteur d'enzymes",
+          "description": "Dans le processus de création d'énergie (ATP)."
+        },
+        {
+          "nom": "Neuromodulateur",
+          "description": null
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Béribéri (2 types) : insuffisance cardiaque et œdèmes (humide) ou atteinte nerveuse (sec)."
+        },
+        {
+          "type": "carence",
+          "description": "Syndrome de Wernicke-Korsakoff (neuropathie périphérique et encéphalopathie), notamment en cas d'alcoolisme chronique."
+        },
+        {
+          "type": "carence",
+          "description": "Facteurs : faible apport, malabsorption, alcoolisme chronique, âge ; plus fréquent dans les pays en voie de développement."
+        },
+        {
+          "type": "exces",
+          "description": "Pas d'apport maximal tolérable défini."
+        }
+      ],
+      "allegations": [
+        "Contribue au métabolisme énergétique normal (« ATP »).",
+        "Contribue au fonctionnement normal du système nerveux, aux fonctions psychologiques et à la fonction cardiaque."
+      ],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "recommande",
+          "valeur_min": 1.5,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "femme",
+          "type": "recommande",
+          "valeur_min": 1.1,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Porc",
+        "Volaille",
+        "Poisson",
+        "Céréales complètes",
+        "Légumineuses",
+        "Pain complet"
+      ],
+      "aliments_source": "Notes : viande (porc maigre, volaille), poisson, céréales complètes, légumineuses, crudités. Les thiaminases (poissons crus, coquillages, crustacés) détruisent la thiamine.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-b2",
+      "nom": "Vitamine B2",
+      "symbole": "B2",
+      "nom_scientifique": "Riboflavine",
+      "categorie": "vitamine",
+      "famille": "hydrosoluble",
+      "tone": "leaf",
+      "description": "Vitamine hydrosoluble de couleur jaune (E101), précurseur de deux coenzymes (FMN et FAD) des réactions d'oxydo-réduction.",
+      "absorption": "Riboflavine libre, FMN et FAD absorbés dans le tube digestif supérieur (transport actif ATP-dépendant + diffusion passive) ; phosphorylée en FMN dans l'entérocyte.",
+      "metabolisme": "Dans le plasma : riboflavine et FMN libres ou liés aux protéines ; dans les tissus : riboflavine libre → FMN → FAD.",
+      "stockage": "Réserves pour 2 à 6 semaines.",
+      "elimination": "Urinaire.",
+      "quantite_corps": null,
+      "formes": [
+        {
+          "nom": "FMN – flavine mononucléotide",
+          "description": "Phosphate de riboflavine (1 groupe phosphate)."
+        },
+        {
+          "nom": "FAD – flavine adénine dinucléotide",
+          "description": "FMN + adénosine monophosphate."
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Réactions d'oxydo-réduction",
+          "description": "FMN et FAD sont des coenzymes d'oxydases et de déshydrogénases, nécessaires au métabolisme des glucides, protéines et lipides."
+        },
+        {
+          "nom": "Transport d'électrons",
+          "description": "Dans la chaîne respiratoire : production d'énergie (ATP)."
+        },
+        {
+          "nom": "Antioxydant",
+          "description": "Le FAD est nécessaire à l'activité de la glutathion réductase, qui protège contre les espèces réactives de l'oxygène."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Lésions cutanéo-muqueuses (face, bouche, lèvres)."
+        },
+        {
+          "type": "carence",
+          "description": "Signes oculaires (conjonctivite, cataracte précoce)."
+        },
+        {
+          "type": "carence",
+          "description": "Rare, mais favorisée par l'alcoolisme chronique."
+        },
+        {
+          "type": "exces",
+          "description": "Pas de toxicité : absorption intestinale limitée et élimination urinaire."
+        }
+      ],
+      "allegations": [
+        "Contribue au métabolisme énergétique, au fonctionnement du système nerveux, aux globules rouges, à la peau, à la vision, au métabolisme du fer, à la protection contre le stress oxydatif et à la réduction de la fatigue."
+      ],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "adequat",
+          "valeur_min": 1.5,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "femme",
+          "type": "adequat",
+          "valeur_min": 1.2,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Lait",
+        "Fromage",
+        "Yaourt",
+        "Oeuf",
+        "Foie",
+        "Levure",
+        "Champignons",
+        "Épinard"
+      ],
+      "aliments_source": "Notes : produits laitiers, foie, levure, germes, champignons ; végétaux et produits animaux en faible quantité. Sensible à la lumière (le lait au soleil perd jusqu'à 50 %).",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-b3",
+      "nom": "Vitamine B3",
+      "symbole": "B3",
+      "nom_scientifique": "Niacine (vitamine PP)",
+      "categorie": "vitamine",
+      "famille": "hydrosoluble",
+      "tone": "lilac",
+      "description": "Vitamine hydrosoluble (vitamine PP, « Pellagra Preventive ») qui regroupe l'acide nicotinique et le nicotinamide, précurseurs des coenzymes NAD et NADP.",
+      "absorption": "Le maïs en contient mais sous une forme non assimilable : il faut le chauffer en solution alcaline (nixtamalisation) pour libérer la niacine.",
+      "metabolisme": "Synthèse endogène : 60 mg de tryptophane → 1 équivalent niacine (EN).",
+      "stockage": "Non stockée : l'excès est éliminé par les urines.",
+      "elimination": "Urinaire.",
+      "quantite_corps": null,
+      "formes": [
+        {
+          "nom": "Acide nicotinique",
+          "description": null
+        },
+        {
+          "nom": "Nicotinamide",
+          "description": null
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Précurseur du NAD et du NADP",
+          "description": "Coenzymes essentiels aux processus d'oxydoréduction et à la libération d'énergie."
+        },
+        {
+          "nom": "ADN",
+          "description": "Le NADP est impliqué dans la réparation de l'ADN."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Pellagre."
+        },
+        {
+          "type": "carence",
+          "description": "Associée à un régime pauvre en protéines ou à certaines affections (maladie de Hartnup : défaut d'absorption du tryptophane)."
+        },
+        {
+          "type": "exces",
+          "description": "Utilisée à haute dose (500 mg à 2 g/j) pour son effet inhibiteur de la lipolyse en cas d'hypertriglycéridémie."
+        },
+        {
+          "type": "exces",
+          "description": "Au-delà de 3 g/j : hépatotoxicité."
+        }
+      ],
+      "allegations": [
+        "Contribue au métabolisme énergétique, au fonctionnement du système nerveux, aux fonctions psychologiques, aux muqueuses, à la peau et à la réduction de la fatigue."
+      ],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "adequat",
+          "valeur_min": 16,
+          "valeur_max": null,
+          "unite": "mg EN/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "femme",
+          "type": "adequat",
+          "valeur_min": 14,
+          "valeur_max": null,
+          "unite": "mg EN/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 10,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes (AMT acide nicotinique)",
+          "a_verifier": false,
+          "note": "Limite pour l'acide nicotinique."
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 900,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes (AMT nicotinamide)",
+          "a_verifier": false,
+          "note": "Limite pour le nicotinamide."
+        }
+      ],
+      "unites": "1 EN (équivalent niacine) = 1 mg d'acide nicotinique ou de nicotinamide = 60 mg de tryptophane.",
+      "aliments": [
+        "Viande",
+        "Volaille",
+        "Poisson",
+        "Céréales complètes",
+        "Légumineuses",
+        "Lait",
+        "Café",
+        "Champignons",
+        "Levure"
+      ],
+      "aliments_source": "Notes : viandes, volailles, poissons, céréales (surtout fortifiées), légumes secs, graines, lait, légumes, café, thé, levure, champignons. Dans les plantes, sous forme de glycosides à faible biodisponibilité.",
+      "interactions": [
+        {
+          "cible": "vitamine-b6",
+          "type": "depend",
+          "description": "La vitamine B6 est nécessaire à la formation de niacine à partir du tryptophane."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-b5",
+      "nom": "Vitamine B5",
+      "symbole": "B5",
+      "nom_scientifique": "Acide pantothénique",
+      "categorie": "vitamine",
+      "famille": "hydrosoluble",
+      "tone": "sky",
+      "description": "Vitamine hydrosoluble présente partout (« pantos » : que l'on trouve partout), constituant du coenzyme A. Très stable à la chaleur.",
+      "absorption": "Absorbée sous forme de coenzyme A, hydrolysée puis absorbée dans l'intestin grêle.",
+      "metabolisme": "Circule dans le plasma et les globules rouges.",
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Coenzyme A (CoA)",
+          "description": "Génère de l'ATP à partir des lipides, glucides et protéines ; synthèse des acides gras, des neurotransmetteurs et de la mélatonine ; métabolisme des xénobiotiques (médicaments, agents externes)."
+        },
+        {
+          "nom": "Acyl Carrier Protein (ACP)",
+          "description": "Synthèse des acides gras, des sphingolipides (gaine de myéline) et des phospholipides membranaires."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Exceptionnelle : fatigue, insomnie, maux de tête, désordres intestinaux, fourmillements des mains et des pieds."
+        },
+        {
+          "type": "exces",
+          "description": "1 g/j : aucun signe de toxicité ; pas d'AMT."
+        }
+      ],
+      "allegations": [
+        "Contribue au métabolisme énergétique, aux fonctions psychologiques et à la réduction de la fatigue."
+      ],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "adequat",
+          "valeur_min": 5,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Levure",
+        "Foie",
+        "Oeuf",
+        "Lait",
+        "Céréales complètes",
+        "Brocoli",
+        "Poisson",
+        "Poulet",
+        "Légumineuses",
+        "Avocat"
+      ],
+      "aliments_source": "Notes : dans presque tous les aliments d'origine animale ou végétale.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-b6",
+      "nom": "Vitamine B6",
+      "symbole": "B6",
+      "nom_scientifique": "Pyridoxine",
+      "categorie": "vitamine",
+      "famille": "hydrosoluble",
+      "tone": "rose",
+      "description": "Vitamine hydrosoluble coenzyme de plus de 100 réactions enzymatiques, sous 6 formes interconvertibles.",
+      "absorption": "Certains végétaux contiennent de la pyridoxine glucoside, 50 % moins biodisponible que les autres formes.",
+      "metabolisme": "Forme active : phosphate de pyridoxal (PLP) ; 80 % du PLP se situe dans les muscles.",
+      "stockage": "Muscles (PLP).",
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [
+        {
+          "nom": "Pyridoxal",
+          "description": null
+        },
+        {
+          "nom": "Pyridoxine",
+          "description": null
+        },
+        {
+          "nom": "Pyridoxamine",
+          "description": null
+        },
+        {
+          "nom": "Formes phosphatées",
+          "description": "Dont le phosphate de pyridoxal (PLP), forme active."
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Glycogène phosphorylase",
+          "description": "Relargage du glucose à partir du glycogène musculaire."
+        },
+        {
+          "nom": "Néoglucogenèse",
+          "description": "Production de glucose à partir d'acides aminés."
+        },
+        {
+          "nom": "Synthèse de l'hème",
+          "description": "Nécessaire à la synthèse de l'hémoglobine."
+        },
+        {
+          "nom": "Synthèse de la sérotonine",
+          "description": "À partir du tryptophane."
+        },
+        {
+          "nom": "Formation de la niacine",
+          "description": "À partir du tryptophane (vitamine B3)."
+        },
+        {
+          "nom": "Récepteurs hormonaux",
+          "description": "Se lie aux récepteurs des œstrogènes et de la testostérone : diminue leur effet."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Alcoolisme chronique : neuropathies périphériques ; aggrave les conséquences d'une carence en B1."
+        },
+        {
+          "type": "exces",
+          "description": "Au-delà de 500 mg/j : neurotoxicité, troubles de la mémorisation, lésions cutanées dues à la photosensibilité."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "recommande",
+          "valeur_min": 3,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : AJR adulte H 3,0 mg/j (tableau 47) ; EFSA 2016 : PRI 1,7 mg. Notes manuscrites : 3 mg (type « adequat »)."
+        },
+        {
+          "population": "femme",
+          "type": "recommande",
+          "valeur_min": 2,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : AJR adulte F 2,0 mg/j, 3,0 mg/j pendant la grossesse et l'allaitement (tableau 47) ; EFSA 2016 : PRI 1,6 mg. Notes manuscrites : 2 mg."
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 25,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : AMT adulte 25 mg/j (tableau 48) ; l'EFSA (2023) l'a abaissé à 12 mg/j. Notes manuscrites : 25 mg/j."
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Viande",
+        "Poisson",
+        "Volaille",
+        "Banane",
+        "Pomme de terre",
+        "Céréales complètes",
+        "Légumineuses"
+      ],
+      "aliments_source": "Notes : nombreuses sources animales et végétales.",
+      "interactions": [
+        {
+          "cible": "vitamine-b9",
+          "type": "synergie",
+          "description": "B6, B9 et B12 aident à l'interconversion de l'homocystéine (homocystéine → cystathionine → cystéine)."
+        },
+        {
+          "cible": "vitamine-b12",
+          "type": "synergie",
+          "description": "Homocystéine (voir B9)."
+        },
+        {
+          "cible": "vitamine-b1",
+          "type": "aggrave",
+          "description": "Une carence en B6 aggrave les conséquences d'une carence en B1."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-b8",
+      "nom": "Vitamine B8",
+      "symbole": "B8",
+      "nom_scientifique": "Biotine (vitamine H)",
+      "categorie": "vitamine",
+      "famille": "hydrosoluble",
+      "tone": "leaf",
+      "description": "Vitamine hydrosoluble coenzyme des carboxylases ; elle est aussi produite par la flore du côlon.",
+      "absorption": "L'avidine du blanc d'œuf cru (glycoprotéine) a une grande affinité pour la biotine et inhibe son absorption ; la cuisson de l'œuf inhibe l'avidine.",
+      "metabolisme": null,
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Acétyl-coenzyme A carboxylase",
+          "description": "Synthèse des acides gras."
+        },
+        {
+          "nom": "Pyruvate carboxylase",
+          "description": "Néoglucogenèse."
+        },
+        {
+          "nom": "Propionyl-CoA carboxylase",
+          "description": "Métabolisme d'acides aminés, du cholestérol et des acides gras."
+        },
+        {
+          "nom": "Méthylcrotonyl-CoA carboxylase",
+          "description": "Métabolisme de la leucine."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Rare : après plusieurs mois d'alimentation par sonde ou un régime riche en blanc d'œuf cru (« maladie de l'œuf cru »)."
+        },
+        {
+          "type": "carence",
+          "description": "Lésions cutanéo-muqueuses, troubles neuropsychiatriques et digestifs, éruptions faciales."
+        },
+        {
+          "type": "exces",
+          "description": "Pas de données de surdosage, même à 100 fois la dose ; pas d'AMT."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "adequat",
+          "valeur_min": 40,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Levure",
+        "Foie",
+        "Oeuf",
+        "Champignons",
+        "Haricots",
+        "Lentilles",
+        "Noix",
+        "Pain complet",
+        "Lait"
+      ],
+      "aliments_source": "Notes : levure sèche, foie, rognons, jaune d'œuf, champignons, haricots, lentilles, noix, pain complet, laitages.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-b9",
+      "nom": "Vitamine B9",
+      "symbole": "B9",
+      "nom_scientifique": "Folates / acide folique",
+      "categorie": "vitamine",
+      "famille": "hydrosoluble",
+      "tone": "sky",
+      "description": "Vitamine hydrosoluble coenzyme du transport des groupements monocarbonés, cruciale pendant la grossesse. Les folates sont la forme naturelle (« feuilles »), l'acide folique la forme de synthèse.",
+      "absorption": "Les polyglutamates sont hydrolysés par la déconjugase de la bordure en brosse ; seuls les monoglutamates passent l'épithélium intestinal. L'absorption dépend de la matrice et des inhibiteurs de déconjugase.",
+      "metabolisme": "L'acide folique subit une réduction en dihydrofolate (DHF) avant d'entrer dans le cycle des folates.",
+      "stockage": "Dans les tissus sous forme de polyglutamates.",
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [
+        {
+          "nom": "Folates",
+          "description": "Groupe de différentes formes de polyglutamates (max. 9 unités), présentes dans les aliments (feuilles vertes) et dans le corps."
+        },
+        {
+          "nom": "Acide folique",
+          "description": "Acide ptéroylglutamique : peu présent dans la nature, utilisé dans les compléments et aliments enrichis."
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Transport des groupements monocarbonés",
+          "description": "Agit comme récepteur ou donneur."
+        },
+        {
+          "nom": "Métabolisme des acides aminés",
+          "description": "Synthèse de la méthionine à partir de l'homocystéine : rôle dans la prévention des maladies cardiovasculaires et neurologiques."
+        },
+        {
+          "nom": "Métabolisme des acides nucléiques",
+          "description": "Synthèse et réparation de l'ADN, division cellulaire (prévention de cellules défectueuses)."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Anémie macrocytaire ou mégaloblastique (globules rouges anormalement grands) : fatigue, faiblesse ; anémie identique à celle du manque de B12."
+        },
+        {
+          "type": "carence",
+          "description": "Causes : manque d'apport, diminution d'absorption (alcoolisme), interactions médicamenteuses (cancer)."
+        },
+        {
+          "type": "carence",
+          "description": "Grossesse : les folates sont cruciaux entre le 21e et le 27e jour après la conception ; un défaut entraîne des malformations du tube neural (anencéphalie, spina bifida). Une supplémentation adéquate réduit ce risque de 60 %."
+        },
+        {
+          "type": "exces",
+          "description": "Acide folique : 1000 µg/j."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "recommande",
+          "valeur_min": 200,
+          "valeur_max": 300,
+          "unite": "µg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : AJR adulte 200–300 µg/j de folates alimentaires (tableau 50) ; EFSA 2014 : PRI 330 µg EFD/j. Notes manuscrites : 200–300 µg."
+        },
+        {
+          "population": "grossesse",
+          "type": "adequat",
+          "valeur_min": 400,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "notes (folates)",
+          "a_verifier": false
+        },
+        {
+          "population": "grossesse",
+          "type": "supplement",
+          "valeur_min": 400,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Complément quotidien de 400 µg d'acide folique, au moins 1 mois avant et jusqu'à 3 mois après la conception (tout le premier trimestre). Notes manuscrites : « 8–12 mois » ; le CSS parle des semaines 8 à 12 de grossesse."
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 1000,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "notes (acide folique)",
+          "a_verifier": false
+        }
+      ],
+      "unites": "1 µg EFD (équivalent folate alimentaire) = 1 µg de folate alimentaire = 0,6 µg d'acide folique pris avec un aliment = 0,5 µg d'acide folique à jeun.",
+      "aliments": [
+        "Foie",
+        "Levure",
+        "Épinard",
+        "Salade",
+        "Brocoli",
+        "Orange",
+        "Lentilles",
+        "Pois chiches",
+        "Céréales enrichies"
+      ],
+      "aliments_source": "Notes : foie, levures, végétaux à feuilles vertes, agrumes, légumineuses, aliments enrichis (céréales). 30 % de la B9 provient des céréales, 30 % des légumes. USA : enrichissement de tous les produits céréaliers depuis 1998.",
+      "interactions": [
+        {
+          "cible": "vitamine-b12",
+          "type": "synergie",
+          "description": "Carence en B9 et en B12 : même anémie mégaloblastique ; B6, B9 et B12 interviennent dans le cycle de l'homocystéine."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "vitamine-b12",
+      "nom": "Vitamine B12",
+      "symbole": "B12",
+      "nom_scientifique": "Cobalamines",
+      "categorie": "vitamine",
+      "famille": "hydrosoluble",
+      "tone": "peach",
+      "description": "La plus grande et la plus complexe des vitamines ; elle contient du cobalt. Seules les bactéries peuvent la synthétiser.",
+      "absorption": "Liée aux protéines alimentaires, elle est libérée par le suc gastrique et les protéases pancréatiques, forme un complexe avec le facteur intrinsèque, puis se fixe sur un récepteur spécifique de l'iléon terminal où elle est dissociée et absorbée.",
+      "metabolisme": null,
+      "stockage": "Se stocke dans le foie.",
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [
+        {
+          "nom": "Méthylcobalamine",
+          "description": "Forme présente dans les aliments."
+        },
+        {
+          "nom": "5-désoxyadénosylcobalamine",
+          "description": "Forme présente dans les aliments."
+        },
+        {
+          "nom": "Cyanocobalamine",
+          "description": "Forme des compléments."
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Cofacteur de la méthionine synthétase",
+          "description": "Synthèse de la méthionine (donne un groupement méthyle), réduction de l'homocystéine, réparation de l'ADN, synthèse de l'hémoglobine."
+        },
+        {
+          "nom": "Cofacteur de la méthylmalonyl-CoA mutase",
+          "description": "Production d'énergie à partir des graisses et des protéines."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Anémie mégaloblastique."
+        },
+        {
+          "type": "carence",
+          "description": "Symptômes neurologiques."
+        },
+        {
+          "type": "carence",
+          "description": "Troubles gastro-intestinaux."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "adequat",
+          "valeur_min": 4,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Viande",
+        "Volaille",
+        "Poisson",
+        "Oeuf",
+        "Fruits de mer",
+        "Lait",
+        "Fromage",
+        "Aliments enrichis"
+      ],
+      "aliments_source": "Notes : VVPO (viande, volaille, poisson, œuf), fruits de mer, produits laitiers, aliments enrichis (pour les végétaliens).",
+      "interactions": [
+        {
+          "cible": "vitamine-b9",
+          "type": "synergie",
+          "description": "Cycle de l'homocystéine (méthionine ← homocystéine via B12)."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "calcium",
+      "nom": "Calcium",
+      "symbole": "Ca",
+      "nom_scientifique": "Calcium",
+      "categorie": "mineral",
+      "famille": null,
+      "tone": "sky",
+      "description": "Minéral le plus abondant du corps : 99 % se trouve dans les os et les dents.",
+      "absorption": "Diminution de l'absorption en présence d'oxalates.",
+      "metabolisme": "1 % circule : moitié sous forme d'ion libre (Ca2+), moitié liée à une autre molécule.",
+      "stockage": "Os et dents (99 %).",
+      "elimination": null,
+      "quantite_corps": "1,2 kg",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Structure et rigidité de l'os",
+          "description": null
+        },
+        {
+          "nom": "Contraction musculaire",
+          "description": null
+        },
+        {
+          "nom": "Neurotransmission",
+          "description": null
+        },
+        {
+          "nom": "Activation d'enzymes",
+          "description": null
+        },
+        {
+          "nom": "Coagulation",
+          "description": null
+        },
+        {
+          "nom": "Sécrétion vésiculaire",
+          "description": "Libération d'hormones."
+        }
+      ],
+      "effets": [],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "recommande",
+          "valeur_min": 950,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 2500,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "EFSA (UL)",
+          "a_verifier": false,
+          "note": "Case « max » vide dans les notes : valeur EFSA."
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Lait",
+        "Fromage",
+        "Yaourt",
+        "Chou kale",
+        "Eau minérale"
+      ],
+      "aliments_source": "Notes : lait, fromages, chou kale.",
+      "interactions": [
+        {
+          "cible": "vitamine-d",
+          "type": "depend",
+          "description": "La vitamine D augmente l'absorption intestinale du calcium."
+        },
+        {
+          "cible": "oxalates",
+          "type": "diminue",
+          "description": "Les oxalates diminuent l'absorption du calcium."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "phosphore",
+      "nom": "Phosphore",
+      "symbole": "P",
+      "nom_scientifique": "Phosphore",
+      "categorie": "mineral",
+      "famille": null,
+      "tone": "butter",
+      "description": "Minéral constituant de l'ATP, des acides nucléiques et des phospholipides.",
+      "absorption": null,
+      "metabolisme": null,
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": "800 à 1200 g (CSS 2016 ; notes manuscrites : « 800 à 1200 mg »)",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "ATP",
+          "description": "Fait partie de la molécule d'adénosine triphosphate."
+        },
+        {
+          "nom": "Calcémie",
+          "description": "Rôle dans la régulation de la calcémie."
+        },
+        {
+          "nom": "Enzymes",
+          "description": null
+        },
+        {
+          "nom": "Structure",
+          "description": "Les ions phosphate sont constituants des acides nucléiques, des phospholipides et des nucléoprotéines."
+        },
+        {
+          "nom": "Rôles cellulaires",
+          "description": "Reproduction, hérédité, division cellulaire, synthèse des protéines, phospholipides, oxydation des glucides."
+        }
+      ],
+      "effets": [],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "recommande",
+          "valeur_min": 800,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 3000,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Lait",
+        "Fromage",
+        "Viande",
+        "Poisson",
+        "Oeuf",
+        "Céréales complètes",
+        "Légumineuses"
+      ],
+      "aliments_source": "Sources non détaillées dans les notes : complément.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "magnesium",
+      "nom": "Magnésium",
+      "symbole": "Mg",
+      "nom_scientifique": "Magnésium",
+      "categorie": "mineral",
+      "famille": null,
+      "tone": "sky",
+      "description": "Minéral impliqué dans plus de 300 réactions : synthèse des protéines, contraction musculaire et métabolisme énergétique.",
+      "absorption": "Depuis l'après-guerre, moins de magnésium dans l'alimentation car on consomme moins de céréales complètes.",
+      "metabolisme": "1 % sous forme d'ion intracellulaire, qui stabilise la structure de l'ATP.",
+      "stockage": "50 % dans le squelette, 25 % dans les muscles.",
+      "elimination": null,
+      "quantite_corps": "20 à 28 g",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Synthèse protéique",
+          "description": null
+        },
+        {
+          "nom": "Contraction musculaire",
+          "description": null
+        },
+        {
+          "nom": "Métabolisme énergétique",
+          "description": null
+        },
+        {
+          "nom": "Régulation des gènes",
+          "description": null
+        },
+        {
+          "nom": "Transmission des signaux électriques",
+          "description": null
+        }
+      ],
+      "effets": [],
+      "allegations": [
+        "Contribue à réduire la fatigue.",
+        "Contribue à des fonctions psychologiques normales."
+      ],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "recommande",
+          "valeur_min": 350,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "femme",
+          "type": "recommande",
+          "valeur_min": 300,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 250,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016 (EFSA 2006)",
+          "a_verifier": false,
+          "note": "Confirmé : le CSS reprend la NOAEL de l'EFSA (250 mg/j, effet laxatif au-delà ; compléments uniquement). Case « max » vide dans les notes."
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Céréales complètes",
+        "Noix",
+        "Amandes",
+        "Lentilles",
+        "Eau minérale"
+      ],
+      "aliments_source": "Notes : céréales complètes, fruits à coque, légumes secs, eaux minéralisées.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "potassium",
+      "nom": "Potassium",
+      "symbole": "K",
+      "nom_scientifique": "Potassium",
+      "categorie": "mineral",
+      "famille": null,
+      "tone": "butter",
+      "description": "Minéral essentiel à l'excitabilité des neurones, du cœur et des muscles.",
+      "absorption": null,
+      "metabolisme": null,
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": "135 g",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Excitabilité cellulaire",
+          "description": "Excitabilité neuronale, cardiaque et musculaire."
+        }
+      ],
+      "effets": [
+        {
+          "type": "exces",
+          "description": "Hyperkaliémie : augmente l'excitabilité neuronale, cardiaque et musculaire ; elle augmente avec l'insulinorésistance, l'âge et l'insuffisance rénale."
+        },
+        {
+          "type": "carence",
+          "description": "Hypokaliémie : paralysie musculaire, arythmie cardiaque, alcalose métabolique."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "recommande",
+          "valeur_min": 3000,
+          "valeur_max": 4000,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : AJR adulte 3000–4000 mg/j (tableau 22) ; EFSA 2016 : AI 3500 mg/j. Notes manuscrites : 3000–4000 mg (type « adequat »)."
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Banane",
+        "Pomme de terre",
+        "Épinard",
+        "Tomate",
+        "Légumineuses",
+        "Fruits secs"
+      ],
+      "aliments_source": "Notes : végétaux, fruits, légumes.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "sodium",
+      "nom": "Sodium",
+      "symbole": "Na",
+      "nom_scientifique": "Sodium",
+      "categorie": "mineral",
+      "famille": null,
+      "tone": "rose",
+      "description": "Minéral qui détermine l'osmolalité ; un excès favorise la rétention d'eau et l'hypertension.",
+      "absorption": null,
+      "metabolisme": "Si le sodium augmente, l'eau est retenue pour maintenir l'osmolalité.",
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Osmolalité",
+          "description": "Détermine l'osmolalité des liquides corporels."
+        }
+      ],
+      "effets": [
+        {
+          "type": "exces",
+          "description": "Effet hypertenseur."
+        },
+        {
+          "type": "carence",
+          "description": "Un apport inférieur à environ 3,9 g de NaCl/j pourrait augmenter la mortalité cardiovasculaire (notes) — confirmé par le CSS 2016 sous 1500 mg de sodium (3,9 g de sel), chez les sujets à risque (insuffisance cardiaque, néphropathie diabétique avancée, personnes âgées)."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "recommande",
+          "valeur_min": 600,
+          "valeur_max": 2000,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : AJR adulte 600–2000 mg/j (tableau 22) ; 2,0 g de sodium = 5 g de sel, à réduire à 1,0–1,2 g en cas de maladie cardiovasculaire. Notes manuscrites : 600–2000 mg."
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 5,
+          "valeur_max": null,
+          "unite": "g de sel/j",
+          "source": "CSS 2016 — notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": "1 g de sodium ≈ 2,5 g de sel (NaCl).",
+      "aliments": [
+        "Pain",
+        "Fromage",
+        "Plats préparés",
+        "Sauces",
+        "Potages",
+        "Charcuterie",
+        "Sel"
+      ],
+      "aliments_source": "Notes : 70 % via les aliments transformés (pain, produits laitiers, plats préparés, sauces, potages), 14 % naturellement présent, 11 % de NaCl ajouté (sel de table).",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "chlore",
+      "nom": "Chlore",
+      "symbole": "Cl",
+      "nom_scientifique": "Chlorure",
+      "categorie": "mineral",
+      "famille": null,
+      "tone": "peach",
+      "description": "Minéral nécessaire à la production d'acide gastrique et à l'équilibre acido-basique.",
+      "absorption": null,
+      "metabolisme": null,
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Production de HCl",
+          "description": "Acide gastrique."
+        },
+        {
+          "nom": "Régulation acido-basique",
+          "description": null
+        },
+        {
+          "nom": "Maintien de l'osmolalité",
+          "description": null
+        }
+      ],
+      "effets": [],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "adequat",
+          "valeur_min": 800,
+          "valeur_max": 3000,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : 800–3000 mg/j, donné par le CSS comme apport adéquat (tableau 22) ; EFSA 2019 : 3,1 g/j. Notes manuscrites : 800–3000 mg (type « recommande »)."
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 5,
+          "valeur_max": null,
+          "unite": "g de sel/j",
+          "source": "CSS 2016 (via sodium)",
+          "a_verifier": false,
+          "note": "Le CSS ne fixe pas d'AMT pour le chlorure ; 5 g de sel correspond à l'apport maximal de 2 g de sodium. Notes manuscrites : 5 g de sel/j."
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Sel",
+        "Pain",
+        "Fromage",
+        "Plats préparés"
+      ],
+      "aliments_source": "Notes : mêmes sources que le sel. Eau de distribution : max 250 mg/L (directive (UE) 2020/2184) ; notes manuscrites : « 25 mg/L », valeur citée par le CSS 2016 d'après l'ancienne directive 80/778/CEE.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "fer",
+      "nom": "Fer",
+      "symbole": "Fe",
+      "nom_scientifique": "Fer",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "peach",
+      "description": "Oligo-élément indispensable au transport de l'oxygène (hémoglobine) et aux réactions enzymatiques (cytochromes).",
+      "absorption": "Favorisée par les chélates (acide ascorbique, fructose, acide citrique, acides aminés) ; diminuée par les phytates et la cuisson ; dépend du rapport fer héminique / non héminique.",
+      "metabolisme": "Durée de vie d'un érythrocyte : 120 jours ; le fer est réutilisé et stocké sous forme de ferritine.",
+      "stockage": "Fer non fonctionnel (25 %) : réserve.",
+      "elimination": "Pertes : environ 1 mg/j chez l'homme ; 0,8 mg/j + 0,6 mg (règles) chez la femme.",
+      "quantite_corps": "3,5 à 4 g",
+      "formes": [
+        {
+          "nom": "Fer héminique",
+          "description": "Origine animale, mieux absorbé."
+        },
+        {
+          "nom": "Fer non héminique",
+          "description": "Origine végétale."
+        }
+      ],
+      "fonctions": [
+        {
+          "nom": "Sang (oxygénation)",
+          "description": "Fer fonctionnel (70 %) : 60 % dans les érythrocytes (hémoglobine), 10 % dans la myoglobine."
+        },
+        {
+          "nom": "Cytochromes",
+          "description": "Réactions enzymatiques."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Anémie (même avant, globules rouges insuffisants)."
+        },
+        {
+          "type": "exces",
+          "description": "Hémochromatose, hémosidérose."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "recommande",
+          "valeur_min": 9,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes",
+          "a_verifier": false
+        },
+        {
+          "population": "femme",
+          "type": "recommande",
+          "valeur_min": 15,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 40,
+          "valeur_max": 45,
+          "unite": "mg/j",
+          "source": "AMT : OMS 40 mg, CSS 45 mg — notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Boeuf",
+        "Poisson",
+        "Pain",
+        "Pomme de terre",
+        "Céréales enrichies",
+        "Lentilles",
+        "Épinard"
+      ],
+      "aliments_source": "Notes : viandes rouges, poisson, pain, pomme de terre, céréales enrichies.",
+      "interactions": [
+        {
+          "cible": "vitamine-c",
+          "type": "favorise",
+          "description": "La vitamine C augmente l'absorption du fer non héminique."
+        },
+        {
+          "cible": "zinc",
+          "type": "diminue",
+          "description": "Une consommation élevée de zinc diminue l'absorption du fer."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "zinc",
+      "nom": "Zinc",
+      "symbole": "Zn",
+      "nom_scientifique": "Zinc",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "sky",
+      "description": "Oligo-élément intracellulaire qui intervient dans la synthèse des protéines et des acides nucléiques et dans l'immunité.",
+      "absorption": "Au niveau de l'intestin grêle ; diminuée par l'acide phytique. 30 % absorbé avec une alimentation riche en produits animaux, 20 % avec une alimentation pauvre en produits animaux (végétarisme).",
+      "metabolisme": "Complexé avec le « zinc binding factor » (protéine sécrétée par le pancréas), puis transporté au foie.",
+      "stockage": null,
+      "elimination": "Pertes par les selles, les urines et la sueur.",
+      "quantite_corps": "2 à 4 g (> 99 % intracellulaire)",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Synthèse des protéines et des acides nucléiques",
+          "description": "Et expression des gènes."
+        },
+        {
+          "nom": "Métabolisme des acides gras insaturés et des prostaglandines",
+          "description": null
+        },
+        {
+          "nom": "Régulation des hormones peptidiques",
+          "description": null
+        },
+        {
+          "nom": "Antioxydant indirect",
+          "description": null
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Retard de croissance."
+        },
+        {
+          "type": "carence",
+          "description": "Agueusie et anosmie (perte du goût et de l'odorat)."
+        },
+        {
+          "type": "carence",
+          "description": "Lésions cutanées, anomalies immunologiques."
+        },
+        {
+          "type": "carence",
+          "description": "Besoins augmentés : grossesse, lactation, malabsorption, alcoolisme."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "recommande",
+          "valeur_min": 11,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes (régime avec produits animaux)",
+          "a_verifier": false
+        },
+        {
+          "population": "femme",
+          "type": "recommande",
+          "valeur_min": 8,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes (régime avec produits animaux)",
+          "a_verifier": false
+        },
+        {
+          "population": "homme",
+          "type": "recommande",
+          "valeur_min": 13,
+          "valeur_max": 20,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : 13 à 20 mg/j pour les végétariens, surtout stricts (CSS, § 8.12.2). Notes manuscrites : 13 mg (régime végétarien)."
+        },
+        {
+          "population": "femme",
+          "type": "recommande",
+          "valeur_min": 13,
+          "valeur_max": 20,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : 13 à 20 mg/j pour les végétariens, surtout stricts (CSS, § 8.12.2). Notes manuscrites : « 13 mg » pour H et F en régime végétarien."
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Boeuf",
+        "Volaille",
+        "Poisson",
+        "Oeuf",
+        "Lentilles",
+        "Graines de courge"
+      ],
+      "aliments_source": "Notes : VVPO, légumineuses, graines.",
+      "interactions": [
+        {
+          "cible": "cuivre",
+          "type": "diminue",
+          "description": "Une consommation élevée de zinc diminue l'absorption du cuivre."
+        },
+        {
+          "cible": "fer",
+          "type": "diminue",
+          "description": "Une consommation élevée de zinc diminue l'absorption du fer."
+        },
+        {
+          "cible": "vitamine-a",
+          "type": "favorise",
+          "description": "Nécessaire à la synthèse de la Retinol Binding Protein."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "cuivre",
+      "nom": "Cuivre",
+      "symbole": "Cu",
+      "nom_scientifique": "Cuivre",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "butter",
+      "description": "Oligo-élément cofacteur de nombreuses enzymes antioxydantes et de la synthèse du collagène.",
+      "absorption": null,
+      "metabolisme": "La céruloplasmine fournit le cuivre aux organes cibles et intervient dans l'hématopoïèse.",
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": "100 à 150 mg (sous forme Cu2+)",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Cofacteur enzymatique",
+          "description": "Superoxyde dismutase cuivre/zinc (antioxydante), monoamine oxydase, cytochrome c oxydase, dopamine β-hydroxylase (dopamine → noradrénaline)."
+        },
+        {
+          "nom": "Synthèse du collagène et de l'élastine",
+          "description": null
+        },
+        {
+          "nom": "Autres",
+          "description": "Qualité du cartilage, minéralisation osseuse, défense immunitaire."
+        }
+      ],
+      "effets": [],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "recommande",
+          "valeur_min": 1.7,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Corrigé : AJR adulte H 1,7 mg/j (tableau 25) ; EFSA 2015 : AI 1,6 mg. Notes manuscrites : 1,4 mg (lecture incertaine)."
+        },
+        {
+          "population": "femme",
+          "type": "recommande",
+          "valeur_min": 1.2,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "CSS 2016",
+          "a_verifier": false,
+          "note": "Confirmé : AJR adulte F 1,2 mg/j (tableau 25) ; EFSA 2015 : AI 1,3 mg. Notes manuscrites : 1,2 mg."
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 5,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes (UL)",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Foie",
+        "Fruits de mer",
+        "Noix",
+        "Cacao",
+        "Céréales complètes",
+        "Légumineuses"
+      ],
+      "aliments_source": "Sources non détaillées dans les notes : complément.",
+      "interactions": [
+        {
+          "cible": "zinc",
+          "type": "diminue",
+          "description": "Un apport élevé en zinc diminue l'absorption du cuivre."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "selenium",
+      "nom": "Sélénium",
+      "symbole": "Se",
+      "nom_scientifique": "Sélénium",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "rose",
+      "description": "Oligo-élément antioxydant présent dans plusieurs sélénoprotéines, dont la glutathion peroxydase.",
+      "absorption": "Le contenu dans l'organisme dépend de la teneur du sol.",
+      "metabolisme": "Sous formes organiques (sélénocystéine).",
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": "Environ 10 mg pour 70 kg",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Sélénoprotéines",
+          "description": "Glutathion peroxydase : puissant antioxydant qui protège les membranes cellulaires contre la dégradation oxydative."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Perturbations biochimiques : moindre résistance au stress oxydatif, sensibilité accrue aux infections et à certains cancers (prostate), maladies cardiovasculaires et fertilité masculine (à confirmer)."
+        },
+        {
+          "type": "carence",
+          "description": "Maladie de Keshan (cardiomyopathie sévère) et maladie de Kashin-Beck (ostéoarthropathie déformante)."
+        },
+        {
+          "type": "exces",
+          "description": "Sélénose : ongles et cheveux cassants, alopécie."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "recommande",
+          "valeur_min": 70,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 300,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "EFSA — notes",
+          "a_verifier": false
+        },
+        {
+          "population": "adulte",
+          "type": "max",
+          "valeur_min": 200,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "CSS 2015 — notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Céréales complètes",
+        "Viande",
+        "Lait",
+        "Oeuf",
+        "Poisson",
+        "Fruits de mer",
+        "Noix du Brésil",
+        "Ail",
+        "Champignons"
+      ],
+      "aliments_source": "Notes : céréales complètes, viandes, produits laitiers, œuf, poisson, produits de la mer, noix du Brésil, ail, champignons.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "iode",
+      "nom": "Iode",
+      "symbole": "I",
+      "nom_scientifique": "Iode",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "butter",
+      "description": "Oligo-élément constituant des hormones thyroïdiennes.",
+      "absorption": null,
+      "metabolisme": null,
+      "stockage": "10 à 20 mg dans la glande thyroïde.",
+      "elimination": null,
+      "quantite_corps": "10 à 20 mg (thyroïde)",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Hormones thyroïdiennes",
+          "description": "Tétraiodothyronine (T4) et triiodothyronine (T3), chargées du métabolisme normal, de la croissance et de la maturation, de la croissance osseuse et du système nerveux."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Goitre."
+        },
+        {
+          "type": "carence",
+          "description": "Femme enceinte : le bébé dépend totalement de la mère jusqu'à la 10e semaine ; risque de troubles neurologiques du développement du système nerveux."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "recommande",
+          "valeur_min": 150,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "notes",
+          "a_verifier": false
+        },
+        {
+          "population": "grossesse",
+          "type": "recommande",
+          "valeur_min": 200,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Sel iodé",
+        "Poisson",
+        "Fruits de mer",
+        "Lait",
+        "Oeuf"
+      ],
+      "aliments_source": "Sources non détaillées dans les notes : complément.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "manganese",
+      "nom": "Manganèse",
+      "symbole": "Mn",
+      "nom_scientifique": "Manganèse",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "lilac",
+      "description": "Oligo-élément constituant de métalloenzymes et activateur de nombreuses enzymes.",
+      "absorption": null,
+      "metabolisme": null,
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": "12 à 20 mg (Mn2+ et Mn3+)",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Métalloenzymes",
+          "description": "Superoxyde dismutase à manganèse (antioxydant), arginase (arginine → ornithine + urée), glutamine synthétase."
+        },
+        {
+          "nom": "Activateur de plusieurs enzymes",
+          "description": "Entre en compétition avec d'autres cations bivalents (Fe, Ca, Mg, Co)."
+        },
+        {
+          "nom": "Voies métaboliques",
+          "description": "Constitution du squelette et du cartilage, métabolisme lipidique, régulation de la glycémie, activité cérébrale et nerveuse, antioxydant (mitochondries)."
+        }
+      ],
+      "effets": [],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "adequat",
+          "valeur_min": 3,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Céréales complètes",
+        "Noix",
+        "Épinard",
+        "Thé"
+      ],
+      "aliments_source": "Notes : céréales complètes, noix, légumes verts, thé.",
+      "interactions": [
+        {
+          "cible": "fer",
+          "type": "competition",
+          "description": "Compétition avec les cations bivalents (fer, calcium, magnésium, cobalt)."
+        }
+      ],
+      "apports_note": null
+    },
+    {
+      "slug": "molybdene",
+      "nom": "Molybdène",
+      "symbole": "Mo",
+      "nom_scientifique": "Molybdène",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "lilac",
+      "description": "Oligo-élément constituant de métalloenzymes (oxydases) qui interviennent dans le métabolisme des purines, du fer et des sulfites.",
+      "absorption": null,
+      "metabolisme": null,
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": "Environ 10 mg",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Xanthine oxydase / déshydrogénase",
+          "description": "Dégradation des nucléotides puriques en acide urique."
+        },
+        {
+          "nom": "Aldéhyde oxydase",
+          "description": "Oxydation des aldéhydes."
+        },
+        {
+          "nom": "Sulfite oxydase",
+          "description": "Sulfites → sulfates (détoxification des sulfites)."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Très rare : troubles du rythme cardiaque, troubles neurologiques et biologiques."
+        }
+      ],
+      "allegations": [],
+      "apports": [
+        {
+          "population": "adulte",
+          "type": "adequat",
+          "valeur_min": 65,
+          "valeur_max": null,
+          "unite": "µg/j",
+          "source": "notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Légumineuses",
+        "Céréales complètes",
+        "Noix",
+        "Foie",
+        "Lait",
+        "Oeuf"
+      ],
+      "aliments_source": "Notes : végétaux, graines, noix, viandes d'organes (foie, rein), lait, œufs.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "chrome",
+      "nom": "Chrome",
+      "symbole": "Cr",
+      "nom_scientifique": "Chrome",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "peach",
+      "description": "Oligo-élément qui potentialise l'effet de l'insuline et module les lipides sanguins.",
+      "absorption": null,
+      "metabolisme": null,
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": "5 à 10 mg (Cr3+)",
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Métabolisme glucidique",
+          "description": "Effet potentialisateur de l'insuline."
+        },
+        {
+          "nom": "Modulation des lipides sanguins",
+          "description": "Une carence entraîne une baisse du HDL et une hypertriglycéridémie."
+        }
+      ],
+      "effets": [],
+      "allegations": [],
+      "apports": [],
+      "apports_note": "Pas d'apport recommandé (notes : « Apport = X »).",
+      "unites": null,
+      "aliments": [
+        "Viande",
+        "Poisson",
+        "Fruits de mer",
+        "Huile",
+        "Pain",
+        "Céréales complètes",
+        "Noix"
+      ],
+      "aliments_source": "Notes : viandes, poisson, coquillages, huiles et graines, pains, céréales, fruits à coque.",
+      "interactions": []
+    },
+    {
+      "slug": "fluor",
+      "nom": "Fluor",
+      "symbole": "F",
+      "nom_scientifique": "Fluorure",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "leaf",
+      "description": "Oligo-élément présent à 95 % dans la matrice osseuse, qui renforce la résistance de l'émail et des os.",
+      "absorption": "Sous forme de sels de fluor ; pendant la grossesse, diffusion passive vers le fœtus.",
+      "metabolisme": null,
+      "stockage": "95 % dans la matrice osseuse (résistance aux acides, fluorapatite).",
+      "elimination": "Rénale.",
+      "quantite_corps": null,
+      "formes": [],
+      "fonctions": [
+        {
+          "nom": "Minéralisation",
+          "description": "Donne de la résistance aux acides à l'hydroxyapatite des os et des dents."
+        }
+      ],
+      "effets": [
+        {
+          "type": "carence",
+          "description": "Pas de carence décrite (effet bénéfique contre la carie dentaire)."
+        },
+        {
+          "type": "exces",
+          "description": "Au-delà de 2–3 mg/L : fluorose dentaire (porosité et opacité de l'émail)."
+        },
+        {
+          "type": "exces",
+          "description": "Fluorose osseuse (déformations, fractures)."
+        }
+      ],
+      "allegations": [
+        "Contribue au maintien de la minéralisation des dents."
+      ],
+      "apports": [
+        {
+          "population": "homme",
+          "type": "adequat",
+          "valeur_min": 3.4,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes",
+          "a_verifier": false
+        },
+        {
+          "population": "femme",
+          "type": "adequat",
+          "valeur_min": 2.9,
+          "valeur_max": null,
+          "unite": "mg/j",
+          "source": "notes",
+          "a_verifier": false
+        }
+      ],
+      "unites": null,
+      "aliments": [
+        "Eau",
+        "Thé",
+        "Sel fluoré"
+      ],
+      "aliments_source": "Notes : boissons à base d'eau, eau, thé, sels fluorés.",
+      "interactions": [],
+      "apports_note": null
+    },
+    {
+      "slug": "silicium",
+      "nom": "Silicium",
+      "symbole": "Si",
+      "nom_scientifique": "Silicium",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "lilac",
+      "description": "Oligo-élément sans rôle connu à ce jour chez l'homme.",
+      "absorption": null,
+      "metabolisme": null,
+      "stockage": "Présent dans les os, la peau, les tendons, la trachée et certains vaisseaux.",
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [],
+      "fonctions": [],
+      "effets": [],
+      "allegations": [],
+      "apports": [],
+      "apports_note": "Pas de rôle connu, pas d'apport recommandé.",
+      "unites": null,
+      "aliments": [
+        "Bière",
+        "Café",
+        "Eau",
+        "Céréales complètes"
+      ],
+      "aliments_source": "Notes : bière, café, eau, graines, céréales (additif).",
+      "interactions": []
+    },
+    {
+      "slug": "bore",
+      "nom": "Bore",
+      "symbole": "B",
+      "nom_scientifique": "Bore",
+      "categorie": "oligo-element",
+      "famille": null,
+      "tone": "leaf",
+      "description": "Oligo-élément non essentiel à l'homme ; les apports sont plus élevés chez les végétariens que chez les omnivores.",
+      "absorption": null,
+      "metabolisme": null,
+      "stockage": null,
+      "elimination": null,
+      "quantite_corps": null,
+      "formes": [],
+      "fonctions": [],
+      "effets": [],
+      "allegations": [],
+      "apports": [],
+      "apports_note": "Pas d'apport recommandé.",
+      "unites": null,
+      "aliments": [
+        "Fruits",
+        "Salade",
+        "Épinard",
+        "Noix",
+        "Champignons",
+        "Jus de fruit",
+        "Vin",
+        "Café"
+      ],
+      "aliments_source": "Notes : eau, café, noix, champignons, fruits, légumes (feuilles vertes), jus de fruit, vin (autorisé comme additif).",
+      "interactions": []
+    }
+  ]
+}

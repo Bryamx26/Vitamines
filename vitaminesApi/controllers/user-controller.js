@@ -33,7 +33,7 @@ async function verifyUser(req, res) {
 
 
         const token = jwt.sign(
-            { id: user.id, email: user.email },
+            { id: user.id, email: user.email, role: user.role }, // role : lu par requireAdmin
             process.env.JWT_PRIVATE.replace(/\\n/g, '\n'),  // 👈 important !
             {
                 algorithm: 'RS256',
@@ -52,11 +52,19 @@ async function verifyUser(req, res) {
     }
 }
 
-async function createUser(req, res) {
-    const { nom, email, password } = req.body;
+// Crée un compte ; role = null (inscription publique) ou 'admin' (création par un administrateur)
+async function insertUser(req, res, role) {
+    const { nom, email, password } = req.body || {};
 
     if (!nom || !email || !password) {
         return res.status(400).json({ message: 'Nom, email et mot de passe requis' });
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ message: 'Adresse e-mail invalide' });
+    }
+    if (password.length < 8 || !/[A-Za-z]/.test(password) || !/\d/.test(password)) {
+        return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 8 caractères, dont une lettre et un chiffre.' });
     }
 
     try {
@@ -66,25 +74,13 @@ async function createUser(req, res) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        const userData = {
-            nom,
-            email,
-            hashedPassword
-        };
-
-        const insertId = await User.postUser(userData);
+        const insertId = await User.postUser({ nom, email, hashedPassword, role });
 
         invalidateCacheByKey('/api/register');
 
-
         res.status(201).json({
-            message: 'Utilisateur créé avec succès',
-            user: {
-                id: insertId,
-                nom,
-                email
-            }
+            message: role === 'admin' ? 'Administrateur créé avec succès' : 'Utilisateur créé avec succès',
+            user: { id: insertId, nom, email, role }
         });
     } catch (error) {
         console.error(error);
@@ -92,4 +88,62 @@ async function createUser(req, res) {
     }
 }
 
-module.exports = { verifyUser, createUser };
+// Inscription publique : toujours un simple utilisateur (le rôle envoyé est ignoré)
+function createUser(req, res) {
+    return insertUser(req, res, null);
+}
+
+// Réservé aux administrateurs (requireAdmin dans la route)
+function createAdmin(req, res) {
+    return insertUser(req, res, 'admin');
+}
+
+// Profil de l'utilisateur connecté (sans le mot de passe)
+async function getMe(req, res) {
+    try {
+        const user = await User.getById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: 'Compte introuvable' });
+        }
+        const { password: _, ...safeUser } = user;
+        res.status(200).json(safeUser);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+}
+
+// Suppression de son propre compte (droit à l'effacement, RGPD art. 17).
+// Le mot de passe est redemandé : un token volé ne suffit pas à supprimer le compte.
+async function deleteMe(req, res) {
+    const { password } = req.body || {};
+
+    if (!password) {
+        return res.status(400).json({ error: 'Mot de passe requis pour confirmer la suppression' });
+    }
+
+    try {
+        const user = await User.getById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: 'Compte introuvable' });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: 'Mot de passe incorrect' });
+        }
+
+        // Le site doit garder au moins un administrateur
+        if (user.role === 'admin' && await User.countAdmins() <= 1) {
+            return res.status(409).json({ error: 'Vous êtes le dernier administrateur : nommez-en un autre avant de supprimer ce compte.' });
+        }
+
+        await User.deleteById(user.id);
+        res.status(204).end();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+}
+
+module.exports = { verifyUser, createUser, createAdmin, getMe, deleteMe };

@@ -1,8 +1,15 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { AlertIcon, CheckIcon, InfoIcon } from "../Icons.jsx";
 
 const NotificationContext = createContext();
 
 export const useNotification = () => useContext(NotificationContext);
+
+const NOTIFICATION_TYPES = {
+    success: { title: "C'est fait", Icon: CheckIcon },
+    error: { title: "Une erreur est survenue", Icon: AlertIcon },
+    info: { title: "Information", Icon: InfoIcon },
+};
 
 export const NotificationProvider = ({ children }) => {
     const [notification, setNotification] = useState({
@@ -27,34 +34,21 @@ export const NotificationProvider = ({ children }) => {
         }, 3000);
     }, []);
 
-    const typeColors = {
-        success: '#4CAF50',
-        error: '#F44336',
-        info: '#afafaf',
-    };
+    const { title, Icon } = NOTIFICATION_TYPES[notification.type] || NOTIFICATION_TYPES.success;
 
     return (
         <NotificationContext.Provider value={{ showNotification }}>
             {children}
             {notification.visible && (
                 <div
-                    className={animationClass}
-                    style={{
-                        position: 'fixed',
-                        top: '80px',
-                        right: '20px',
-                        padding: '16px 24px',
-                        borderRadius: '8px',
-                        backgroundColor: typeColors[notification.type] || '#4CAF50',
-                        color: 'white',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                        fontSize: '16px',
-                        zIndex: 9999,
-                        maxWidth: '300px',
-                        transition: 'opacity 0.5s ease', // pour un meilleur fade
-                    }}
+                    className={`vt-banner vt-banner-${notification.type || 'success'} vt-toast ${animationClass}`}
+                    role={notification.type === 'error' ? 'alert' : 'status'}
                 >
-                    {notification.message}
+                    <Icon size={22} />
+                    <div>
+                        <strong className="vt-banner-title">{title}</strong>
+                        <p>{notification.message}</p>
+                    </div>
                 </div>
             )}
         </NotificationContext.Provider>

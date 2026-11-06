@@ -1,19 +1,24 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../Layouts/Header.jsx";
-import { ThemeContext } from "../context/ThemeContext.jsx";
+import Page from "../Layouts/Page.jsx";
 import { useAPI } from "../context/APIContext.jsx";
+import { PlusIcon } from "../Icons.jsx";
+import TonePicker from "../Inputs/TonePicker.jsx";
+import { FAMILLE_LABELS, vitamineFamille, vitamineTone } from "./vitamineMeta.js";
+import { uniteLisible } from "./Quantity.jsx";
+
+import AssociationModal from "../Aliments/AssociationModal.jsx";
 
 export default function VitamineEditor() {
     const API_URL = useAPI();
-    const { isDark } = useContext(ThemeContext);
     const { id } = useParams();
     const navigate = useNavigate();
+    
+    const [modalOpen, setModalOpen] = useState(false);
 
     const [vitamine, setVitamine] = useState({
         nom: "",
         description: "",
-        couleur: "#5e80c8",
         nom_scientifique: ""
     });
 
@@ -36,54 +41,39 @@ export default function VitamineEditor() {
     useEffect(() => {
         async function fetchData() {
             try {
-                // Vitamine
-                const vitRes = await fetch(`${API_URL}/vitamines/${id}`);
+                // Vitamine (fiche nutriment : contient l'accent « tone »)
+                const vitRes = await fetch(`${API_URL}/nutriments/${id}`);
                 if (!vitRes.ok) throw new Error("Erreur récupération vitamine");
-                const vitData = await vitRes.json();
-                const vitObj = Array.isArray(vitData) ? vitData[0] : vitData;
+                const vitObj = await vitRes.json();
 
                 setVitamine({
                     nom: vitObj?.nom || "",
                     description: vitObj?.description || "",
-                    couleur: vitObj?.couleur || "#5e80c8",
                     nom_scientifique: vitObj?.nom_scientifique || "",
-                    gramage : vitObj?.gramage || 0,
+                    gramage : vitObj?.apport_principal?.valeur_min ?? 0,
+                    unite: vitObj?.apport_principal?.unite,
+                    tone: vitamineTone(vitObj?.nom, vitObj?.tone),
+                    famille: vitamineFamille(vitObj?.nom, vitObj?.famille) || "",
+                    stockage: vitObj?.stockage || "",
                 });
 
-                // Effets
-                const effRes = await fetch(`${API_URL}/vitamines/${id}/effects`);
-
-                if (effRes.ok) {
-                    const effData = await effRes.json();
-                    setEffets(
-                        Array.isArray(effData)
-                            ? effData.map((e) => ({
-                                id: e.id,
-                                type: e.type_effet || "avantage",
-                                description: e.description || ""
-                            }))
-                            : []
-                    );
-                } else if (effRes.status === 404) {
-                    // Aucun effet → liste vide
-                    setEffets([]);
-                } else {
-                    throw new Error("Erreur récupération effets");
-                }
-
-                // Fonctions
-                const fnRes = await fetch(`${API_URL}/vitamines/${id}/fonctions`);
-                if (!fnRes.ok) throw new Error("Erreur récupération fonctions");
-                const fnData = await fnRes.json();
-
-                setFonctions(
-                    Array.isArray(fnData)
-                        ? fnData.map((f) => ({
-                            id: f.id,
-                            nom: f.nom || "",
-                            description: f.description || ""
+                // Effets (groupés par type) et fonctions : déjà dans la fiche
+                const effetsGroupes = vitObj?.effets || {};
+                setEffets(
+                    ["avantage", "carence", "exces"].flatMap((type) =>
+                        (effetsGroupes[type] || []).map((e) => ({
+                            id: e.id,
+                            type,
+                            description: e.description || ""
                         }))
-                        : []
+                    )
+                );
+                setFonctions(
+                    (vitObj?.fonctions || []).map((f) => ({
+                        id: f.id,
+                        nom: f.nom || "",
+                        description: f.description || ""
+                    }))
                 );
             } catch (err) {
                 console.error(err);
@@ -125,31 +115,43 @@ export default function VitamineEditor() {
     // Submit avec valeurs actuelles via refs
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const { gramage, unite, famille, stockage, ...champs } = vitamine;
         const payload = {
-            ...vitamine,
-            effets: effetsRef.current,
-            fonctions: fonctionsRef.current
+            ...champs,
+            famille: famille || null,
+            stockage: stockage?.trim() || null,
+            gramage: gramage === "" || gramage == null ? null : Number(gramage),
+            effets: effetsRef.current.map(({ type, description }) => ({ type, description })),
+            fonctions: fonctionsRef.current.map(({ nom, description }) => ({ nom, description }))
         };
-        console.log("Payload envoyé:", payload);
 
         try {
-            const res = await fetch(`${API_URL}/vitamines/${id}`, {
+            const res = await fetch(`${API_URL}/nutriments/${id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`, // route réservée aux admins
+                },
                 body: JSON.stringify(payload)
             });
-            if (!res.ok) throw new Error();
+            if (!res.ok) {
+                const body = await res.json().catch(() => ({}));
+                throw new Error(body.error || "");
+            }
             alert("Vitamine mise à jour !");
             navigate(-1);
-        } catch {
-            alert("Erreur lors de la mise à jour");
+        } catch (err) {
+            alert("Erreur lors de la mise à jour" + (err.message ? ` : ${err.message}` : ""));
         }
     };
 
     const handleDelete = async () => {
         if (!window.confirm("Confirmer suppression ?")) return;
         try {
-            const res = await fetch(`${API_URL}/vitamines/${id}`, { method: "DELETE" });
+            const res = await fetch(`${API_URL}/nutriments/${id}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            });
             if (!res.ok) throw new Error();
             alert("Supprimée");
             navigate("/");
@@ -158,209 +160,191 @@ export default function VitamineEditor() {
         }
     };
     return (
-        <>
-            <Header />
-            <form
-                onSubmit={handleSubmit}
-                style={{ backgroundColor: isDark ? "black" : vitamine.couleur }}
-                className="vitamineForm"
-            >
-                {isDark && (
-                    <>
-                        <div
-                            className="vitamineTitleBacground2"
-                            style={{
-                                background: `radial-gradient(
-                    ${vitamine.couleur} 0%,
-                    rgba(5, 12, 241, 0.41) 30%,
-                    rgba(2, 2, 1, 0.02) 70%
-                )`
-                            }}
-                        />
-                        <div
-                            className="vitamineTitleBacground"
-                            style={{
-                                background: `radial-gradient(
-                    ${vitamine.couleur} 0%,
-                    rgba(5, 12, 241, 0.41) 30%,
-                    rgba(2, 2, 1, 0.02) 70%
-                )`
-                            }}
-                        />
-                    </>
-                )}
+        <Page>
+            <section className="vt-hero">
+                <p className="vt-eyebrow">Administration</p>
+                <h1 className="vt-display vt-hero-title">Éditer la vitamine</h1>
+            </section>
 
-                <div className="vitamineTitle">
-                    <p>Éditer Vitamine </p>
-                </div>
+            <form className="vt-admin-form" onSubmit={handleSubmit}>
+                <div className="vt-grid-2">
+                    <section className="vt-panel tone-leaf">
+                        <h2 className="vt-display vt-panel-title">Identité</h2>
+                        <div className="vt-field">
+                            <label htmlFor="nom">Nom</label>
+                            <input
+                                id="nom"
+                                name="nom"
+                                value={vitamine.nom}
+                                onChange={handleVitamineChange}
+                                required
+                                className="vt-input"
+                            />
+                        </div>
+                        <div className="vt-field">
+                            <label htmlFor="nom_scientifique">Nom scientifique</label>
+                            <input
+                                id="nom_scientifique"
+                                name="nom_scientifique"
+                                value={vitamine.nom_scientifique || ""}
+                                onChange={handleVitamineChange}
+                                required
+                                className="vt-input"
+                            />
+                        </div>
+                        <div className="vt-field">
+                            <label htmlFor="gramage">Apport <span className="vt-unit">({uniteLisible(vitamine.unite)})</span></label>
+                            <input className="vt-input" id="gramage" type="number" onChange={handleGramageChange} value={vitamine.gramage ?? ""} />
+                        </div>
+                        <div className="vt-field">
+                            <label htmlFor="famille">Famille</label>
+                            <select
+                                id="famille"
+                                name="famille"
+                                value={vitamine.famille || ""}
+                                onChange={handleVitamineChange}
+                                className="vt-input"
+                            >
+                                <option value="">Non précisée</option>
+                                {Object.entries(FAMILLE_LABELS).map(([value, label]) => (
+                                    <option key={value} value={value}>{label}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="vt-field">
+                            <label htmlFor="stockage">Stockage</label>
+                            <input
+                                id="stockage"
+                                name="stockage"
+                                value={vitamine.stockage || ""}
+                                onChange={handleVitamineChange}
+                                placeholder="Ex. : se stocke dans le foie"
+                                className="vt-input"
+                            />
+                        </div>
+                        <TonePicker value={vitamine.tone} onChange={(tone) => setVitamine((v) => ({ ...v, tone }))} />
+                    </section>
 
-                <div className="NomInput">
-                    <input
-                        name="nom"
-                        value={vitamine.nom}
-                        onChange={handleVitamineChange}
-                        required
-                        placeholder="Nom"
-                        className="textInput"
-                    />
-                </div>
-
-                <div className="vitamineContainer">
-                    <div className="vitamineCardContainer1">
-                        <div className="vitamineCard vitamineDescription">
-                            <p>Description</p>
+                    <section className="vt-panel tone-sky">
+                        <h2 className="vt-display vt-panel-title">Description</h2>
+                        <div className="vt-field">
+                            <label htmlFor="description">Texte de la fiche</label>
                             <textarea
+                                id="description"
                                 name="description"
                                 value={vitamine.description}
                                 onChange={handleVitamineChange}
                                 required
-                                style={{ whiteSpace: "pre-wrap" }}
-                                className="vitamineDescriptionInput"
+                                className="vt-input vt-textarea"
                             />
                         </div>
+                    </section>
+                </div>
 
-                        <div className="vitamineAlimentGContainer">
-                            <div className="vitamineQuantity">
+                <section className="vt-panel tone-butter">
+                    <h2 className="vt-display vt-panel-title">Aliments associés</h2>
+                    <button
+                        type="button"
+                        className="vt-btn-ghost"
+                        onClick={() => setModalOpen(true)}
+                    >
+                        Gérer les associations
+                    </button>
 
-                                <div className="vitamineColorInput">
-                                    <label className={"upload-file-input"} htmlFor={"gramage"}>
-                                        Gramage : {vitamine.gramage ?? ""}
-                                    </label>
-                                    <pre>
-                                        <input className={"upload-file-input"} id={"gramage"} type={"number"} onChange={handleGramageChange} value={vitamine.gramage ?? ""} />
-                                    </pre>
-                                    <span className="input">Choisir une couleur </span>
-                                    <label className="color-picker">
-                                        <div
-                                            className="preview"
-                                            style={{ backgroundColor: vitamine.couleur }}
-                                        />
-                                        <input
-                                            id="colorInput"
-                                            className="hidden-color"
-                                            type="color"
-                                            name="couleur"
-                                            value={vitamine.couleur}
-                                            onChange={handleVitamineChange}
-                                        />
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="vitamineAliment"></div>
-                        </div>
-                    </div>
+                    <AssociationModal
+                        open={modalOpen}
+                        setOpen={setModalOpen}
+                        vitamineId={id}
+                        nom={vitamine.nom}
+                    />
+                </section>
 
-                    <div className="vitamineCardContainer2">
-                        <div className="vitamineCard fonctions">
-                            <h3>Fonctions</h3>
-                            <button className="buttons" type="button" onClick={addFonction}>
-                                + Fonction
+                <section className="vt-panel tone-lilac">
+                    <h2 className="vt-display vt-panel-title">Fonctions</h2>
+                    {fonctions.map((f, i) => (
+                        <div key={i} className="vt-repeat-row">
+                            <input
+                                placeholder="Fonction"
+                                aria-label={`Nom de la fonction ${i + 1}`}
+                                className="vt-input"
+                                value={f.nom || ""}
+                                onChange={(e) => handleFonctionChange(i, "nom", e.target.value)}
+                                required
+                            />
+                            <input
+                                placeholder="Description"
+                                aria-label={`Description de la fonction ${i + 1}`}
+                                className="vt-input"
+                                value={f.description || ""}
+                                onChange={(e) =>
+                                    handleFonctionChange(i, "description", e.target.value)
+                                }
+                                required
+                            />
+                            <button
+                                className="vt-btn-ghost vt-btn-danger"
+                                type="button"
+                                onClick={() => removeFonction(i)}
+                                aria-label={`Supprimer fonction ${i + 1}`}
+                            >
+                                Supprimer
                             </button>
-                            {fonctions.map((f, i) => (
-                                <div
-                                    key={i}
-                                    className="fonctionBloc"
-                                    style={{
-                                        display: "flex",
-                                        gap: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "space-evenly"
-                                    }}
-                                >
-                                    <input
-                                        placeholder={"Fonction"}
-                                        className="textInput"
-                                        value={f.nom || ""}
-                                        onChange={(e) => handleFonctionChange(i, "nom", e.target.value)}
-                                        required
-                                    />
-                                    <input
-                                        placeholder={"Description"}
-                                        className="textInput"
-                                        value={f.description || ""}
-                                        onChange={(e) =>
-                                            handleFonctionChange(i, "description", e.target.value)
-                                        }
-                                        required
-                                    />
-                                    <button
-                                        className="buttonsSupprimer"
-                                        type="button"
-                                        onClick={() => removeFonction(i)}
-                                    >
-                                        Supprimer
-                                    </button>
-                                </div>
-                            ))}
                         </div>
+                    ))}
+                    <button className="vt-btn-ghost" type="button" onClick={addFonction}>
+                        <PlusIcon size={18} /> Ajouter une fonction
+                    </button>
+                </section>
 
-                        <div className="vitamineInfosContainer">
-                            <div className="effects">
-                                <h3>Effets</h3>
-                                <button className="buttons" type="button" onClick={addEffet}>
-                                    + Ajouter effet
-                                </button>
-                                {effets.map((effet, index) => (
-                                    <div
-                                        key={index}
-                                        style={{ display: "flex", gap: "10px", alignItems: "center" }}
-                                    >
-                                        <select
-                                            className="textInput"
-                                            value={effet.type || "avantage"}
-                                            onChange={(e) => handleEffetChange(index, "type", e.target.value)}
-                                        >
-                                            <option value="avantage">Avantage</option>
-                                            <option value="carence">Carence</option>
-                                            <option value="excès">Excès</option>
-                                        </select>
-                                        <input
-                                            className="textInput"
-                                            type="text"
-                                            placeholder="Description"
-                                            value={effet.description || ""}
-                                            onChange={(e) =>
-                                                handleEffetChange(index, "description", e.target.value)
-                                            }
-                                            required
-                                        />
-                                        <button
-                                            className="buttonsSupprimer"
-                                            type="button"
-                                            onClick={() => removeEffet(index)}
-                                            aria-label={`Supprimer effet ${index + 1}`}
-                                        >
-                                            Supprimer
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="calculateur">
-                                <div className="NomInput">
-                                    <input
-                                        name="nom_scientifique"
-                                        value={vitamine.nom_scientifique || ""}
-                                        onChange={handleVitamineChange}
-                                        required
-                                        placeholder="Nom scientifique"
-                                        className="textInput"
-                                    />
-                                </div>
-
-                                <div>
-                                    <button className="buttons" type="submit">
-                                        Enregistrer
-                                    </button>
-                                    <button className="buttons" type="button" onClick={handleDelete}>
-                                        Supprimer
-                                    </button>
-                                </div>
-                            </div>
+                <section className="vt-panel tone-peach">
+                    <h2 className="vt-display vt-panel-title">Effets</h2>
+                    {effets.map((effet, index) => (
+                        <div key={index} className="vt-repeat-row">
+                            <select
+                                className="vt-input"
+                                aria-label={`Type de l'effet ${index + 1}`}
+                                value={effet.type || "avantage"}
+                                onChange={(e) => handleEffetChange(index, "type", e.target.value)}
+                            >
+                                <option value="avantage">Avantage</option>
+                                <option value="carence">Carence</option>
+                                <option value="exces">Excès</option>
+                            </select>
+                            <input
+                                className="vt-input"
+                                type="text"
+                                placeholder="Description"
+                                aria-label={`Description de l'effet ${index + 1}`}
+                                value={effet.description || ""}
+                                onChange={(e) =>
+                                    handleEffetChange(index, "description", e.target.value)
+                                }
+                                required
+                            />
+                            <button
+                                className="vt-btn-ghost vt-btn-danger"
+                                type="button"
+                                onClick={() => removeEffet(index)}
+                                aria-label={`Supprimer effet ${index + 1}`}
+                            >
+                                Supprimer
+                            </button>
                         </div>
-                    </div>
+                    ))}
+                    <button className="vt-btn-ghost" type="button" onClick={addEffet}>
+                        <PlusIcon size={18} /> Ajouter un effet
+                    </button>
+                </section>
+
+                <div className="vt-actions">
+                    <button className="vt-btn-primary" type="submit">
+                        Enregistrer
+                    </button>
+                    <button className="vt-btn-ghost vt-btn-danger" type="button" onClick={handleDelete}>
+                        Supprimer la vitamine
+                    </button>
                 </div>
             </form>
-        </>
+        </Page>
     );
 }
