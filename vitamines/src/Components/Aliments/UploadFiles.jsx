@@ -10,6 +10,8 @@ function UploadFiles({ onUpload }) {
     const [type, setType] = useState("");
     const [file, setFile] = useState(null);
     const [json, setJson] = useState("");
+    // Changer la clé recrée le champ fichier : seul moyen de le vider (non contrôlable par React)
+    const [fileKey, setFileKey] = useState(0);
 
     const handleNomChange = (e) => setNom(e.target.value);
     const handleTypeChange = (e) => setType(e.target.value);
@@ -55,7 +57,7 @@ function UploadFiles({ onUpload }) {
         formData.append("nom", nom);
         formData.append("type", type);
         formData.append("File", file);
-        formData.append("json", JSON.stringify(json));
+        formData.append("json", json); // déjà du texte JSON : ne pas le réencoder
 
         try {
             const res = await fetch(`${API_URL}/uploadAliment`, {
@@ -82,6 +84,7 @@ function UploadFiles({ onUpload }) {
             setNom("");
             setType("");
             setFile(null);
+            setFileKey((k) => k + 1);
             setJson("");
 
             if (onUpload) onUpload(data); // callback pour le parent
@@ -132,6 +135,7 @@ function UploadFiles({ onUpload }) {
             <div className="vt-field">
                 <label htmlFor="upload-file">Image (SVG ou PNG)</label>
                 <input
+                    key={fileKey}
                     id="upload-file"
                     className="vt-input vt-file"
                     type="file"
@@ -141,7 +145,7 @@ function UploadFiles({ onUpload }) {
             </div>
             <div className="vt-field">
                 <label htmlFor="json">Apports (JSON)</label>
-                <input id="json" className="vt-input" type="text" onChange={handleJsonChnageChange} />
+                <input id="json" className="vt-input" type="text" value={json} onChange={handleJsonChnageChange} />
             </div>
             <button className="vt-btn-primary vt-btn-block" type="button" onClick={handleUpload}>
                 <UploadIcon size={18} /> Envoyer

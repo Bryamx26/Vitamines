@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAPI } from "../context/APIContext.jsx"
 
-function AllAlimentFrame() {
+function AllAlimentFrame({ version = 0 }) {
     const API_URL = useAPI();
     const [aliment, setAliment] = useState([]);
 
@@ -27,15 +27,15 @@ function AllAlimentFrame() {
         };
 
         fetchAliments();
-    }, []);
+    }, [API_URL, version]);
 
 
     return (
         <ul className="vt-foods">
             {Array.isArray(aliment) && aliment.map((item, index) => (
-                <li className="vt-food" key={index}>
+                <li className="vt-food" key={item.id ?? index}>
                     <span className="vt-food-pill">
-                        <img src={`/images/alimentsImages/${item.path}`} alt="" />
+                        {item.path && <img src={`/images/alimentsImages/${item.path}`} alt="" />}
                     </span>
                     <span className="vt-food-name">{item.nom}</span>
                 </li>
