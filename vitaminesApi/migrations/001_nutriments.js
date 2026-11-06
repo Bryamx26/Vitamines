@@ -1,7 +1,7 @@
 // Migration 001 — tables « nutriments » + reprise des anciennes tables vitamines.
 //
 //   npm run migrate                 applique la migration (idempotente)
-//   npm run migrate -- --print-sql  affiche le schéma (source de docker-entrypoint/02_nutriments.sql)
+//   npm run migrate -- --print-sql  affiche le schéma seul (sans données)
 //
 // Étapes : schéma (CREATE TABLE IF NOT EXISTS) → catégories → copie de l'existant
 // (mêmes id) → renommage des anciennes tables en legacy_*.
@@ -111,8 +111,8 @@ const LEGACY_TABLES = [
 
 function printSql() {
     const header = `-- Généré par : cd vitaminesApi && npm run migrate -- --print-sql
--- Schéma des nutriments, exécuté par MySQL après 01_vitamines_db.sql au premier démarrage.
--- La reprise des anciennes données (copie + renommage legacy_*) se fait avec « npm run migrate ».
+-- Schéma des nutriments seul (sans données). Une base neuve est créée par docker-entrypoint/init.sql ;
+-- la reprise d'une ancienne base (copie + renommage legacy_*) se fait avec « npm run migrate ».
 `;
     console.log(header + [...SCHEMA, CATEGORIES_SQL].map((s) => s + ";").join("\n\n"));
 }

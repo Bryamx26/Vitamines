@@ -77,9 +77,9 @@ Prérequis : Docker et Docker Compose v2, `openssl`.
 git clone <url-du-dépôt> vitamines && cd vitamines
 cp .env.example .env            # puis remplacez les valeurs (voir ci-dessous)
 docker compose up -d --build
-docker compose exec api npm run migrate
-docker compose exec api npm run seed
 ```
+
+La base est créée et remplie au premier démarrage par `docker-entrypoint/init.sql` : rien d'autre à lancer.
 
 - Site : <http://localhost>
 - API : <http://localhost:3000/api/nutriments>
@@ -105,7 +105,7 @@ Ces points sont **bloquants** : voir aussi [limites connues](#état-du-projet-et
 
 1. **Mots de passe** : choisissez des mots de passe MySQL forts et uniques. Les anciens mots de passe de développement apparaissent dans l'historique git : ne les réutilisez pas.
 2. **Clés JWT** : générez une paire de clés dédiée à la production (étape 3) et gardez les fichiers `.pem` hors du dépôt (ou dans `keys/`, ignoré par git et par Docker).
-3. **Données** : le dump `docker-entrypoint/01_vitamines_db.sql` ne crée aucun compte ; il contient encore quelques lignes de test (fonctions « sss », aliments « q » et « test ») à retirer si vous le souhaitez.
+3. **Données** : `docker-entrypoint/init.sql` ne crée aucun compte ; il contient encore quelques lignes de test (aliments « q » et « test », nutriments « Vitamine A (Legacy) » et « Test Vitamine ») à retirer si vous le souhaitez.
 
 ### 3. Configurer l'environnement
 
@@ -180,11 +180,9 @@ api.bryamsilva.online {
 ```bash
 docker compose up -d --build
 docker compose ps                         # mysql, api et frontend « Up »
-docker compose exec api npm run migrate   # crée/complète le schéma (idempotent)
-docker compose exec api npm run seed      # charge les 30 nutriments (idempotent)
 ```
 
-Au **premier** démarrage seulement (dossier `mysql-data/` vide), MySQL exécute `docker-entrypoint/01_vitamines_db.sql` puis `02_nutriments.sql`. La migration reprend ensuite les anciennes tables (copie en gardant les id, puis renommage en `legacy_*`) et le seed remplit les nutriments.
+Au **premier** démarrage seulement (dossier `mysql-data/` vide), MySQL exécute `docker-entrypoint/init.sql` : il crée directement le schéma nutriments avec toutes les données (30 nutriments, aliments et leurs images, liens, apports…). `npm run migrate` et `npm run seed` ne servent plus que pour une base existante créée avec l'ancien dump, ou pour recharger `nutriments.json` (voir « Mettre à jour »).
 
 ### 6. Créer le compte administrateur
 
@@ -221,6 +219,8 @@ docker compose exec api npm run migrate
 ```
 
 Relancez `npm run seed` seulement si `vitaminesApi/data/nutriments.json` a changé : il remplace les fonctions, effets, apports et aliments des 30 nutriments par le contenu du fichier.
+
+Si le schéma ou `nutriments.json` change, régénérez `docker-entrypoint/init.sql` pour que les nouvelles installations en profitent : sur une base à jour, `mysqldump --no-tablespaces --skip-extended-insert --complete-insert vitamines_db` (sans les tables `legacy_*`), en gardant l'en-tête du fichier, notamment `SET NAMES utf8mb4;`.
 
 **Sauvegarder** (à planifier, par exemple chaque nuit via cron) :
 
@@ -288,8 +288,7 @@ curl -s "https://api.bryamsilva.online/api/nutriments?categorie=mineral" | jq '.
 docker-compose.yml          orchestration des 3 services
 .env.example                modèle de configuration
 docker-entrypoint/          SQL exécuté au premier démarrage de MySQL
-  01_vitamines_db.sql       dump initial (tables historiques)
-  02_nutriments.sql         schéma nutriments (généré par la migration)
+  init.sql                  schéma + données (état après migrate + seed)
 vitaminesApi/               API Express
   index.js, db.js           point d'entrée, connexion MySQL
   routes/ controllers/ models/ middlewares/
