@@ -12,7 +12,6 @@ function VitamineCreator() {
         nom: "",
         description: "",
         nom_scientifique: "",
-        couleur: "#5e80c8",
         gramage : 0,
     });
 
@@ -66,15 +65,18 @@ function VitamineCreator() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const { gramage, ...champs } = vitamine;
         const data = {
-            ...vitamine,
+            ...champs,
+            categorie: "vitamine",
+            gramage: gramage === "" || gramage == null ? null : Number(gramage),
             tone: vitamine.tone || vitamineTone(vitamine.nom), // couleur proposée si rien n'est choisi
             effets,
             fonctions,
         };
 
         try {
-            const response = await fetch(`${API_URL}/vitamines`, {
+            const response = await fetch(`${API_URL}/nutriments`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -85,12 +87,12 @@ function VitamineCreator() {
 
             if (response.ok) {
                 alert("Vitamine créée avec succès !");
-                setVitamine({ nom: "", description: "", couleur: "#5e80c8", nom_scientifique: "" });
+                setVitamine({ nom: "", description: "", nom_scientifique: "", gramage: 0 });
                 setEffets([{ type: "avantage", description: "" }]);
                 setFonctions([{ nom: "", description: "" }]);
             } else {
                 const error = await response.json();
-                alert("Erreur : " + error.message);
+                alert("Erreur : " + (error.error || error.message));
             }
         } catch (err) {
             console.error("Erreur réseau :", err);
@@ -215,7 +217,7 @@ function VitamineCreator() {
                             >
                                 <option value="avantage">Avantage</option>
                                 <option value="carence">Carence</option>
-                                <option value="excès">Excès</option>
+                                <option value="exces">Excès</option>
                             </select>
                             <input
                                 className="vt-input"
