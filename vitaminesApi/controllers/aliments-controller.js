@@ -48,6 +48,19 @@ async function postNewAliment (req, res) {
     if (!req.file) return res.status(400).json({ error: "Aucun fichier reçu" });
     if (!nom || !type) return res.status(400).json({ error: "Nom et type requis" });
 
+    // Apports : texte JSON optionnel. Un JSON encodé deux fois ("\"{...}\"") est déroulé.
+    let gramage = null;
+    if (json) {
+        try {
+            let valeur = JSON.parse(json);
+            if (typeof valeur === "string") valeur = JSON.parse(valeur);
+            if (typeof valeur !== "object" || valeur === null) throw new Error();
+            gramage = JSON.stringify(valeur);
+        } catch {
+            return res.status(400).json({ error: "Apports : JSON invalide" });
+        }
+    }
+
     const ext = ALLOWED[req.file.mimetype];
     if (ext === ".svg" && SVG_DANGEREUX.test(req.file.buffer.toString("utf8"))) {
         return res.status(400).json({ error: "SVG refusé : il contient du script ou des gestionnaires d'événements." });
@@ -75,7 +88,7 @@ async function postNewAliment (req, res) {
         }
 
         // Créer l'aliment dans la DB
-        const aliment = await Aliments.createAliment({ nom, type, path: fileName, json });
+        const aliment = await Aliments.createAliment({ nom, type, path: fileName, json: gramage });
 
         clearAllCache();
         res.status(201).json({

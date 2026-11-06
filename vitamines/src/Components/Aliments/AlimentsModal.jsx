@@ -1,8 +1,11 @@
 import UploadFiles from "./UploadFiles.jsx";
 import AllAlimentFrame from "./AllAlimentFrame.jsx";
+import { useState } from "react";
 import { CloseIcon } from "../Icons.jsx";
 
 function AlimentsModal({open, setOpen }) {
+    // Incrémenté après chaque ajout pour recharger la liste des aliments
+    const [version, setVersion] = useState(0);
 
     if (!open) return ("")
 
@@ -19,9 +22,9 @@ function AlimentsModal({open, setOpen }) {
 
                 <h2 id="aliments-modal-title" className="vt-display vt-title">Aliments</h2>
 
-                <AllAlimentFrame/>
+                <AllAlimentFrame version={version}/>
 
-                <UploadFiles/>
+                <UploadFiles onUpload={() => setVersion((v) => v + 1)}/>
             </div>
         </div>
     );

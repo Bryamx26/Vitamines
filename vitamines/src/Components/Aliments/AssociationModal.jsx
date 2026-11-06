@@ -106,7 +106,7 @@ function AssociationModal({ open, setOpen, vitamineId, nom }) { // Ajout de 'nom
                                             aria-label={item.nom}
                                             onClick={() => toggleAliment(item.id)}
                                         >
-                                            <img src={`/images/alimentsImages/${item.path}`} alt="" />
+                                            {item.path && <img src={`/images/alimentsImages/${item.path}`} alt="" />}
                                             {isSelected && <span className="vt-food-check"><CheckIcon size={22} /></span>}
                                         </button>
                                         <span className="vt-food-name">{item.nom}</span>

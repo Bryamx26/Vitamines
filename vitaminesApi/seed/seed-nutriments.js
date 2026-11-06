@@ -5,10 +5,21 @@
 // remplacées, aliments rapprochés sans tenir compte de la casse ni des accents, puis interactions
 // (en second passage, une fois tous les nutriments présents).
 
+const fs = require("fs");
 const path = require("path");
 const db = require("../db");
 const Nutriments = require("../models/nutriments");
-const { normalize } = require("../utils/text");
+const { normalize, slugify } = require("../utils/text");
+
+// Images des aliments : <slug du nom>.svg dans le dossier partagé avec le front (voir docker-compose.yml)
+const IMAGES_DIR = process.env.ALIMENTS_IMAGES_DIR
+    || path.join(__dirname, "../../vitamines/public/images/alimentsImages");
+
+// « Patate douce » → « patate-douce.svg » si le fichier existe, sinon null
+function alimentImage(nom) {
+    const fichier = `${slugify(nom)}.svg`;
+    return fs.existsSync(path.join(IMAGES_DIR, fichier)) ? fichier : null;
+}
 
 const DATA_FILE = path.join(__dirname, "..", "data", "nutriments.json");
 
@@ -37,7 +48,7 @@ function alimentType(nom) {
 const NUTRIMENT_FIELDS = Nutriments.FIELDS.filter((f) => f !== "couleur");
 
 async function seed(conn, data, log) {
-    const stats = { nutrimentsCrees: 0, nutrimentsMaj: 0, apports: 0, alimentsCrees: [], aVerifier: 0 };
+    const stats = { nutrimentsCrees: 0, nutrimentsMaj: 0, apports: 0, alimentsCrees: [], imagesAjoutees: 0, aVerifier: 0 };
 
     // 1. Catégories (upsert par code)
     for (const c of data.categories) {
@@ -49,19 +60,25 @@ async function seed(conn, data, log) {
     }
 
     // Index des aliments existants par nom normalisé (« Œuf » = « oeuf »)
-    const [aliments] = await conn.query("SELECT id, nom FROM aliments ORDER BY id");
+    const [aliments] = await conn.query("SELECT id, nom, path FROM aliments ORDER BY id");
     const alimentsParNom = new Map();
     for (const a of aliments) {
         const key = normalize(a.nom);
         if (!alimentsParNom.has(key)) alimentsParNom.set(key, a.id);
+        // Aliments déjà créés sans image : on leur attribue la leur si elle existe
+        const image = a.path ? null : alimentImage(a.nom);
+        if (image) {
+            await conn.query("UPDATE aliments SET path = ? WHERE id = ?", [image, a.id]);
+            stats.imagesAjoutees++;
+        }
     }
 
     async function alimentId(nom) {
         const key = normalize(nom);
         if (alimentsParNom.has(key)) return alimentsParNom.get(key);
         const [result] = await conn.query(
-            "INSERT INTO aliments (nom, type, path) VALUES (?, ?, NULL)",
-            [nom, alimentType(nom)]
+            "INSERT INTO aliments (nom, type, path) VALUES (?, ?, ?)",
+            [nom, alimentType(nom), alimentImage(nom)]
         );
         alimentsParNom.set(key, result.insertId);
         stats.alimentsCrees.push(nom);
@@ -119,6 +136,7 @@ async function seed(conn, data, log) {
     log(`Apports : ${stats.apports} (dont ${stats.aVerifier} encore à vérifier)`);
     log(`Interactions : ${interactions}`);
     log(`Aliments créés : ${stats.alimentsCrees.length}${stats.alimentsCrees.length ? " — " + stats.alimentsCrees.join(", ") : ""}`);
+    log(`Images attribuées aux aliments existants : ${stats.imagesAjoutees}`);
     return stats;
 }
 
