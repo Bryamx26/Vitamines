@@ -11,6 +11,9 @@ import VitamineEditor from "./Components/Vitamines/VitamineEditor.jsx";
 import Register from "./Components/Pages/Register.jsx";
 import About from "./Components/Pages/About.jsx";
 import Contact from "./Components/Pages/Contact.jsx";
+import QuizzPage from "./Components/Quizz/QuizzPage.jsx";
+import QuizzAdmin from "./Components/Quizz/QuizzAdmin.jsx";
+import QuizzEditor from "./Components/Quizz/QuizzEditor.jsx";
 
 function App() {
 
@@ -26,6 +29,10 @@ function App() {
         <Route path="/Register" element={<Register />} />
         <Route path="/About" element={<About />} />
         <Route path="/Contact" element={<Contact />} />
+        <Route path="/quiz" element={<QuizzPage />} />
+        <Route path="/quiz/gestion" element={<QuizzAdmin />} />
+        <Route path="/quiz/creer" element={<QuizzEditor />} />
+        <Route path="/quiz/:id/modifier" element={<QuizzEditor />} />
         <Route path="*" element={<Error />} />
       </Routes>
 
