@@ -10,7 +10,8 @@
     "migrate": "node migrations/001_nutriments.js",
     "seed": "node seed/seed-nutriments.js",
     "migrate:quizz": "node migrations/002_quizz.js",
-    "seed:quizz": "node seed/seed-quizz-exemples.js"
+    "seed:quizz": "node seed/seed-quizz-exemples.js",
+    "migrate:nettoyage": "node migrations/003_nettoyage.js"
   },
   "keywords": [],
   "author": "",
