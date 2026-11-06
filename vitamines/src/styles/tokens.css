@@ -24,6 +24,7 @@
 
   --danger: #a8402c;  --danger-soft: #f7ddd5;
   --success: #3d6e37; --success-soft: #e2eed9;
+  --warning: #8a5a12; --warning-soft: #fbecd2;   /* réponse incomplète (quiz) */
 
   --shadow-soft: 0 10px 30px rgba(74, 88, 60, 0.12);
   --shadow-pop: 0 18px 44px rgba(74, 88, 60, 0.18);
@@ -61,6 +62,7 @@
 
   --danger: #f08c78;  --danger-soft: #3a221c;
   --success: #93cf88; --success-soft: #1d2c1a;
+  --warning: #e8b86a; --warning-soft: #3a2f1a;   /* réponse incomplète (quiz) */
 
   --shadow-soft: 0 0 0 1px rgba(238, 240, 230, 0.07), 0 10px 30px rgba(0, 0, 0, 0.5);
   --shadow-pop: 0 0 0 1px rgba(238, 240, 230, 0.1), 0 18px 44px rgba(0, 0, 0, 0.6);
