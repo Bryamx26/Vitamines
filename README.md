@@ -220,6 +220,14 @@ docker compose exec api npm run migrate
 
 Relancez `npm run seed` seulement si `vitaminesApi/data/nutriments.json` a changé : il remplace les fonctions, effets, apports et aliments des 30 nutriments par le contenu du fichier.
 
+**Nettoyer une base existante** (une fois, après la mise à jour) : les bases créées avant novembre 2026 contiennent encore des essais (« Vitamine A (Legacy) », « Test Vitamine », aliments « q » et « test ») et des fonctions reliées à rien. Faites d'abord une sauvegarde (voir plus bas), puis :
+
+```bash
+docker compose exec api npm run migrate:nettoyage                  # aperçu, ne modifie rien
+docker compose exec api npm run migrate:nettoyage -- --apply       # supprime ces lignes
+docker compose exec api npm run migrate:nettoyage -- --apply --drop-legacy   # et les tables legacy_*
+```
+
 Si le schéma ou `nutriments.json` change, régénérez `docker-entrypoint/init.sql` pour que les nouvelles installations en profitent : sur une base à jour, `mysqldump --no-tablespaces --skip-extended-insert --complete-insert vitamines_db` (sans les tables `legacy_*`), en gardant l'en-tête du fichier, notamment `SET NAMES utf8mb4;`.
 
 **Sauvegarder** (à planifier, par exemple chaque nuit via cron) :
@@ -293,6 +301,8 @@ vitaminesApi/               API Express
   index.js, db.js           point d'entrée, connexion MySQL
   routes/ controllers/ models/ middlewares/
   migrations/001_nutriments.js   npm run migrate
+  migrations/002_quizz.js        npm run migrate:quizz
+  migrations/003_nettoyage.js    npm run migrate:nettoyage
   seed/seed-nutriments.js        npm run seed
   data/nutriments.json           contenu des 30 nutriments
 vitamines/                  front React + Vite

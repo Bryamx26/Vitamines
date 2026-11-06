@@ -35,14 +35,12 @@ INSERT INTO `aliment_nutriment` (`aliment_id`, `nutriment_id`, `teneur`) VALUES
 (3,8,NULL),
 (3,12,NULL),
 (3,13,NULL),
-(3,36,NULL),
 (3,41,NULL),
 (3,44,NULL),
 (3,49,NULL),
 (3,54,NULL),
 (4,1,NULL),
 (4,11,NULL),
-(4,36,NULL),
 (5,5,NULL),
 (6,44,NULL),
 (6,45,NULL),
@@ -59,7 +57,6 @@ INSERT INTO `aliment_nutriment` (`aliment_id`, `nutriment_id`, `teneur`) VALUES
 (8,48,NULL),
 (8,50,NULL),
 (9,10,NULL),
-(9,36,NULL),
 (10,1,NULL),
 (14,42,NULL),
 (14,43,NULL),
@@ -261,7 +258,6 @@ INSERT INTO `aliments` (`id`, `nom`, `type`, `path`, `gramage`) VALUES
 (14,'pain','produit-transforme','bread.svg',NULL),
 (16,'Dinde','viande-blanche','dinde.png',NULL),
 (25,'Oeuf','proteine-animale','oeuf.svg','{\"vitamine_principale\": \"B12\"}'),
-(27,'q','poisson','tomato-svgrepo-com.svg','{\"A\": \"25g\"}'),
 (28,'Salade','legume','salade.svg','{\"A\": \"10g\"}'),
 (29,'Frites','produit-transforme','frites.svg','{\"B\": \"50g\"}'),
 (30,'Banane','fruit','banane.svg','{\"vitamine_principale\": \"B6\"}'),
@@ -269,7 +265,6 @@ INSERT INTO `aliments` (`id`, `nom`, `type`, `path`, `gramage`) VALUES
 (32,'cocktail','boisson','cocktail2.png','{\"A\": \"3g\"}'),
 (33,'cocktail fraise','boisson','cocktail1.png','{\"A\": \"3g\"}'),
 (34,'cocktail 3','boisson','cocktail3.png','{\"A\": \"3g\"}'),
-(35,'test','aliment','image_mask.png','{\"A\": \"3g\"}'),
 (36,'Foie','viande','foie.svg',NULL),
 (37,'Beurre','produit-laitier','beurre.svg',NULL),
 (38,'Patate douce','legume','patate-douce.svg',NULL),
@@ -370,8 +365,6 @@ CREATE TABLE `apports` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `apports` (`id`, `nutriment_id`, `population`, `type`, `valeur_min`, `valeur_max`, `unite`, `source`, `note`, `a_verifier`) VALUES
-(14,36,'adulte','recommande',1033.000,NULL,'mg/j','ancienne base','Repris de vitamines.gramage',0),
-(15,37,'adulte','recommande',0.000,NULL,'mg/j','ancienne base','Repris de vitamines.gramage',0),
 (16,1,'homme','recommande',750.000,NULL,'µg ER/j','EFSA (PRI) — notes',NULL,0),
 (17,1,'femme','recommande',650.000,NULL,'µg ER/j','EFSA (PRI) — notes',NULL,0),
 (18,1,'adulte','max',3000.000,NULL,'µg ER/j','EFSA (UL)','Limite pour le rétinol préformé ; hors notes.',0),
@@ -457,9 +450,6 @@ CREATE TABLE `fonctions` (
 INSERT INTO `fonctions` (`id`, `nom`, `description`) VALUES
 (1,'Vision','Synthèse du pigment rhodopsine, qui détermine la sensibilité de l\'œil à la lumière.'),
 (2,'Immunité','Mobilité des polynucléaires neutrophiles, transformation des lymphocytes, défense immunitaire humorale.'),
-(3,'Formation des globules rouges','Production normale des cellules sanguines.'),
-(31,'Système immunitaire','Elle maintient l’intégrité des barrières épithéliales.'),
-(32,'Visions','Maintien de la santé oculaire.'),
 (33,'Régulation de l\'expression des gènes','Régule de nombreuses protéines, la croissance et la différenciation cellulaire (hormone de croissance).'),
 (34,'Croissance et développement','Le rétinol et l\'acide rétinoïque sont nécessaires au développement de l\'embryon et à la différenciation des organes.'),
 (35,'Globules rouges','Facilite la mobilisation du fer pour son incorporation dans l\'hémoglobine ; les rétinoïdes interviennent dans la différenciation des cellules souches en globules rouges.'),
@@ -590,9 +580,6 @@ CREATE TABLE `nutriment_effets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `nutriment_effets` (`id`, `nutriment_id`, `type`, `description`, `ordre`) VALUES
-(5,36,'avantage','Améliore la vision, notamment la vision nocturne',0),
-(6,36,'carence','Cécité nocturne et risques accrus de cécité totale',1),
-(7,36,'exces','Toxicité (hypervitaminose A)',2),
 (8,1,'avantage','Améliore la vision, notamment la vision nocturne.',0),
 (9,1,'avantage','Renforce le système immunitaire.',1),
 (10,1,'avantage','Favorise la santé de la peau et des muqueuses.',2),
@@ -847,8 +834,6 @@ INSERT INTO `nutriments` (`id`, `slug`, `nom`, `symbole`, `nom_scientifique`, `c
 (11,'vitamine-d','Vitamine D','D','Calciférol',1,'liposoluble','rose','#f4c3cf','Vitamine liposoluble à activité hormonale, indispensable à la formation et au maintien des os. L\'homme la synthétise dans la peau sous l\'effet des UVB.','Besoin exogène plus faible si la production endogène (soleil) est suffisante.','La D3 est inactive : elle est activée dans le foie (25-OH-D, calcidiol) puis dans les reins (1,25-(OH)2-D, calcitriol), transportée dans le sang par la DBP (Vitamin D Binding Protein) et agit via un récepteur spécifique VDR dans les tissus cibles.','Se stocke dans les tissus adipeux.',NULL,NULL,'40 UI = 1 µg de vitamine D.',NULL,'Sources non détaillées dans les notes : complément.','2026-11-06 01:13:52','2026-11-06 01:13:52'),
 (12,'vitamine-e','Vitamine E','E','Tocophérol',1,'liposoluble','lilac','#d9cff2','Vitamine liposoluble antioxydante : elle neutralise les radicaux libres et protège les membranes cellulaires.','Suit la digestion des lipides (nécessite la sécrétion pancréatique) ; aux doses physiologiques, 40 à 60 % est absorbé.','Passe par le système lymphatique, puis circule dans les lipoprotéines (LDL, HDL) et les cellules sanguines vers le foie et les tissus. Présente dans les aliments sous forme d\'esters de tocophérol.','Foie et tissus.',NULL,NULL,'1 mg α-TE (équivalent α-tocophérol, RRR) = 1,49 UI.',NULL,'Notes : huiles végétales (surtout riches en AGPI), fruits oléagineux, céréales complètes (germe), légumes, avocat.','2026-11-06 01:13:52','2026-11-06 01:13:52'),
 (13,'vitamine-k','Vitamine K','K','Phylloquinone / ménaquinones',1,'liposoluble','butter','#f6e5a6','Vitamine liposoluble de la coagulation (« K » de Koagulation) qui intervient aussi dans le métabolisme osseux.','Absorption de 10 à 80 % selon la matrice alimentaire ; suit la digestion des lipides (sécrétions biliaires et pancréatiques) ; plus faible si l\'aliment contient des chloroplastes ; diminuée par les AGPI à longue chaîne.','La K2 est plus biodisponible que la K1. Activité extra-hépatique (os, vaisseaux) : maintien de la densité osseuse.','K1 et K2 stockées dans le foie.','Excrétion principalement fécale, via la bile.',NULL,NULL,NULL,'Notes : K1 dans les légumes verts à feuilles, les lacto-fermentés et l\'avocat ; K2 dans les viandes, fromages et le natto.','2026-11-06 01:13:52','2026-11-06 01:13:52'),
-(36,'vitamine-a-legacy','Vitamine A (Legacy)','A','Rétinol',1,NULL,NULL,'#5ab575','La vitamine A est une vitamine liposoluble essentielle pour la vision...',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2026-11-06 01:13:52','2026-11-06 01:13:52'),
-(37,'test-vitamine','Test Vitamine',NULL,'cc',1,NULL,NULL,'#5c7cc1','cc',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2026-11-06 01:13:52','2026-11-06 01:13:52'),
 (38,'calcium','Calcium','Ca','Calcium',2,NULL,'sky','#c2dfec','Minéral le plus abondant du corps : 99 % se trouve dans les os et les dents.','Diminution de l\'absorption en présence d\'oxalates.','1 % circule : moitié sous forme d\'ion libre (Ca2+), moitié liée à une autre molécule.','Os et dents (99 %).',NULL,'1,2 kg',NULL,NULL,'Notes : lait, fromages, chou kale.','2026-11-06 01:13:52','2026-11-06 01:13:52'),
 (39,'phosphore','Phosphore','P','Phosphore',2,NULL,'butter','#f6e5a6','Minéral constituant de l\'ATP, des acides nucléiques et des phospholipides.',NULL,NULL,NULL,NULL,'800 à 1200 g (CSS 2016 ; notes manuscrites : « 800 à 1200 mg »)',NULL,NULL,'Sources non détaillées dans les notes : complément.','2026-11-06 01:13:52','2026-11-06 01:13:52'),
 (40,'magnesium','Magnésium','Mg','Magnésium',2,NULL,'sky','#c2dfec','Minéral impliqué dans plus de 300 réactions : synthèse des protéines, contraction musculaire et métabolisme énergétique.','Depuis l\'après-guerre, moins de magnésium dans l\'alimentation car on consomme moins de céréales complètes.','1 % sous forme d\'ion intracellulaire, qui stabilise la structure de l\'ATP.','50 % dans le squelette, 25 % dans les muscles.',NULL,'20 à 28 g',NULL,NULL,'Notes : céréales complètes, fruits à coque, légumes secs, eaux minéralisées.','2026-11-06 01:13:52','2026-11-06 01:13:52'),

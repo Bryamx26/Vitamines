@@ -5,6 +5,7 @@ import { useAPI } from "../context/APIContext.jsx";
 import { PlusIcon } from "../Icons.jsx";
 import TonePicker from "../Inputs/TonePicker.jsx";
 import { vitamineTone } from "./vitamineMeta.js";
+import { uniteLisible } from "./Quantity.jsx";
 
 import AssociationModal from "../Aliments/AssociationModal.jsx";
 
@@ -50,6 +51,7 @@ export default function VitamineEditor() {
                     description: vitObj?.description || "",
                     nom_scientifique: vitObj?.nom_scientifique || "",
                     gramage : vitObj?.apport_principal?.valeur_min ?? 0,
+                    unite: vitObj?.apport_principal?.unite,
                     tone: vitamineTone(vitObj?.nom, vitObj?.tone),
                 });
 
@@ -111,7 +113,7 @@ export default function VitamineEditor() {
     // Submit avec valeurs actuelles via refs
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { gramage, ...champs } = vitamine;
+        const { gramage, unite, ...champs } = vitamine;
         const payload = {
             ...champs,
             gramage: gramage === "" || gramage == null ? null : Number(gramage),
@@ -187,7 +189,7 @@ export default function VitamineEditor() {
                             />
                         </div>
                         <div className="vt-field">
-                            <label htmlFor="gramage">Apport <span className="vt-unit">(mg / jour)</span></label>
+                            <label htmlFor="gramage">Apport <span className="vt-unit">({uniteLisible(vitamine.unite)})</span></label>
                             <input className="vt-input" id="gramage" type="number" onChange={handleGramageChange} value={vitamine.gramage ?? ""} />
                         </div>
                         <TonePicker value={vitamine.tone} onChange={(tone) => setVitamine((v) => ({ ...v, tone }))} />

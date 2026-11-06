@@ -79,7 +79,7 @@ function VitaminesDetails() {
                 {vitamine.gramage != null && (
                     <div className="vt-card vt-stat">
                         <p className="vt-stat-label">Apport conseillé</p>
-                        <Quantity quantity={vitamine.gramage} />
+                        <Quantity quantity={vitamine.gramage} unite={vitamine.apport_principal?.unite} />
                     </div>
                 )}
                 {famille && (
