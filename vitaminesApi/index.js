@@ -44,6 +44,7 @@ const vitaminesRoutes = require('./routes/vitamines-routes');
 const alimentRoutes = require('./routes/aliments-routes');
 const userRoutes = require('./routes/user-routes');
 const nutrimentsRoutes = require('./routes/nutriments-routes');
+const quizzRoutes = require('./routes/quizz-routes');
 
 // Documentation Swagger : désactivée en production sauf API_DOCS=true
 if (!IS_PRODUCTION || process.env.API_DOCS === 'true') {
@@ -54,6 +55,7 @@ app.use('/api', vitaminesRoutes); // route complète = /api/vitamines
 app.use('/api', alimentRoutes); // route complète = /api/aliments
 app.use('/api', userRoutes);
 app.use('/api', nutrimentsRoutes); // /api/nutriments, /api/categories, /api/aliments/:id/nutriments
+app.use('/api', quizzRoutes); // /api/quizz, /api/quizz/vitamines, /api/quizz/:id
 
 
 

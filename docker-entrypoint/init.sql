@@ -2,7 +2,8 @@
 -- Vitamines : base complète, exécutée par MySQL au premier démarrage
 -- (dossier mysql-data/ vide). Schéma nutriments déjà migré + données :
 -- catégories, nutriments, formes, fonctions, effets, allégations, apports,
--- aliments (avec leurs images), liens aliment ↔ nutriment et interactions.
+-- aliments (avec leurs images), liens aliment ↔ nutriment et interactions,
+-- tables des quiz (vides : questions créées par les admins dans l'app).
 --
 -- Plus besoin de « npm run migrate » ni de « npm run seed » sur une base neuve.
 -- Aucun compte n'est créé : inscrivez-vous sur le site puis donnez le rôle
@@ -875,6 +876,42 @@ CREATE TABLE `users` (
   `role` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- Quiz : questions, liens vers les vitamines (plusieurs par question) et réponses
+-- (même schéma que vitaminesApi/migrations/002_quizz.js)
+CREATE TABLE `quizz` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `question` text NOT NULL,
+  `correction` text NOT NULL,
+  `created_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_quizz_user` (`created_by`),
+  CONSTRAINT `fk_quizz_user` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `quizz_nutriments` (
+  `quizz_id` int NOT NULL,
+  `nutriment_id` int NOT NULL,
+  PRIMARY KEY (`quizz_id`,`nutriment_id`),
+  KEY `fk_qn_nutriment` (`nutriment_id`),
+  CONSTRAINT `fk_qn_quizz` FOREIGN KEY (`quizz_id`) REFERENCES `quizz` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_qn_nutriment` FOREIGN KEY (`nutriment_id`) REFERENCES `nutriments` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `quizz_reponses` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quizz_id` int NOT NULL,
+  `texte` varchar(255) NOT NULL,
+  `statut` enum('correcte','incomplete','fausse') NOT NULL,
+  `explication` text,
+  `ordre` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_qr_quizz` (`quizz_id`),
+  CONSTRAINT `fk_qr_quizz` FOREIGN KEY (`quizz_id`) REFERENCES `quizz` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
