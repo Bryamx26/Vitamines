@@ -99,4 +99,52 @@ async function createUser(req, res) {
     }
 }
 
-module.exports = { verifyUser, createUser };
+// Profil de l'utilisateur connecté (sans le mot de passe)
+async function getMe(req, res) {
+    try {
+        const user = await User.getById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: 'Compte introuvable' });
+        }
+        const { password: _, ...safeUser } = user;
+        res.status(200).json(safeUser);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+}
+
+// Suppression de son propre compte (droit à l'effacement, RGPD art. 17).
+// Le mot de passe est redemandé : un token volé ne suffit pas à supprimer le compte.
+async function deleteMe(req, res) {
+    const { password } = req.body || {};
+
+    if (!password) {
+        return res.status(400).json({ error: 'Mot de passe requis pour confirmer la suppression' });
+    }
+
+    try {
+        const user = await User.getById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: 'Compte introuvable' });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: 'Mot de passe incorrect' });
+        }
+
+        // Le site doit garder au moins un administrateur
+        if (user.role === 'admin' && await User.countAdmins() <= 1) {
+            return res.status(409).json({ error: 'Vous êtes le dernier administrateur : nommez-en un autre avant de supprimer ce compte.' });
+        }
+
+        await User.deleteById(user.id);
+        res.status(204).end();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+}
+
+module.exports = { verifyUser, createUser, getMe, deleteMe };

@@ -22,6 +22,7 @@ function NavBar({ menu, onNavigate }) {
         <nav className={"vt-nav " + (menu ? "is-open" : "")} aria-label="Navigation principale">
             <NavLink to="/" end className={linkClass} onClick={onNavigate}>Accueil</NavLink>
             <NavLink to="/quiz" className={linkClass} onClick={onNavigate}>Quiz</NavLink>
+            {user && <NavLink to="/profil" className={linkClass} onClick={onNavigate}>Mon espace</NavLink>}
             {user ?
                 <button type="button" className="vt-nav-link" onClick={function () {
                     handleInfo();

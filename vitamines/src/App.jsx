@@ -14,6 +14,11 @@ import Contact from "./Components/Pages/Contact.jsx";
 import QuizzPage from "./Components/Quizz/QuizzPage.jsx";
 import QuizzAdmin from "./Components/Quizz/QuizzAdmin.jsx";
 import QuizzEditor from "./Components/Quizz/QuizzEditor.jsx";
+import Profil from "./Components/Pages/Profil.jsx";
+import MentionsLegales from "./Components/Legal/MentionsLegales.jsx";
+import Confidentialite from "./Components/Legal/Confidentialite.jsx";
+import AvertissementSante from "./Components/Legal/AvertissementSante.jsx";
+import Sources from "./Components/Legal/Sources.jsx";
 
 function App() {
 
@@ -33,6 +38,11 @@ function App() {
         <Route path="/quiz/gestion" element={<QuizzAdmin />} />
         <Route path="/quiz/creer" element={<QuizzEditor />} />
         <Route path="/quiz/:id/modifier" element={<QuizzEditor />} />
+        <Route path="/profil" element={<Profil />} />
+        <Route path="/mentions-legales" element={<MentionsLegales />} />
+        <Route path="/confidentialite" element={<Confidentialite />} />
+        <Route path="/avertissement-sante" element={<AvertissementSante />} />
+        <Route path="/sources" element={<Sources />} />
         <Route path="*" element={<Error />} />
       </Routes>
 
