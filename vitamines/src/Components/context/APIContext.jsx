@@ -18,7 +18,8 @@ export function APIProvider({ children }) {
             return `http://${host}:3000/api`;
         } else {
             // Accès public (production) : domaine défini au build via VITE_API_URL
-            return `${import.meta.env.VITE_API_URL}/api`;
+            const apiDomain = import.meta.env.VITE_API_URL || "https://api.bryamsilva.online";
+            return `${apiDomain}/api`;
         }
 
     };
