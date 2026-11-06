@@ -1281,12 +1281,30 @@ a { color: var(--primary); }
   gap: var(--space-4);
 }
 
-.vt-danger-form .vt-field { max-width: 360px; }
+/* Formulaires de « Mon espace » (création d'admin, suppression de compte) : centrés */
+.vt-legal-section.vt-form-section {
+  align-items: center;
+  text-align: center;
+}
+.vt-form-section > p { margin-inline: auto; }
+
+.vt-profil-form {
+  width: 100%;
+  max-width: 520px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.vt-profil-form .vt-banner { text-align: left; }
 
 .vt-btn-primary.vt-btn-danger-fill { background: var(--danger); color: var(--danger-soft); }
 
 @media (max-width: 760px) {
   .vt-legal-list { grid-template-columns: 1fr; gap: 0; }
+  .vt-form-section { padding: var(--space-6) var(--space-4); }
+  .vt-profil-form .vt-actions { flex-direction: column; align-items: stretch; }
+  .vt-profil-form .vt-actions > * { width: 100%; justify-content: center; }
   .vt-legal-list dd { margin-bottom: var(--space-2); }
 }
 .vt-tinted .vt-footer { color: var(--on-accent); }

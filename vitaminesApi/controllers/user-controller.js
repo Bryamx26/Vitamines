@@ -52,8 +52,9 @@ async function verifyUser(req, res) {
     }
 }
 
-async function createUser(req, res) {
-    const { nom, email, password } = req.body;
+// Crée un compte ; role = null (inscription publique) ou 'admin' (création par un administrateur)
+async function insertUser(req, res, role) {
+    const { nom, email, password } = req.body || {};
 
     if (!nom || !email || !password) {
         return res.status(400).json({ message: 'Nom, email et mot de passe requis' });
@@ -73,30 +74,28 @@ async function createUser(req, res) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        const userData = {
-            nom,
-            email,
-            hashedPassword
-        };
-
-        const insertId = await User.postUser(userData);
+        const insertId = await User.postUser({ nom, email, hashedPassword, role });
 
         invalidateCacheByKey('/api/register');
 
-
         res.status(201).json({
-            message: 'Utilisateur créé avec succès',
-            user: {
-                id: insertId,
-                nom,
-                email
-            }
+            message: role === 'admin' ? 'Administrateur créé avec succès' : 'Utilisateur créé avec succès',
+            user: { id: insertId, nom, email, role }
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Erreur serveur' });
     }
+}
+
+// Inscription publique : toujours un simple utilisateur (le rôle envoyé est ignoré)
+function createUser(req, res) {
+    return insertUser(req, res, null);
+}
+
+// Réservé aux administrateurs (requireAdmin dans la route)
+function createAdmin(req, res) {
+    return insertUser(req, res, 'admin');
 }
 
 // Profil de l'utilisateur connecté (sans le mot de passe)
@@ -147,4 +146,4 @@ async function deleteMe(req, res) {
     }
 }
 
-module.exports = { verifyUser, createUser, getMe, deleteMe };
+module.exports = { verifyUser, createUser, createAdmin, getMe, deleteMe };

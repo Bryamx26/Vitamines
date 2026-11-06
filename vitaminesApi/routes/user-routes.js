@@ -4,6 +4,7 @@ const router = express.Router();
 const userController = require("../controllers/user-controller");
 const rateLimit = require("../middlewares/rate-limit");
 const authMiddleware = require("../middlewares/jwt-middleware");
+const requireAdmin = require("../middlewares/require-admin");
 
 // Protection contre les essais de mots de passe en série
 const authLimiter = rateLimit({
@@ -140,6 +141,41 @@ router.post("/auth", authLimiter, userController.verifyUser);
  *                   example: Erreur serveur
  */
 router.post("/register", registerLimiter, userController.createUser);
+
+
+/**
+ * @swagger
+ * /admins:
+ *   post:
+ *     tags:
+ *       - Utilisateurs
+ *     summary: Créer un compte administrateur (réservé aux administrateurs)
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [nom, email, password]
+ *             properties:
+ *               nom: { type: string }
+ *               email: { type: string, format: email }
+ *               password: { type: string, format: password, description: "8 caractères minimum, dont une lettre et un chiffre" }
+ *     responses:
+ *       201:
+ *         description: Administrateur créé
+ *       400:
+ *         description: Champs manquants ou invalides
+ *       401:
+ *         description: Token manquant, invalide ou expiré
+ *       403:
+ *         description: Accès réservé aux administrateurs
+ *       409:
+ *         description: Un compte avec cet email existe déjà
+ */
+router.post("/admins", registerLimiter, authMiddleware, requireAdmin, userController.createAdmin);
 
 
 /**

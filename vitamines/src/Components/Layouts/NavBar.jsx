@@ -1,20 +1,12 @@
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "/src/Components/context/UserContext.jsx"
-import { useNotification } from "../context/NotificationContext.jsx";
 
 
 function NavBar({ menu, onNavigate }) {
 
-    const { showNotification } = useNotification()
-
-    const navigate = useNavigate();
-    const { user, logout } = useContext(UserContext);
-
-    const handleInfo = () => {
-        showNotification("Vous n'êtes plus connecté.", "info");
-    };
+    const { user } = useContext(UserContext);
 
     const linkClass = ({ isActive }) => "vt-nav-link" + (isActive ? " is-active" : "");
 
@@ -22,14 +14,8 @@ function NavBar({ menu, onNavigate }) {
         <nav className={"vt-nav " + (menu ? "is-open" : "")} aria-label="Navigation principale">
             <NavLink to="/" end className={linkClass} onClick={onNavigate}>Accueil</NavLink>
             <NavLink to="/quiz" className={linkClass} onClick={onNavigate}>Quiz</NavLink>
-            {user && <NavLink to="/profil" className={linkClass} onClick={onNavigate}>Mon espace</NavLink>}
-            {user ?
-                <button type="button" className="vt-nav-link" onClick={function () {
-                    handleInfo();
-                    logout()
-                    navigate("/")
-                    onNavigate?.()
-                }}>Déconnexion</button>
+            {user
+                ? <NavLink to="/profil" className={linkClass} onClick={onNavigate}>Mon espace</NavLink>
                 : <NavLink to="/Login" className={linkClass} onClick={onNavigate}>Connexion</NavLink>}
             <NavLink to="/About" className={linkClass} onClick={onNavigate}>À propos</NavLink>
             <NavLink to="/Contact" className={linkClass} onClick={onNavigate}>Contact</NavLink>

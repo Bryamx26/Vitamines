@@ -1,5 +1,5 @@
 // Famille, couleur et stockage d'une vitamine, déduits de sa lettre
-// (la base ne stocke pas la famille).
+// quand la base ne les précise pas (valeurs de repli).
 
 const LIPOSOLUBLES = ["A", "D", "E", "K"];
 const HYDROSOLUBLES = ["B", "C"];

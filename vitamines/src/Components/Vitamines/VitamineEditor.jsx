@@ -4,7 +4,7 @@ import Page from "../Layouts/Page.jsx";
 import { useAPI } from "../context/APIContext.jsx";
 import { PlusIcon } from "../Icons.jsx";
 import TonePicker from "../Inputs/TonePicker.jsx";
-import { vitamineTone } from "./vitamineMeta.js";
+import { FAMILLE_LABELS, vitamineFamille, vitamineTone } from "./vitamineMeta.js";
 import { uniteLisible } from "./Quantity.jsx";
 
 import AssociationModal from "../Aliments/AssociationModal.jsx";
@@ -53,6 +53,8 @@ export default function VitamineEditor() {
                     gramage : vitObj?.apport_principal?.valeur_min ?? 0,
                     unite: vitObj?.apport_principal?.unite,
                     tone: vitamineTone(vitObj?.nom, vitObj?.tone),
+                    famille: vitamineFamille(vitObj?.nom, vitObj?.famille) || "",
+                    stockage: vitObj?.stockage || "",
                 });
 
                 // Effets (groupés par type) et fonctions : déjà dans la fiche
@@ -113,9 +115,11 @@ export default function VitamineEditor() {
     // Submit avec valeurs actuelles via refs
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { gramage, unite, ...champs } = vitamine;
+        const { gramage, unite, famille, stockage, ...champs } = vitamine;
         const payload = {
             ...champs,
+            famille: famille || null,
+            stockage: stockage?.trim() || null,
             gramage: gramage === "" || gramage == null ? null : Number(gramage),
             effets: effetsRef.current.map(({ type, description }) => ({ type, description })),
             fonctions: fonctionsRef.current.map(({ nom, description }) => ({ nom, description }))
@@ -191,6 +195,32 @@ export default function VitamineEditor() {
                         <div className="vt-field">
                             <label htmlFor="gramage">Apport <span className="vt-unit">({uniteLisible(vitamine.unite)})</span></label>
                             <input className="vt-input" id="gramage" type="number" onChange={handleGramageChange} value={vitamine.gramage ?? ""} />
+                        </div>
+                        <div className="vt-field">
+                            <label htmlFor="famille">Famille</label>
+                            <select
+                                id="famille"
+                                name="famille"
+                                value={vitamine.famille || ""}
+                                onChange={handleVitamineChange}
+                                className="vt-input"
+                            >
+                                <option value="">Non précisée</option>
+                                {Object.entries(FAMILLE_LABELS).map(([value, label]) => (
+                                    <option key={value} value={value}>{label}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="vt-field">
+                            <label htmlFor="stockage">Stockage</label>
+                            <input
+                                id="stockage"
+                                name="stockage"
+                                value={vitamine.stockage || ""}
+                                onChange={handleVitamineChange}
+                                placeholder="Ex. : se stocke dans le foie"
+                                className="vt-input"
+                            />
                         </div>
                         <TonePicker value={vitamine.tone} onChange={(tone) => setVitamine((v) => ({ ...v, tone }))} />
                     </section>

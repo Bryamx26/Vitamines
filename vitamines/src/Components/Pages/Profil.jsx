@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Page from "../Layouts/Page.jsx";
 import Loading from "./Loading.jsx";
+import CreerAdmin from "./CreerAdmin.jsx";
 import { useAPI } from "../context/APIContext.jsx";
 import { useNotification } from "../context/NotificationContext.jsx";
 import { UserContext } from "../context/UserContext.jsx";
@@ -22,6 +23,12 @@ function Profil() {
     const [password, setPassword] = useState("");
     const [erreur, setErreur] = useState("");
     const [envoi, setEnvoi] = useState(false);
+
+    const deconnexion = () => {
+        logout();
+        showNotification("Vous n'êtes plus connecté.", "info");
+        navigate("/");
+    };
 
     useEffect(() => {
         if (!token) return;
@@ -100,6 +107,9 @@ function Profil() {
                         <dt>Rôle</dt><dd>{estAdmin ? "Administrateur" : "Utilisateur"}</dd>
                         {compte.created_at && <><dt>Inscrit le</dt><dd>{formatDate(compte.created_at)}</dd></>}
                     </dl>
+                    <div className="vt-actions">
+                        <button type="button" className="vt-btn-ghost" onClick={deconnexion}>Déconnexion</button>
+                    </div>
                 </section>
 
                 <section className="vt-panel tone-leaf vt-legal-section">
@@ -110,6 +120,8 @@ function Profil() {
                     </div>
                 </section>
 
+                {estAdmin && <CreerAdmin />}
+
                 <section className="vt-panel tone-lilac vt-legal-section">
                     <h2 className="vt-display vt-panel-title">Mes données</h2>
                     <p>
@@ -119,7 +131,7 @@ function Profil() {
                     </p>
                 </section>
 
-                <section className="vt-panel vt-danger-zone vt-legal-section">
+                <section className="vt-panel vt-danger-zone vt-legal-section vt-form-section">
                     <h2 className="vt-display vt-panel-title">Supprimer mon compte</h2>
                     <p>
                         La suppression est définitive : votre nom, votre e-mail et votre mot de passe sont effacés tout de suite.
@@ -131,7 +143,7 @@ function Profil() {
                             Supprimer mon compte
                         </button>
                     ) : (
-                        <form className="vt-danger-form" onSubmit={supprimer}>
+                        <form className="vt-danger-form vt-profil-form" onSubmit={supprimer}>
                             <div className="vt-banner vt-banner-danger" role="alert">
                                 <AlertIcon size={20} />
                                 <div>

@@ -57,7 +57,8 @@ function VitaminesDetails() {
     if (!vitamine) return <Loading />;
 
     const famille = vitamineFamille(vitamine.nom, vitamine.famille);
-    const stockage = vitamineStockage(vitamine.nom);
+    // Texte saisi par l'admin en priorité, sinon valeur déduite de la famille
+    const stockage = vitamine.stockage?.trim() || vitamineStockage(vitamine.nom);
     const effetsGroupes = EFFETS
         .map((g) => ({ ...g, items: effects[g.type] || [] }))
         .filter((g) => g.items.length > 0);

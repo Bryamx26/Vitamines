@@ -7,8 +7,9 @@ const user = {
     },
 
     async postUser(user) {
-        const [rows] = await db.query('INSERT INTO users (nom, email, password) VALUES (?, ?, ?)',
-            [user.nom, user.email, user.hashedPassword])
+        // role : null (utilisateur) ou 'admin' (créé par un administrateur)
+        const [rows] = await db.query('INSERT INTO users (nom, email, password, role) VALUES (?, ?, ?, ?)',
+            [user.nom, user.email, user.hashedPassword, user.role ?? null])
         return rows.insertId;
     },
 
