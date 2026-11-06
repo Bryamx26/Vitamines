@@ -43,7 +43,10 @@ services:
       - backend
 
   frontend:
-    build: ./vitamines
+    build:
+      context: ./vitamines
+      args:
+        VITE_API_URL: ${VITE_API_URL:-https://api.bryamsilva.online}
     container_name: vitamines-frontend
     depends_on:
       - api
