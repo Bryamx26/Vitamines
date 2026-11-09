@@ -16,7 +16,12 @@ services:
       - backend
 
   api:
-    build: ./vitaminesApi
+    build:
+      context: ./vitaminesApi
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    image: bryamx26/vitamines-api:3.1
     container_name: vitamines-api
     depends_on:
       - mysql
@@ -47,7 +52,12 @@ services:
       context: ./vitamines
       args:
         VITE_API_URL: ${VITE_API_URL:-https://api.bryamsilva.online}
+
+      platforms:
+        - linux/amd64
+        - linux/arm64
     container_name: vitamines-frontend
+    image: bryamx26/vitamines-frontend:3.1
     depends_on:
       - api
     volumes:

@@ -14,12 +14,13 @@ Vitamines est une application web qui explique simplement le rôle des nutriment
 1. [Fonctionnalités](#fonctionnalités)
 2. [Architecture](#architecture)
 3. [Démarrer en local](#démarrer-en-local)
-4. [Mise en production](#mise-en-production)
-5. [Exploitation](#exploitation)
-6. [Référence de l'API](#référence-de-lapi)
-7. [Données et sources](#données-et-sources)
-8. [Structure du dépôt](#structure-du-dépôt)
-9. [État du projet et limites connues](#état-du-projet-et-limites-connues)
+4. [Variables d'environnement](#variables-denvironnement)
+5. [Mise en production](#mise-en-production)
+6. [Exploitation](#exploitation)
+7. [Référence de l'API](#référence-de-lapi)
+8. [Données et sources](#données-et-sources)
+9. [Structure du dépôt](#structure-du-dépôt)
+10. [État du projet et limites connues](#état-du-projet-et-limites-connues)
 
 ---
 
@@ -75,7 +76,7 @@ Prérequis : Docker et Docker Compose v2, `openssl`.
 
 ```bash
 git clone <url-du-dépôt> vitamines && cd vitamines
-cp .env.example .env            # puis remplacez les valeurs (voir ci-dessous)
+cp .env.example .env            # puis remplacez les valeurs (voir « Variables d'environnement »)
 docker compose up -d --build
 ```
 
@@ -90,6 +91,80 @@ Pour travailler sur le front avec rechargement à chaud :
 ```bash
 cd vitamines && npm ci && npm run dev    # http://localhost:5173, API sur :3000
 ```
+
+## Variables d'environnement
+
+Toute la configuration passe par le fichier `.env` à la racine (modèle : `.env.example`). Il contient des secrets : jamais commité, droits `chmod 600`.
+
+Les variables sont lues à deux moments différents :
+
+- **au démarrage** des conteneurs : un `docker compose up -d` suffit après modification ;
+- **au build** de l'image frontend (`VITE_API_URL`) : la valeur est écrite dans le JavaScript, il faut **reconstruire l'image** pour la changer. Modifier le `.env` d'un serveur qui ne fait que `pull` une image n'a aucun effet.
+
+### Base de données (MySQL)
+
+| Variable | Exemple | Description |
+|---|---|---|
+| `DOCKER_ROOT_PASSWORD` | `un-mot-de-passe-long` | Mot de passe `root` de MySQL. Utilisé seulement par le conteneur MySQL (et pour l'administration manuelle). |
+| `DOCKER_DATABASE` | `vitamines_db` | Nom de la base, créée au premier démarrage. |
+| `DOCKER_USER` | `vitamines` | Utilisateur MySQL utilisé par l'API. |
+| `DOCKER_PASSWORD` | `un-autre-mot-de-passe` | Mot de passe de cet utilisateur. |
+| `DOCKER_DATABASE_HOST` | `mysql` | Hôte de la base vu depuis l'API : le nom du service dans `docker-compose.yml`. |
+
+Les identifiants MySQL ne sont appliqués qu'à la **création** de la base (dossier `mysql-data/` vide). Les changer ensuite dans le `.env` ne modifie pas la base existante.
+
+### Authentification
+
+| Variable | Exemple | Description |
+|---|---|---|
+| `JWT_PRIVATE` | `"-----BEGIN PRIVATE KEY-----\n...\n"` | Clé privée RS256 qui signe les tokens, sur une seule ligne (retours à la ligne écrits `\n`). Voir « Générer les clés JWT ». |
+| `JWT_PUBLIC` | `"-----BEGIN PUBLIC KEY-----\n...\n"` | Clé publique correspondante, qui vérifie les tokens. |
+
+Changer les clés déconnecte tous les utilisateurs (les tokens existants deviennent invalides).
+
+### Exécution de l'API
+
+| Variable | Exemple | Description |
+|---|---|---|
+| `NODE_ENV` | `production` | `production` désactive Swagger et active HSTS. `development` par défaut. |
+| `CORS_ORIGINS` | `https://vitamines.bryam.tech` | Origines autorisées à appeler l'API, séparées par des virgules. Vide = liste par défaut (localhost et ancien domaine). |
+| `TRUST_PROXY` | `1` ou `loopback,linklocal,uniquelocal` | Derrière un reverse proxy : nombre de proxys, ou plages d'IP de confiance, pour que la limite de tentatives voie l'IP réelle du visiteur. Vide = pas de proxy. |
+| `API_DOCS` | `true` | Force la documentation Swagger (`/api-docs`) même en production. Facultatif. |
+
+### Premier administrateur
+
+| Variable | Exemple | Description |
+|---|---|---|
+| `ADMIN_EMAIL` | `vous@exemple.be` | Email du compte admin créé au démarrage de l'API. Vide = aucun compte créé. |
+| `ADMIN_PASSWORD` | `UnVraiMotDePasse42` | Son mot de passe : 8 caractères minimum, une lettre et un chiffre ; valeurs d'exemple refusées. À vider après la première connexion. |
+| `ADMIN_NOM` | `Administrateur` | Nom affiché du compte (par défaut `Administrateur`). |
+
+Le compte n'est créé que si **aucun** administrateur n'existe : rien n'est écrasé aux redémarrages. Résultat visible avec `docker compose logs api | grep admin`.
+
+### Docker
+
+| Variable | Exemple | Description |
+|---|---|---|
+| `APP_UID` / `APP_GID` | `1000` | Utilisateur et groupe de l'hôte (`id -u` / `id -g`) sous lesquels tourne l'API, pour qu'elle puisse écrire dans le dossier des images d'aliments. |
+| `API_BIND` | `127.0.0.1` | Interface sur laquelle le port 3000 de l'API est publié. `127.0.0.1` = machine seulement, `0.0.0.0` = réseau local. |
+| `FRONT_BIND` | `127.0.0.1` | Idem pour le site. |
+| `FRONT_PORT` | `80` | Port de l'hôte sur lequel le site est publié. |
+
+Derrière Traefik (réseau Docker partagé), ces trois dernières variables sont inutiles : aucun port n'est publié.
+
+### Frontend (au build)
+
+| Variable | Exemple | Description |
+|---|---|---|
+| `VITE_API_URL` | `https://api-vitamines.bryam.tech` | URL publique de l'API, **sans** `/api`. Utilisée quand le site est ouvert depuis un vrai domaine (en `localhost` ou `192.168.x.x`, le front appelle `http://<hôte>:3000`). |
+
+Pour la changer, reconstruire et publier l'image :
+
+```bash
+VITE_API_URL=https://api-vitamines.bryam.tech docker compose build frontend --builder multi --push
+```
+
+Variables fixées directement dans `docker-compose.yml` (pas dans le `.env`) : `ALIMENTS_IMAGES_DIR` (dossier des images dans le conteneur API) et `PORT` (3000 par défaut).
 
 ## Mise en production
 
@@ -185,6 +260,18 @@ docker compose ps                         # mysql, api et frontend « Up »
 Au **premier** démarrage seulement (dossier `mysql-data/` vide), MySQL exécute `docker-entrypoint/init.sql` : il crée directement le schéma nutriments avec toutes les données (30 nutriments, aliments et leurs images, liens, apports…). `npm run migrate` et `npm run seed` ne servent plus que pour une base existante créée avec l'ancien dump, ou pour recharger `nutriments.json` (voir « Mettre à jour »).
 
 ### 6. Créer le compte administrateur
+
+**Automatiquement (recommandé)** : renseignez dans `.env` avant de démarrer :
+
+```env
+ADMIN_EMAIL=vous@exemple.be
+ADMIN_PASSWORD=UnVraiMotDePasse42
+ADMIN_NOM=Administrateur
+```
+
+Au démarrage, l'API crée ce compte **seulement si aucun administrateur n'existe** (rien n'est écrasé aux redémarrages suivants). Le mot de passe doit faire 8 caractères minimum avec une lettre et un chiffre ; les valeurs d'exemple sont refusées. Si un compte non-admin utilise déjà cet email, il n'est pas promu. Le résultat apparaît dans `docker compose logs api` (lignes `[admin]`). Après la première connexion, changez le mot de passe ou videz `ADMIN_PASSWORD`.
+
+**Manuellement** :
 
 1. Inscrivez-vous sur le site (page « Inscription »).
 2. Donnez-lui le rôle admin :

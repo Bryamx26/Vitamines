@@ -1,5 +1,6 @@
 # Étape 1 : Build de l'app
-FROM node:22 AS builder
+# Le bundle est statique : on le construit sur la plateforme native de la machine (pas d'émulation QEMU)
+FROM --platform=$BUILDPLATFORM node:22 AS builder
 
 WORKDIR /app
 COPY . .

@@ -60,4 +60,6 @@ app.use('/api', quizzRoutes); // /api/quizz, /api/quizz/vitamines, /api/quizz/:i
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
+  // Premier administrateur depuis le .env (sans effet si un admin existe déjà)
+  require('./utils/bootstrap-admin')();
 });
