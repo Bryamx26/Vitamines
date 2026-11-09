@@ -1,5 +1,6 @@
 # Étape 1 : Build de l'app
-FROM node:22 AS builder
+# Le bundle est statique : on le construit sur la plateforme native de la machine (pas d'émulation QEMU)
+FROM --platform=$BUILDPLATFORM node:22 AS builder
 
 WORKDIR /app
 COPY . .
@@ -7,6 +8,9 @@ RUN npm install -g npm@latest \
  && npm ci \
  && npm audit --audit-level=high
 
+# URL publique de l'API, intégrée au bundle par Vite au moment du build
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
 
 # Étape 2 : serveur nginx

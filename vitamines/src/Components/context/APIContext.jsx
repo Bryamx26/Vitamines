@@ -14,11 +14,12 @@ export function APIProvider({ children }) {
         const host = window.location.hostname;
 
         if (host === "localhost" || host.startsWith("192.168.")) {
-            // Accès local ou réseau local
-            return "http://localhost:3000/api";
+            // Accès local ou réseau local : l'API tourne sur la même machine que le front
+            return `http://${host}:3000/api`;
         } else {
-            // Accès public (production)
-            return `https://api.bryamsilva.online/api`;
+            // Accès public (production) : domaine défini au build via VITE_API_URL
+            const apiDomain = import.meta.env.VITE_API_URL || "https://api.bryamsilva.online";
+            return `${apiDomain}/api`;
         }
 
     };
